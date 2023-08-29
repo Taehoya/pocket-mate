@@ -1,0 +1,31 @@
+name: Run lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
+      - ".github/workflows/lint.yml"
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+          cache: false
+      - name: run golang-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54.0
+          args: --enable gofmt --timeout 10m --exclude SA5011 --verbose --max-issues-per-linter 0 --max-same-issues 0
+          working-directory: ./server

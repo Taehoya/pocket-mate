@@ -60,11 +60,11 @@ Once you run the command, you should have up/down files.
 ## Run migrations (docker-compose)
 
 ```
-migrate -path ./migration -database "mysql://user:password@tcp(localhost:3308)/pm?sslmode=disable" up
+migrate -path ./migration -database "mysql://root:password@tcp(localhost:3306)/pm" up
 ```
 
 ## Rollback migrations
 
 ```
-migrate -path ./migration -database "mysql://user:password@tcp(localhost:3308)/pm?sslmode=disable" down
+migrate -path ./migration -database "mysql://user:password@tcp(localhost:3306)/pm" down
 ```
