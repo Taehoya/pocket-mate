@@ -1,0 +1,97 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a pocket-mate server api",
+        "title": "Pocket Mate API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/trip": {
+            "get": {
+                "description": "get trip",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "Get all trip",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Trip"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Trip": {
+            "type": "object",
+            "properties": {
+                "Budget": {
+                    "type": "number",
+                    "example": 2000.12
+                },
+                "CountryId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "CreatedAt": {
+                    "type": "string",
+                    "example": "2023-05-29"
+                },
+                "DeletedAt": {
+                    "type": "string",
+                    "example": "2023-05-29"
+                },
+                "Description": {
+                    "type": "string",
+                    "example": "sample-description"
+                },
+                "EndDateTime": {
+                    "type": "string",
+                    "example": "2023-08-29"
+                },
+                "ID": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "Name": {
+                    "type": "string",
+                    "example": "sample-name"
+                },
+                "StartDateTime": {
+                    "type": "string",
+                    "example": "2023-05-29"
+                },
+                "UpdatedAt": {
+                    "type": "string",
+                    "example": "2023-05-29"
+                }
+            }
+        }
+    }
+}

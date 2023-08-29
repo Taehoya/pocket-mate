@@ -28,7 +28,7 @@ func (r *TripRepository) GetTripAll() ([]entities.Trip, error) {
 
 	for rows.Next() {
 		var trip entities.Trip
-		if err := rows.Scan(&trip.ID, &trip.Name, &trip.Budget, &trip.CountryId, &trip.Descriptoin, &trip.StartDateTime, &trip.EndDateTime); err != nil {
+		if err := rows.Scan(&trip.ID, &trip.Name, &trip.Budget, &trip.CountryId, &trip.Description, &trip.StartDateTime, &trip.EndDateTime); err != nil {
 			return nil, fmt.Errorf("failed to scan trip, err: %v", err)
 		}
 		trips = append(trips, trip)

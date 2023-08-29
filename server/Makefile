@@ -18,4 +18,7 @@ test-ci: test-short
 test-short:
 	go test ./... --short
 
+swagger:
+	swag init -g ./cmd/main.go
+
 .PHONY: run test test-ci test-short

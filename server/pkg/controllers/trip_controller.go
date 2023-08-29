@@ -22,6 +22,16 @@ func NewTripController(usecase TripUseCase) *TripController {
 	}
 }
 
+//	 GetTripAll godoc
+//
+//	@Summary		Get all trip
+//	@Description	get trip
+//	@Tags			trip
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	entities.Trip
+//	@Failure		400	{object}	entities.ErrorResponse
+//	@Router			/trip [get]
 func (c *TripController) GetTripAll(ctx *gin.Context) {
 	trips, err := c.useCase.GetTripAll(ctx)
 
