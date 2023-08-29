@@ -1,6 +1,16 @@
 name: Run lint
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
+      - ".github/workflows/lint.yml"
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   lint:
@@ -8,34 +18,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Lint
-        uses: golangci/golangci-lint-action@v2
+      - name: Setup Golang
+        uses: actions/setup-go@v4
         with:
-          # version of golangci-lint to use in form of v1.2 or v1.2.3 or `latest` to use the latest version
-          version: latest
-
-          # Optional: show only new issues if it's a pull request. The default value is `false`.
-          # only-new-issues: true
-
-          # golangci-lint command line arguments.
-          args: -v
-            --max-same-issues 10
-            --disable-all
-            --exclude-use-default=false
-            -E asciicheck
-            -E deadcode
-            -E errcheck
-            -E forcetypeassert
-            -E gocritic
-            -E gofmt
-            -E goimports
-            -E gosimple
-            -E govet
-            -E ineffassign
-            -E misspell
-            -E revive
-            -E staticcheck
-            -E structcheck
-            -E typecheck
-            -E unused
-            -E varcheck
+          go-version: 1.19
+          cache: false
+      - name: run golang-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.54.0
+          args: --enable gofmt --timeout 10m --exclude SA5011 --verbose --max-issues-per-linter 0 --max-same-issues 0
+          working-directory: ./server
