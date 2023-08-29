@@ -12,12 +12,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-//	@title			Pocket Mate API
-//	@version		1.0.0
-//	@description	This is a pocket-mate server api
-
-// @host		localhost:8080
-// @BasePath	/api/v1
+//	@title                  Pocket Mate API
+//	@version                1.0.0
+//	@description    This is a pocket-mate server api
+//
+// @host                localhost:8080
+// @BasePath    /api/v1
 func main() {
 	err := godotenv.Load()
 	if err != nil {

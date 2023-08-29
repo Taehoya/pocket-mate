@@ -22,7 +22,7 @@ func NewTripController(usecase TripUseCase) *TripController {
 	}
 }
 
-//	 GetTripAll godoc
+// GetTripAll
 //
 //	@Summary		Get all trip
 //	@Description	get trip
