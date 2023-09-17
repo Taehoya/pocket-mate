@@ -1,13 +1,14 @@
-package main
+package db
 
 import (
 	"database/sql"
 	"fmt"
 
+	"github.com/Taehoya/pocket-mate/pkg/utils/config"
 	"github.com/go-sql-driver/mysql"
 )
 
-func InitDB(config *config) (*sql.DB, error) {
+func InitDB(config *config.Config) (*sql.DB, error) {
 	dbConfig := mysql.Config{
 		User:      config.DbUser,
 		Passwd:    config.DbPasswd,

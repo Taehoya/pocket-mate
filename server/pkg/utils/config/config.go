@@ -1,11 +1,11 @@
-package main
+package config
 
 import (
 	"fmt"
 	"os"
 )
 
-type config struct {
+type Config struct {
 	Host     string
 	Port     string
 	DbUser   string
@@ -14,8 +14,8 @@ type config struct {
 	DbAddr   string
 }
 
-func makeConfig() *config {
-	return &config{
+func MakeConfig() *Config {
+	return &Config{
 		Host:     os.Getenv("APP_URL"),
 		Port:     os.Getenv("PORT"),
 		DbUser:   os.Getenv("DB_USERNAME"),

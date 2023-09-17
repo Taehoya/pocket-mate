@@ -6,7 +6,9 @@ import (
 	"time"
 
 	_ "github.com/Taehoya/pocket-mate/docs"
-	"github.com/Taehoya/pocket-mate/pkg/route"
+	route "github.com/Taehoya/pocket-mate/pkg/routes"
+	"github.com/Taehoya/pocket-mate/pkg/utils/config"
+	"github.com/Taehoya/pocket-mate/pkg/utils/db"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
@@ -24,8 +26,8 @@ func main() {
 		log.Fatal("failed to load .env file")
 	}
 
-	config := makeConfig()
-	db, err := InitDB(config)
+	config := config.MakeConfig()
+	db, err := db.InitDB(config)
 
 	if err != nil {
 		log.Fatal("failed to init Database")
