@@ -11,7 +11,6 @@ import (
 func TestGetCountryAll(t *testing.T) {
 	db, err := testdb.InitDB()
 	assert.NoError(t, err)
-
 	defer db.Close()
 
 	repository := NewCountryRepository(db)

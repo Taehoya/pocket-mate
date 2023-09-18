@@ -1,1 +1,1 @@
-DELETE FROM test.country;
+DELETE FROM countries;

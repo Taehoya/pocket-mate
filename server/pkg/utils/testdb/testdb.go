@@ -3,6 +3,7 @@ package testdb
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -48,16 +49,14 @@ func Truncate(db *sql.DB) error {
 	return nil
 }
 
-func SetUp(db *sql.DB, fileName string) error {
+func SetUp(db *sql.DB, fileName string) {
 	file, err := os.ReadFile(fileName)
 	if err != nil {
-		return fmt.Errorf("failed to read sql file")
+		log.Fatalf("failed to read sql file")
 	}
 
 	_, err = db.Exec(string(file))
 	if err != nil {
-		return fmt.Errorf("failed to exec sql file")
+		log.Fatal("failed to exec sql file")
 	}
-
-	return nil
 }
