@@ -15,12 +15,12 @@ func NewUserRepository() *UserRepositoryMock {
 	return new(UserRepositoryMock)
 }
 
-func (m *UserRepositoryMock) FindByID(ctx context.Context, id int64) (entities.User, error) {
+func (m *UserRepositoryMock) FindByID(ctx context.Context, id int64) (*entities.User, error) {
 	ret := m.Called(ctx, id)
 
-	var r0 entities.User
+	var r0 *entities.User
 	if ret.Get(0) != nil {
-		r0 = ret.Get(0).(entities.User)
+		r0 = ret.Get(0).(*entities.User)
 	}
 
 	var r1 error

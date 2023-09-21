@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository interface {
-	FindByID(ctx context.Context, id int64) (entities.User, error)
+	FindByID(ctx context.Context, id int64) (*entities.User, error)
 }
 
 type UserUseCase struct {
@@ -20,7 +20,7 @@ func NewUserUseCase(repository UserRepository) *UserUseCase {
 	}
 }
 
-func (u *UserUseCase) Get(ctx context.Context, id int64) (entities.User, error) {
+func (u *UserUseCase) Get(ctx context.Context, id int64) (*entities.User, error) {
 	user, err := u.Repository.FindByID(ctx, id)
 
 	return user, err

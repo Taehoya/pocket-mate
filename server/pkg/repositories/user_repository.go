@@ -17,8 +17,8 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	}
 }
 
-func (r *UserRepository) FindByID(ctx context.Context, id int64) (entities.User, error) {
+func (r *UserRepository) FindByID(ctx context.Context, id int64) (*entities.User, error) {
 	User := entities.NewUser(1, "test", "123", "123")
 
-	return *User, nil
+	return User, nil
 }
