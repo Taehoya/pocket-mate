@@ -11,6 +11,10 @@ type UserRepositoryMock struct {
 	mock.Mock
 }
 
+func NewUserRepository() *UserRepositoryMock {
+	return new(UserRepositoryMock)
+}
+
 func (m *UserRepositoryMock) FindByID(ctx context.Context, id int64) (entities.User, error) {
 	ret := m.Called(ctx, id)
 
