@@ -6,10 +6,11 @@ import (
 	"time"
 
 	_ "github.com/Taehoya/pocket-mate/docs"
-	route "github.com/Taehoya/pocket-mate/pkg/routes"
+	handler "github.com/Taehoya/pocket-mate/pkg/handlers"
+	repository "github.com/Taehoya/pocket-mate/pkg/repositories"
+	usecase "github.com/Taehoya/pocket-mate/pkg/usecases"
 	"github.com/Taehoya/pocket-mate/pkg/utils/config"
 	"github.com/Taehoya/pocket-mate/pkg/utils/db"
-	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
@@ -26,7 +27,7 @@ func main() {
 		log.Fatal("failed to load .env file")
 	}
 
-	config := config.MakeConfig()
+	config := config.New()
 	db, err := db.InitDB(config)
 
 	if err != nil {
@@ -38,12 +39,14 @@ func main() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.Print("starting process")
 
-	ginHandler := gin.Default()
-	route.SetUp(db, ginHandler)
+	tripRepository := repository.NewTripRepository(db)
+	tripUseCase := usecase.NewTripUseCase(tripRepository)
+
+	handler := handler.New(tripUseCase)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", config.Host, config.Port),
-		Handler:      ginHandler,
+		Handler:      handler.InitRoutes(),
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 		IdleTimeout:  time.Second * 60,
