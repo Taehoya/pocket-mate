@@ -1,0 +1,39 @@
+name: Go Test
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "server/**"
+
+env:
+  DB_NAME: test
+  DB_USER: root
+  DB_PASSWORD: root
+  DB_HOST: localhost
+  DB_PORT: 3306
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+          cache: false
+      - name: Set up MySQL
+        run: |
+          echo "Set up MySQL"
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_NAME }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+      - name: Database migration
+        working-directory: ./server
+        run: make migrate
+
+      - name: run test
+        working-directory: ./server
+        run: make test

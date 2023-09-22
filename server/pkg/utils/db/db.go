@@ -13,7 +13,7 @@ func InitDB(config *config.Config) (*sql.DB, error) {
 		User:      config.DbUser,
 		Passwd:    config.DbPasswd,
 		Net:       "tcp",
-		Addr:      config.DbAddr,
+		Addr:      config.GetDbAddr(),
 		DBName:    config.DbName,
 		ParseTime: true,
 	}
