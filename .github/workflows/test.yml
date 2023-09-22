@@ -7,9 +7,11 @@ on:
       - "server/**"
 
 env:
-  DB_DATABASE: test
+  DB_NAME: test
   DB_USER: root
   DB_PASSWORD: root
+  DB_HOST: localhost
+  DB_PORT: 3306
 
 jobs:
   lint:
@@ -26,7 +28,7 @@ jobs:
         run: |
           echo "Set up MySQL"
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+          mysql -e 'CREATE DATABASE ${{ env.DB_NAME }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
       - name: Database migration
         working-directory: ./server
