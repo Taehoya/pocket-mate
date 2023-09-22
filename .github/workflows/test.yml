@@ -30,11 +30,7 @@ jobs:
 
       - name: Database migration
         working-directory: ./server
-        run: |
-          curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
-          apt-get update
-          apt-get install -y migrate
-          migrate -path ./migration -database "mysql://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@tcp(localhost:3306)/${{ env.DB_DATABASE }}" up
+        run: make migrate
 
       - name: run test
         working-directory: ./server

@@ -21,4 +21,7 @@ test-short:
 swagger:
 	swag init -g ./cmd/main.go
 
+migrate:
+	go run ./cmd/migrate/migrate.go
+
 .PHONY: run test test-ci test-short
