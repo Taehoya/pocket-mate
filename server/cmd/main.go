@@ -7,8 +7,8 @@ import (
 
 	_ "github.com/Taehoya/pocket-mate/docs"
 	handler "github.com/Taehoya/pocket-mate/pkg/handlers"
-	repository "github.com/Taehoya/pocket-mate/pkg/repositories"
-	usecase "github.com/Taehoya/pocket-mate/pkg/usecases"
+	tripRepository "github.com/Taehoya/pocket-mate/pkg/repositories/trip"
+	tripUsecase "github.com/Taehoya/pocket-mate/pkg/usecases/trip"
 	"github.com/Taehoya/pocket-mate/pkg/utils/config"
 	"github.com/Taehoya/pocket-mate/pkg/utils/db"
 	"github.com/joho/godotenv"
@@ -39,8 +39,8 @@ func main() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.Print("starting process")
 
-	tripRepository := repository.NewTripRepository(db)
-	tripUseCase := usecase.NewTripUseCase(tripRepository)
+	tripRepository := tripRepository.NewTripRepository(db)
+	tripUseCase := tripUsecase.NewTripUseCase(tripRepository)
 
 	handler := handler.New(tripUseCase)
 

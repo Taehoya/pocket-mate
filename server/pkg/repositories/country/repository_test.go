@@ -16,9 +16,9 @@ func TestGetCountryAll(t *testing.T) {
 	repository := NewCountryRepository(db)
 
 	t.Run("successfully get list of countries", func(t *testing.T) {
-		defer testdb.SetUp(db, "./test_sql/country_teardown_test.sql")
-		testdb.SetUp(db, "./test_sql/country_teardown_test.sql")
-		testdb.SetUp(db, "./test_sql/country_setup_test.sql")
+		defer testdb.SetUp(db, "./teardown_test.sql")
+		testdb.SetUp(db, "./teardown_test.sql")
+		testdb.SetUp(db, "./setup_test.sql")
 
 		expected := []entities.Country{
 			{ID: 1, Code: "AF", Name: "Afghanistan", Currency: "؋"},
