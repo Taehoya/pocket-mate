@@ -31,8 +31,8 @@ jobs:
           file: ./server/docker/Dockerfile.dev
           push: true
           tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/taste-server:latest
-            ${{ secrets.DOCKER_REGISTRY }}/taste-server:${{ github.REF_NAME }}
+            ${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:latest
+            ${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:${{ github.REF_NAME }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:latest
           cache-to: type=inline
 
