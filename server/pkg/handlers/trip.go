@@ -20,7 +20,7 @@ type TripUseCase interface {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	entities.Trip
-//	@Failure		400	{object}	entities.ErrorResponse
+//	@Failure		400
 //	@Router			/trip [get]
 func (h *Handler) GetTripAll(ctx *gin.Context) {
 	trips, err := h.TripUseCase.GetTripAll(ctx)
