@@ -7,6 +7,10 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,3 +35,17 @@ jobs:
             ${{ secrets.DOCKER_REGISTRY }}/taste-server:${{ github.REF_NAME }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:latest
           cache-to: type=inline
+
+      - name: Bump to new version
+        working-directory: ./server
+        run: |
+          TAG=$(git tag --sort=version:refname | tail -n 1)
+          git config user.name "github-actions[bot]"
+          git config user.email "noreply@github.com"
+          git switch -c bump-$TAG
+          make swagger
+          git diff-index --quiet HEAD || git commit -am "bump to $TAG"
+          git push --set-upstream origin bump-$TAG
+          gh pr create --title "bump to $TAG" --body "bump to $TAG" --base main --head bump-$TAG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
