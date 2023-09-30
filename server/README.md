@@ -44,7 +44,7 @@ brew install golang-migrate
 Create migration using migrate CLI. Here is an example.
 
 ```
-migrate create -ext sql -dir ./migration -seq create-trip_table
+migrate create -ext sql -dir ./migration -seq create_trip_table
 ```
 
 Once you run the command, you should have up/down files.
@@ -60,11 +60,11 @@ Once you run the command, you should have up/down files.
 ## Run migrations (docker-compose)
 
 ```
-migrate -path ./migration -database "mysql://root:password@tcp(localhost:3306)/pm" up
+migrate -path ./migration -database "mysql://root:password@tcp(localhost:3305)/pm" up
 ```
 
 ## Rollback migrations
 
 ```
-migrate -path ./migration -database "mysql://user:password@tcp(localhost:3306)/pm" down
+migrate -path ./migration -database "mysql://root:password@tcp(localhost:3305)/pm" down
 ```
