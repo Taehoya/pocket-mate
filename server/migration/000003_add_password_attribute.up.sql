@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD COLUMN `password` VARCHAR(256) NOT NULL AFTER `nickname`;

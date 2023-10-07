@@ -37,24 +37,13 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/entities.ErrorResponse"
-                        }
+                        "description": "Bad Request"
                     }
                 }
             }
         }
     },
     "definitions": {
-        "entities.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
         "entities.Trip": {
             "type": "object",
             "properties": {

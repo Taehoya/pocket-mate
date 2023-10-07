@@ -1,17 +1,21 @@
 package entities
 
 type User struct {
-	ID       int64  `json:"id"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Nickname string `json:"nickname"`
+	id       int
+	nickname string
 }
 
-func NewUser(id int64, email, password, nickname string) *User {
+func NewUser(id int, nickname string) *User {
 	return &User{
-		ID:       id,
-		Email:    email,
-		Password: password,
-		Nickname: nickname,
+		id:       id,
+		nickname: nickname,
 	}
+}
+
+func (u *User) ID() int {
+	return u.id
+}
+
+func (u *User) NickName() string {
+	return u.nickname
 }
