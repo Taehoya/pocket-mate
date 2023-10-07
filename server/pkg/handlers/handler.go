@@ -11,24 +11,26 @@ import (
 )
 
 type Handler struct {
-	TripUseCase TripUseCase
+	TripUseCase    TripUseCase
+	CountryUsecase CountryUsecase
 }
 
-func New(TripUseCase TripUseCase) *Handler {
+func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase) *Handler {
 	return &Handler{
-		TripUseCase: TripUseCase,
+		TripUseCase:    TripUseCase,
+		CountryUsecase: CountryUseCase,
 	}
 }
 
 func (h *Handler) InitRoutes() http.Handler {
 	engine := gin.Default()
-
 	engine.Use(middlewares.LoggingMiddleware())
+	engine.GET("/healthcheck", healthCheck())
+	engine.GET("/", healthCheck())
+
+	apiGroup := engine.Group("api/v1")
+	apiGroup.GET("/country", h.GetCountries)
 	engine.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	router := engine.Group("api/v1")
-	router.GET("healthcheck", healthCheck())
-
 	return engine
 }
 
