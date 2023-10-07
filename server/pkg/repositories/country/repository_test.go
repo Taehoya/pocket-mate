@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"testing"
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
@@ -20,12 +21,13 @@ func TestGetCountryAll(t *testing.T) {
 		testdb.SetUp(db, "./teardown_test.sql")
 		testdb.SetUp(db, "./setup_test.sql")
 
-		expected := []entities.Country{
-			*entities.NewCountry(1, "AF", "Afghanistan", "؋"),
-			*entities.NewCountry(2, "AX", "Aland Islands", "€"),
+		expected := []*entities.Country{
+			entities.NewCountry(1, "AF", "Afghanistan", "؋"),
+			entities.NewCountry(2, "AX", "Aland Islands", "€"),
 		}
 
-		actual, err := repository.GetCountryAll()
+		ctx := context.TODO()
+		actual, err := repository.GetCountries(ctx)
 
 		assert.NoError(t, err)
 		assert.Equal(t, actual, expected)

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 
@@ -17,12 +18,12 @@ func NewCountryRepository(db *sql.DB) *CountryRepository {
 	}
 }
 
-func (r *CountryRepository) GetCountryAll() ([]entities.Country, error) {
-	var countries []entities.Country
-	rows, err := r.db.Query("SELECT * FROM countries")
+func (r *CountryRepository) GetCountries(ctx context.Context) ([]*entities.Country, error) {
+	var countries []*entities.Country
+	rows, err := r.db.QueryContext(ctx, "SELECT * FROM countries")
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get country")
+		return nil, fmt.Errorf("failed to get country: %v", err)
 	}
 	defer rows.Close()
 
@@ -36,7 +37,7 @@ func (r *CountryRepository) GetCountryAll() ([]entities.Country, error) {
 			return nil, fmt.Errorf("failed to scan country: %v", err)
 		}
 		country := entities.NewCountry(id, code, name, currency)
-		countries = append(countries, *country)
+		countries = append(countries, country)
 	}
 
 	if err := rows.Err(); err != nil {
