@@ -71,7 +71,7 @@ func (r *AccountRepository) GetAccountById(ctx context.Context, idParam int) (*e
 		}
 	}
 
-	account = entities.New(id, userId, category, identification, password)
+	account = entities.NewAccount(id, userId, category, identification, password)
 
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("failed to iterate")
@@ -110,8 +110,7 @@ func (r *AccountRepository) GetAccount(ctx context.Context, identificationParam 
 		}
 	}
 
-	account = entities.New(id, userId, category, identification, password)
-	fmt.Print(account)
+	account = entities.NewAccount(id, userId, category, identification, password)
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("failed to iterate")
 	}

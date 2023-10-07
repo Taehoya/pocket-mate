@@ -1,5 +1,11 @@
 package entities
 
+import (
+	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
+)
+
 type Account struct {
 	id             int
 	userId         int
@@ -8,7 +14,7 @@ type Account struct {
 	password       string
 }
 
-func New(id int, userId int, category string, identification string, password string) *Account {
+func NewAccount(id int, userId int, category string, identification string, password string) *Account {
 	return &Account{
 		id:             id,
 		userId:         userId,
