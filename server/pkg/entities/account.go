@@ -1,11 +1,5 @@
 package entities
 
-import (
-	"fmt"
-
-	"golang.org/x/crypto/bcrypt"
-)
-
 type Account struct {
 	id             int
 	userId         int

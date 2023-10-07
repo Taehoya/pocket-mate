@@ -1,10 +1,5 @@
 basePath: /api/v1
 definitions:
-  entities.ErrorResponse:
-    properties:
-      message:
-        type: string
-    type: object
   entities.Trip:
     properties:
       Budget:
@@ -59,8 +54,6 @@ paths:
             $ref: '#/definitions/entities.Trip'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/entities.ErrorResponse'
       summary: Get all trip
       tags:
       - trip
