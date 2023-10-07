@@ -21,9 +21,8 @@ func TestGetCountryAll(t *testing.T) {
 		testdb.SetUp(db, "./setup_test.sql")
 
 		expected := []entities.Country{
-			{ID: 1, Code: "AF", Name: "Afghanistan", Currency: "؋"},
-			{ID: 2, Code: "AX", Name: "Aland Islands", Currency: "€"},
-			{ID: 3, Code: "AL", Name: "Albania", Currency: "Lek"},
+			*entities.NewCountry(1, "AF", "Afghanistan", "؋"),
+			*entities.NewCountry(2, "AX", "Aland Islands", "€"),
 		}
 
 		actual, err := repository.GetCountryAll()
