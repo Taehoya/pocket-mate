@@ -3,7 +3,7 @@ package mocks
 import (
 	"context"
 
-	"github.com/Taehoya/pocket-mate/pkg/entities"
+	"github.com/Taehoya/pocket-mate/pkg/dto"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -15,10 +15,10 @@ func NewCountryUseCase() *CountryUseCaseMock {
 	return new(CountryUseCaseMock)
 }
 
-func (m *CountryUseCaseMock) GetCountires(ctx context.Context) ([]entities.Country, error) {
+func (m *CountryUseCaseMock) GetCountries(ctx context.Context) ([]*dto.CountryResponse, error) {
 	ret := m.Called(ctx)
 
-	r0 := ret.Get(0).([]entities.Country)
+	r0 := ret.Get(0).([]*dto.CountryResponse)
 
 	var r1 error
 	if ret.Get(1) != nil {
