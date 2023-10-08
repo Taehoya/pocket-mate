@@ -5,17 +5,25 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/Taehoya/pocket-mate/pkg/mocks"
+	countryMocks "github.com/Taehoya/pocket-mate/pkg/mocks/country"
+	tripMocks "github.com/Taehoya/pocket-mate/pkg/mocks/trip"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHealthCheck(t *testing.T) {
 	rr := httptest.NewRecorder()
-	tripUseCase := mocks.NewTripUseCase()
-	handler := New(tripUseCase)
+	tripUseCase := tripMocks.NewTripUseCase()
+	countryUseCase := countryMocks.NewCountryUseCase()
+	handler := New(tripUseCase, countryUseCase)
 	router := handler.InitRoutes()
 
-	request, err := http.NewRequest(http.MethodGet, "/api/v1/healthcheck", nil)
+	request, err := http.NewRequest(http.MethodGet, "/healthcheck", nil)
+	assert.NoError(t, err)
+
+	router.ServeHTTP(rr, request)
+	assert.Equal(t, 200, rr.Code)
+
+	request, err = http.NewRequest(http.MethodGet, "/", nil)
 	assert.NoError(t, err)
 
 	router.ServeHTTP(rr, request)
