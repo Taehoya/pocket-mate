@@ -7,6 +7,10 @@ all:
 clean:
 	rm -rf ./dist
 
+build:
+	mkdir -p ./dist
+	go build -o ./dist/ ./cmd/...
+
 run:
 	go run ./cmd/
 
