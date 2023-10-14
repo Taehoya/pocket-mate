@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS `accounts`;
+ALTER TABLE `users` ADD COLUMN `email` VARCHAR(256) NOT NULL AFTER `nickname`;
+ALTER TABLE `users` ADD COLUMN `password` VARCHAR(256) NOT NULL AFTER `nickname`;

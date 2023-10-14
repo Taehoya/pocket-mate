@@ -33,15 +33,7 @@ make test-short
 
 ## Create migrations
 
-Install db-migrate:
-
-### MacOS
-
-```bash
-brew install golang-migrate
-```
-
-Create migration using migrate CLI. Here is an example.
+Create migration using [migrate CLI](https://github.com/golang-migrate/migrate). Here is an example.
 
 ```
 migrate create -ext sql -dir ./migration -seq create_trip_table

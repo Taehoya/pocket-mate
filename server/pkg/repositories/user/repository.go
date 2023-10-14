@@ -18,14 +18,14 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	}
 }
 
-func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string) error {
+func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string, emailParam string, passwordParam string) error {
 	query := `
 		INSERT INTO users
-			(nickname)
+			(nickname, email, password)
 		VALUES
-			(?);
+			(?, ?, ?);
 	`
-	result, err := r.db.ExecContext(ctx, query, nicknameParam)
+	result, err := r.db.ExecContext(ctx, query, nicknameParam, emailParam, passwordParam)
 
 	if err != nil {
 		return fmt.Errorf("err: %v", err)
