@@ -20,9 +20,11 @@ func TestSaveUser(t *testing.T) {
 		testdb.SetUp(db, "./teardown_test.sql")
 
 		nickname := "test-nickname"
+		email := "test-email"
+		password := "test-password"
 
 		ctx := context.TODO()
-		err := repository.SaveUser(ctx, nickname)
+		err := repository.SaveUser(ctx, nickname, email, password)
 		assert.NoError(t, err)
 
 		user, err := repository.GetUser(ctx, nickname)
