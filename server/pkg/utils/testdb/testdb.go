@@ -39,16 +39,6 @@ func InitDB() (*sql.DB, error) {
 	return db, nil
 }
 
-func Truncate(db *sql.DB) error {
-	stmt := "TRUNCATE TABLE list, item;"
-
-	if _, err := db.Exec(stmt); err != nil {
-		return fmt.Errorf("failed to truncate test database tablese")
-	}
-
-	return nil
-}
-
 func SetUp(db *sql.DB, fileName string) {
 	file, err := os.ReadFile(fileName)
 	if err != nil {

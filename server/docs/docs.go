@@ -16,6 +16,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/country": {
+            "get": {
+                "description": "get a list of all available countires",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "country"
+                ],
+                "summary": "Get all country",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CountryResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/trip": {
             "get": {
                 "description": "get trip",
@@ -37,21 +69,27 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/entities.ErrorResponse"
-                        }
+                        "description": "Bad Request"
                     }
                 }
             }
         }
     },
     "definitions": {
-        "entities.ErrorResponse": {
+        "dto.CountryResponse": {
             "type": "object",
             "properties": {
-                "message": {
-                    "type": "string"
+                "code": {
+                    "type": "string",
+                    "example": "CA"
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "$"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Canada"
                 }
             }
         },

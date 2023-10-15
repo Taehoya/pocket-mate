@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS`trip`;
+DROP TABLE IF EXISTS `trips`;

@@ -7,6 +7,10 @@ all:
 clean:
 	rm -rf ./dist
 
+build:
+	mkdir -p ./dist
+	go build -o ./dist/ ./cmd/...
+
 run:
 	go run ./cmd/
 
@@ -20,5 +24,8 @@ test-short:
 
 swagger:
 	swag init -g ./cmd/main.go
+
+migrate:
+	go run ./cmd/migrate/main.go
 
 .PHONY: run test test-ci test-short

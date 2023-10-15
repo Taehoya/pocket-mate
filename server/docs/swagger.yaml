@@ -1,8 +1,15 @@
 basePath: /api/v1
 definitions:
-  entities.ErrorResponse:
+  dto.CountryResponse:
     properties:
-      message:
+      code:
+        example: CA
+        type: string
+      currency:
+        example: $
+        type: string
+      name:
+        example: Canada
         type: string
     type: object
   entities.Trip:
@@ -45,6 +52,27 @@ info:
   title: Pocket Mate API
   version: 1.0.0
 paths:
+  /country:
+    get:
+      consumes:
+      - application/json
+      description: get a list of all available countires
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CountryResponse'
+            type: array
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Get all country
+      tags:
+      - country
   /trip:
     get:
       consumes:
@@ -59,8 +87,6 @@ paths:
             $ref: '#/definitions/entities.Trip'
         "400":
           description: Bad Request
-          schema:
-            $ref: '#/definitions/entities.ErrorResponse'
       summary: Get all trip
       tags:
       - trip

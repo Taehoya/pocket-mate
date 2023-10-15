@@ -1,4 +1,4 @@
-package controller
+package handlers
 
 import (
 	"context"
@@ -12,16 +12,6 @@ type TripUseCase interface {
 	GetTripAll(ctx context.Context) ([]entities.Trip, error)
 }
 
-type TripController struct {
-	useCase TripUseCase
-}
-
-func NewTripController(usecase TripUseCase) *TripController {
-	return &TripController{
-		useCase: usecase,
-	}
-}
-
 // GetTripAll
 //
 //	@Summary		Get all trip
@@ -30,10 +20,10 @@ func NewTripController(usecase TripUseCase) *TripController {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	entities.Trip
-//	@Failure		400	{object}	entities.ErrorResponse
+//	@Failure		400
 //	@Router			/trip [get]
-func (c *TripController) GetTripAll(ctx *gin.Context) {
-	trips, err := c.useCase.GetTripAll(ctx)
+func (h *Handler) GetTripAll(ctx *gin.Context) {
+	trips, err := h.TripUseCase.GetTripAll(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})

@@ -1,13 +1,21 @@
 package entities
 
 type User struct {
-	id   int
-	name string
+	id       int
+	nickname string
 }
 
-func NewUser(id int, name string) *User {
+func NewUser(id int, nickname string) *User {
 	return &User{
-		id:   id,
-		name: name,
+		id:       id,
+		nickname: nickname,
 	}
+}
+
+func (u *User) ID() int {
+	return u.id
+}
+
+func (u *User) NickName() string {
+	return u.nickname
 }
