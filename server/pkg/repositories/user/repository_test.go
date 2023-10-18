@@ -16,7 +16,7 @@ func TestSaveUser(t *testing.T) {
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully save user", func(t *testing.T) {
-		defer testdb.SetUp(db, "./teardown_test.sql")
+		// defer testdb.SetUp(db, "./teardown_test.sql")
 		testdb.SetUp(db, "./teardown_test.sql")
 
 		nickname := "test-nickname"
@@ -24,10 +24,11 @@ func TestSaveUser(t *testing.T) {
 		password := "test-password"
 
 		ctx := context.TODO()
-		err := repository.SaveUser(ctx, nickname, email, password)
+		user, err := repository.SaveUser(ctx, nickname, email, password)
 		assert.NoError(t, err)
+		assert.NotNil(t, user)
 
-		user, err := repository.GetUser(ctx, nickname)
+		user, err = repository.GetUser(ctx, nickname)
 		assert.NoError(t, err)
 		assert.NotNil(t, user)
 		assert.Equal(t, nickname, user.NickName())

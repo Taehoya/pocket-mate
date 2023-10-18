@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"fmt"
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
 )
@@ -18,80 +17,93 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	}
 }
 
-func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string, emailParam string, passwordParam string) error {
+func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string, emailParam string, passwordParam string) (*entities.User, error) {
 	query := `
 		INSERT INTO users
 			(nickname, email, password)
 		VALUES
 			(?, ?, ?);
 	`
-	result, err := r.db.ExecContext(ctx, query, nicknameParam, emailParam, passwordParam)
 
+	result, err := r.db.ExecContext(ctx, query, nicknameParam, emailParam, passwordParam)
 	if err != nil {
-		return fmt.Errorf("err: %v", err)
+		return nil, err
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("err: %v", err)
+		return nil, err
 	}
 
 	if rows != 1 {
-		return fmt.Errorf("exepcted to affect 1 row, affected: %d", rows)
+		return nil, err
 	}
 
-	return nil
+	user, err := r.GetUser(ctx, nicknameParam)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (r *UserRepository) GetUser(ctx context.Context, nicknameParam string) (*entities.User, error) {
-	query := `SELECT id, nickname FROM users WHERE users.nickname = ?;`
+	query := `SELECT id, nickname, email, password, created_at, updated_at FROM users WHERE users.nickname = ?;`
 
 	rows, err := r.db.QueryContext(ctx, query, nicknameParam)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get user: %v", err)
+		return nil, err
 	}
 	defer rows.Close()
 
 	var id int
 	var nickname string
+	var email string
+	var password string
+	var createdAt string
+	var updatedAt string
 
 	for rows.Next() {
-		if err := rows.Scan(&id, &nickname); err != nil {
-			return nil, fmt.Errorf("failed to scan user: %v", err)
+		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {
+			return nil, err
 		}
 	}
 
-	user := entities.NewUser(id, nickname)
+	user := entities.NewUser(id, nickname, email, password, createdAt, updatedAt)
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("failed to iterate")
+		return nil, err
 	}
 
 	return user, nil
 }
 
 func (r *UserRepository) GetUserById(ctx context.Context, idParam int) (*entities.User, error) {
-	query := `SELECT id, nickname FROM users WHERE users.id = ?`
+	query := `SELECT id, nickname, email, password, created_at, updated_at FROM users WHERE users.id = ?`
 	rows, err := r.db.QueryContext(ctx, query, idParam)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get userL %v", err)
+		return nil, err
 	}
 	defer rows.Close()
 
 	var id int
 	var nickname string
+	var email string
+	var password string
+	var createdAt string
+	var updatedAt string
 
 	for rows.Next() {
-		if err := rows.Scan(&id, &nickname); err != nil {
-			return nil, fmt.Errorf("failed to scan user: %v", err)
+		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {
+			return nil, err
 		}
 	}
 
-	user := entities.NewUser(id, nickname)
+	user := entities.NewUser(id, nickname, email, password, createdAt, updatedAt)
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("failed to iterate")
+		return nil, err
 	}
 
 	return user, nil
