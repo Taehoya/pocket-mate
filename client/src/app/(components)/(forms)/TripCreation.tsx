@@ -11,6 +11,7 @@ const TripCreation = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        color: 'black',
       }}
     >
       <Box sx={{ fontSize: "1rem", marginTop: "20px" }}>Add a travel note</Box>
@@ -33,7 +34,7 @@ const TripCreation = () => {
 
       <Button
         style={{
-            marginTop: "20%",
+          marginTop: "50%",
           backgroundColor: "#fb3f04",
           color: "white",
           borderRadius: "25px",

@@ -18,7 +18,22 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--background-end-rgb));
   background-color: rgb(var(--background-color-default));
   overflow: hidden;
+}
+
+/* Set a transparent background */
+.DateRangePicker {
+  background: rgba(var(--background-color-default), 1);
+}
+
+/* Style the selected date range with a yellow background
+.DateRangePicker_picker {
+  background: transparent;
+} */
+
+/* Style the selected range with a yellow background */
+.DateRangePicker_picker__range {
+  background: yellow;
 }
