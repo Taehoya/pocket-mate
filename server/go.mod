@@ -3,13 +3,13 @@ module github.com/Taehoya/pocket-mate
 go 1.19
 
 require (
+	github.com/Taehoya/go-utils v0.0.0-20231024000027-f8dd9bc6aa30
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.8.4
 )
 
 require (
-	github.com/Taehoya/go-utils v0.0.0-20231022145539-74714af620d0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect

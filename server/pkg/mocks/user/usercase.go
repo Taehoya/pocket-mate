@@ -7,16 +7,16 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type UserRepositoryMock struct {
+type UserUsecaseMock struct {
 	mock.Mock
 }
 
-func NewUserRepository() *UserRepositoryMock {
-	return new(UserRepositoryMock)
+func NewUserUeseCase() *UserUsecaseMock {
+	return new(UserUsecaseMock)
 }
 
-func (m *UserRepositoryMock) FindByID(ctx context.Context, id int64) (*entities.User, error) {
-	ret := m.Called(ctx, id)
+func (m *UserUsecaseMock) Register(ctx context.Context, email, password string) (*entities.User, error) {
+	ret := m.Called(ctx, email, password)
 
 	var r0 *entities.User
 	if ret.Get(0) != nil {

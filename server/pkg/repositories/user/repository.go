@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
 )
@@ -17,7 +18,7 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 	}
 }
 
-func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string, emailParam string, passwordParam string) (*entities.User, error) {
+func (r *UserRepository) SaveUser(ctx context.Context, emailParam string, passwordParam string, nicknameParam string) (*entities.User, error) {
 	query := `
 		INSERT INTO users
 			(nickname, email, password)
@@ -47,10 +48,10 @@ func (r *UserRepository) SaveUser(ctx context.Context, nicknameParam string, ema
 	return user, nil
 }
 
-func (r *UserRepository) GetUser(ctx context.Context, nicknameParam string) (*entities.User, error) {
-	query := `SELECT id, nickname, email, password, created_at, updated_at FROM users WHERE users.nickname = ?;`
+func (r *UserRepository) GetUser(ctx context.Context, emailParam string) (*entities.User, error) {
+	query := `SELECT id, nickname, email, password, created_at, updated_at FROM users WHERE email = ?;`
 
-	rows, err := r.db.QueryContext(ctx, query, nicknameParam)
+	rows, err := r.db.QueryContext(ctx, query, emailParam)
 
 	if err != nil {
 		return nil, err
@@ -61,8 +62,8 @@ func (r *UserRepository) GetUser(ctx context.Context, nicknameParam string) (*en
 	var nickname string
 	var email string
 	var password string
-	var createdAt string
-	var updatedAt string
+	var createdAt time.Time
+	var updatedAt time.Time
 
 	for rows.Next() {
 		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {
@@ -92,8 +93,8 @@ func (r *UserRepository) GetUserById(ctx context.Context, idParam int) (*entitie
 	var nickname string
 	var email string
 	var password string
-	var createdAt string
-	var updatedAt string
+	var createdAt time.Time
+	var updatedAt time.Time
 
 	for rows.Next() {
 		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {

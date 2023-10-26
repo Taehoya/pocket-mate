@@ -16,14 +16,14 @@ type User struct {
 	updatedAt time.Time
 }
 
-func NewUser(id int, nickname string, email string, password string, createdAt string, updatedAt string) *User {
+func NewUser(id int, nickname string, email string, password string, createdAt time.Time, updatedAt time.Time) *User {
 	return &User{
 		id:        id,
 		nickname:  nickname,
 		email:     email,
 		password:  password,
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
+		createdAt: createdAt,
+		updatedAt: updatedAt,
 	}
 }
 
@@ -41,22 +41,6 @@ func (u *User) Email() string {
 
 func (u *User) Password() string {
 	return u.password
-}
-
-func (u *User) CheckDuplicationIdentification(email string, nickname string) error {
-	if u.email == email && u.nickname == nickname {
-		return fmt.Errorf("duplicated identification")
-	}
-	return nil
-}
-
-func (u *User) Encrpyt(password string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", fmt.Errorf("failed to generated password")
-	}
-
-	return string(hash), nil
 }
 
 func (u *User) CheckPassword(password string) error {

@@ -4,20 +4,20 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Taehoya/pocket-mate/pkg/utils/testdb"
+	"github.com/Taehoya/go-utils/mysql"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSaveUser(t *testing.T) {
-	db, err := testdb.InitDB()
+	db, err := mysql.InitTestDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully save user", func(t *testing.T) {
-		// defer testdb.SetUp(db, "./teardown_test.sql")
-		testdb.SetUp(db, "./teardown_test.sql")
+		defer mysql.SetUp(db, "./teardown_test.sql")
+		mysql.SetUp(db, "./teardown_test.sql")
 
 		nickname := "test-nickname"
 		email := "test-email"
@@ -36,39 +36,39 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	db, err := testdb.InitDB()
+	db, err := mysql.InitTestDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully get user", func(t *testing.T) {
-		defer testdb.SetUp(db, "./teardown_test.sql")
-		testdb.SetUp(db, "./teardown_test.sql")
-		testdb.SetUp(db, "setup_test.sql")
+		defer mysql.SetUp(db, "./teardown_test.sql")
+		mysql.SetUp(db, "./teardown_test.sql")
+		mysql.SetUp(db, "setup_test.sql")
 
-		nickname := "test-nickname"
+		email := "test-email"
 
 		ctx := context.TODO()
 
-		user, err := repository.GetUser(ctx, nickname)
+		user, err := repository.GetUser(ctx, email)
 		assert.NoError(t, err)
 		assert.NotNil(t, user)
-		assert.Equal(t, nickname, user.NickName())
+		assert.Equal(t, email, user.Email())
 	})
 }
 
 func TestGetUserById(t *testing.T) {
-	db, err := testdb.InitDB()
+	db, err := mysql.InitTestDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully get user by id", func(t *testing.T) {
-		defer testdb.SetUp(db, "./teardown_test.sql")
-		testdb.SetUp(db, "./teardown_test.sql")
-		testdb.SetUp(db, "setup_test.sql")
+		defer mysql.SetUp(db, "./teardown_test.sql")
+		mysql.SetUp(db, "./teardown_test.sql")
+		mysql.SetUp(db, "setup_test.sql")
 
 		id := 1
 		expectedNickName := "test-nickname"
