@@ -21,12 +21,16 @@ import "react-date-range/dist/theme/default.css";
 
 import Image from "next/image";
 
-const steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
+const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4"];
 
 interface StepPageProps {
   children: ReactNode;
   buttonClick: () => void;
   isDisable: Boolean;
+}
+
+interface MultiPageFormProps {
+  closeForm: () => void;
 }
 
 const maxCharacters: number = 24;
@@ -49,7 +53,11 @@ const styles = {
   },
 };
 
-const StepPage: React.FC<StepPageProps> = ({ children, buttonClick, isDisable = true}) => {
+const StepPage: React.FC<StepPageProps> = ({
+  children,
+  buttonClick,
+  isDisable = true,
+}) => {
   return (
     <div
       style={{
@@ -92,16 +100,18 @@ const StepPage: React.FC<StepPageProps> = ({ children, buttonClick, isDisable = 
   );
 };
 
-const MultiPageForm: React.FC = () => {
+const MultiPageForm: React.FC<MultiPageFormProps> = (
+  {closeForm}
+) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [progress, setProgress] = useState(25);
+  const [progress, setProgress] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(addDays(new Date(), 7));
   const [title, setTitle] = useState("");
   const [destination, setDestination] = useState("");
 
   useEffect(() => {
-    setProgress(((activeStep + 1) / steps.length) * 100);
+    setProgress((activeStep / (steps.length - 1)) * 100);
   }, [activeStep]);
 
   const handleTitle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -154,7 +164,7 @@ const MultiPageForm: React.FC = () => {
           <ArrowBackIcon />
         </IconButton>
         <Typography style={{ fontSize: "1rem" }}>Add a travel note</Typography>
-        <IconButton onClick={() => {}}>
+        <IconButton onClick={closeForm}>
           <CloseIcon />
         </IconButton>
       </Stepper>
@@ -163,7 +173,7 @@ const MultiPageForm: React.FC = () => {
         value={progress}
         color="success"
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#E6E0E9",
           height: "5px",
           borderRadius: "10px",
           width: "90%",
@@ -180,7 +190,40 @@ const MultiPageForm: React.FC = () => {
         }}
       >
         {activeStep === 0 && (
-          <StepPage buttonClick={handleNext}>
+          <StepPage buttonClick={handleNext} isDisable={false}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{ fontSize: "1.3rem", width: "95%" }}
+              >
+                Welcome to PocketMate!{" "}
+              </div>
+              <div
+                style={{ fontSize: "1.7rem", fontWeight: "bold", width: "95%" }}
+              >
+                Let's make a travel note
+              </div>
+              <div style={{ marginTop: "30%", marginBottom: "30px" }}>
+                <Image
+                  src="/CreateTripStart.png"
+                  alt="StartTripImage"
+                  width={270}
+                  height={270}
+                />
+              </div>
+            </div>
+          </StepPage>
+        )}
+        {activeStep === 1 && (
+          <StepPage
+            buttonClick={handleNext}
+            isDisable={!(destination.length > 0)}
+          >
             <div
               style={{
                 fontSize: "1.7rem",
@@ -203,8 +246,8 @@ const MultiPageForm: React.FC = () => {
             />
           </StepPage>
         )}
-        {activeStep === 1 && (
-          <StepPage buttonClick={handleNext}>
+        {activeStep === 2 && (
+          <StepPage buttonClick={handleNext} isDisable={false}>
             <div
               style={{
                 fontSize: "1.7rem",
@@ -232,8 +275,8 @@ const MultiPageForm: React.FC = () => {
             </div>
           </StepPage>
         )}
-        {activeStep === 2 && (
-          <StepPage buttonClick={handleNext}>
+        {activeStep === 3 && (
+          <StepPage buttonClick={handleNext} isDisable={!(title.length > 0)}>
             <div
               style={{
                 fontSize: "1.7rem",
@@ -265,8 +308,8 @@ const MultiPageForm: React.FC = () => {
             </div>
           </StepPage>
         )}
-        {activeStep === 3 && (
-          <StepPage buttonClick={() => {}}>
+        {activeStep === 4 && (
+          <StepPage buttonClick={() => {}} isDisable={false}>
             <div
               style={{
                 display: "flex",
@@ -326,7 +369,7 @@ const MultiPageForm: React.FC = () => {
                     End Date
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
-                   {endDate?.toDateString()}
+                    {endDate?.toDateString()}
                   </Grid>
                 </Grid>
               </Grid>
