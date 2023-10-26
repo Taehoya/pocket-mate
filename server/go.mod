@@ -3,6 +3,7 @@ module github.com/Taehoya/pocket-mate
 go 1.19
 
 require (
+	github.com/Taehoya/go-utils v0.0.0-20231024000027-f8dd9bc6aa30
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.8.4
@@ -23,6 +24,7 @@ require (
 	github.com/bytedance/sonic v1.10.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.9.1

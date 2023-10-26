@@ -9,7 +9,7 @@ import (
 )
 
 type CountryUsecase interface {
-	GetCountries(ctx context.Context) ([]*dto.CountryResponse, error)
+	GetCountries(ctx context.Context) ([]*dto.CountryResponseDTO, error)
 }
 
 // GetCountires

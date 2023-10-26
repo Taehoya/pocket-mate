@@ -13,12 +13,14 @@ import (
 type Handler struct {
 	TripUseCase    TripUseCase
 	CountryUsecase CountryUsecase
+	UserUseCase    UserUseCase
 }
 
-func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase) *Handler {
+func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase, UserUseCase UserUseCase) *Handler {
 	return &Handler{
 		TripUseCase:    TripUseCase,
 		CountryUsecase: CountryUseCase,
+		UserUseCase:    UserUseCase,
 	}
 }
 
@@ -30,6 +32,8 @@ func (h *Handler) InitRoutes() http.Handler {
 
 	apiGroup := engine.Group("api/v1")
 	apiGroup.GET("/country", h.GetCountries)
+	apiGroup.POST("/user", h.Register)
+
 	engine.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return engine
 }

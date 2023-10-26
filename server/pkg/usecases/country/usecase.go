@@ -16,7 +16,7 @@ func NewCountryUseCase(repository CountryRepository) *CountryUsecase {
 	}
 }
 
-func (u *CountryUsecase) GetCountries(ctx context.Context) ([]*dto.CountryResponse, error) {
+func (u *CountryUsecase) GetCountries(ctx context.Context) ([]*dto.CountryResponseDTO, error) {
 	countries, err := u.repository.GetCountries(ctx)
 
 	if err != nil {

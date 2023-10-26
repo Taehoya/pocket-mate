@@ -7,6 +7,7 @@ import (
 
 	countryMocks "github.com/Taehoya/pocket-mate/pkg/mocks/country"
 	tripMocks "github.com/Taehoya/pocket-mate/pkg/mocks/trip"
+	userMocks "github.com/Taehoya/pocket-mate/pkg/mocks/user"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,7 +15,8 @@ func TestHealthCheck(t *testing.T) {
 	rr := httptest.NewRecorder()
 	tripUseCase := tripMocks.NewTripUseCase()
 	countryUseCase := countryMocks.NewCountryUseCase()
-	handler := New(tripUseCase, countryUseCase)
+	userUseCase := userMocks.NewUserUeseCase()
+	handler := New(tripUseCase, countryUseCase, userUseCase)
 	router := handler.InitRoutes()
 
 	request, err := http.NewRequest(http.MethodGet, "/healthcheck", nil)
