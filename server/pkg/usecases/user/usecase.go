@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"path"
 	"time"
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
@@ -71,12 +72,13 @@ func encrpyt(password string) (string, error) {
 func getNickNameFromSource() (string, error) {
 	rand.Seed(time.Now().UnixNano())
 
-	absPath, err := pathutil.GetAbsolutePath("pkg/resources/nickname.json")
+	rootPath, err := pathutil.GetRootPath()
 	if err != nil {
-		return "", fmt.Errorf("failed to get absolute path: %v", err)
+		return "", fmt.Errorf("failed to get root path: %v", err)
 	}
 
-	file, err := os.Open(absPath)
+	sourceFile := path.Join(rootPath, "pkg", "resources", "nickname.json")
+	file, err := os.Open(sourceFile)
 	if err != nil {
 		return "", fmt.Errorf("failed to open source: %v", err)
 	}

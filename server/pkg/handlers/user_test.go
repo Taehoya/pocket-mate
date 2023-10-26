@@ -3,16 +3,18 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/Taehoya/pocket-mate/pkg/dto"
+	"github.com/Taehoya/pocket-mate/pkg/entities"
 	countryMocks "github.com/Taehoya/pocket-mate/pkg/mocks/country"
 	tripMocks "github.com/Taehoya/pocket-mate/pkg/mocks/trip"
 	userMocks "github.com/Taehoya/pocket-mate/pkg/mocks/user"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestRegister(t *testing.T) {
@@ -26,6 +28,7 @@ func TestRegister(t *testing.T) {
 
 		email := "test-email"
 		password := "test-password"
+		mockUser := entities.NewUser(1, "test-nickname", email, password, time.Now(), time.Now())
 
 		body := dto.UserRequestDTO{
 			Email:    email,
@@ -33,14 +36,13 @@ func TestRegister(t *testing.T) {
 		}
 
 		jsonBody, err := json.Marshal(body)
-		fmt.Print(bytes.NewBuffer(jsonBody))
 		assert.NoError(t, err)
 
-		request, err := http.NewRequest(http.MethodPost, "api/v1/user", bytes.NewBuffer(jsonBody))
+		userUseCase.On("Register", mock.Anything, email, password).Return(mockUser, nil)
+		request, err := http.NewRequest(http.MethodPost, "/api/v1/user", bytes.NewBuffer(jsonBody))
 		assert.NoError(t, err)
 
 		router.ServeHTTP(rr, request)
 		assert.Equal(t, 200, rr.Code)
-
 	})
 }
