@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
+	pathutil "github.com/Taehoya/pocket-mate/pkg/utils/path"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -69,7 +70,13 @@ func encrpyt(password string) (string, error) {
 
 func getNickNameFromSource() (string, error) {
 	rand.Seed(time.Now().UnixNano())
-	file, err := os.Open("../../resources/nickname.json")
+
+	absPath, err := pathutil.GetAbsolutePath("pkg/resources/nickname.json")
+	if err != nil {
+		return "", fmt.Errorf("failed to get absolute path: %v", err)
+	}
+
+	file, err := os.Open(absPath)
 	if err != nil {
 		return "", fmt.Errorf("failed to open source: %v", err)
 	}
