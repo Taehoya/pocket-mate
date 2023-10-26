@@ -24,14 +24,14 @@ func TestSaveUser(t *testing.T) {
 		password := "test-password"
 
 		ctx := context.TODO()
-		user, err := repository.SaveUser(ctx, nickname, email, password)
+		user, err := repository.SaveUser(ctx, email, password, nickname)
 		assert.NoError(t, err)
 		assert.NotNil(t, user)
 
-		user, err = repository.GetUser(ctx, nickname)
+		user, err = repository.GetUser(ctx, email)
 		assert.NoError(t, err)
 		assert.NotNil(t, user)
-		assert.Equal(t, nickname, user.NickName())
+		assert.Equal(t, email, user.Email())
 	})
 }
 

@@ -15,10 +15,10 @@ func NewCountryUseCase() *CountryUseCaseMock {
 	return new(CountryUseCaseMock)
 }
 
-func (m *CountryUseCaseMock) GetCountries(ctx context.Context) ([]*dto.CountryResponse, error) {
+func (m *CountryUseCaseMock) GetCountries(ctx context.Context) ([]*dto.CountryResponseDTO, error) {
 	ret := m.Called(ctx)
 
-	r0 := ret.Get(0).([]*dto.CountryResponse)
+	r0 := ret.Get(0).([]*dto.CountryResponseDTO)
 
 	var r1 error
 	if ret.Get(1) != nil {
