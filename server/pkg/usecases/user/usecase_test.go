@@ -54,6 +54,8 @@ func TestGet(t *testing.T) {
 	})
 }
 
+// TODO need to find how to do unit testing with mocking
+// Currently test is integration test because of encrpyt function
 func TestRegister(t *testing.T) {
 	t.Run("successfully register user", func(t *testing.T) {
 		db, err := mysql.InitTestDB()

@@ -39,6 +39,16 @@ func (u *UserUseCase) Get(ctx context.Context, id int) (*entities.User, error) {
 }
 
 func (u *UserUseCase) Register(ctx context.Context, email, password string) (*entities.User, error) {
+	user, err := u.userRepository.GetUser(ctx, email)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user")
+	}
+
+	if user.Email() != "" {
+		return nil, fmt.Errorf("email already exist")
+	}
+
 	hashedPasword, err := encrpyt(password)
 	if err != nil {
 		return nil, err
@@ -49,7 +59,7 @@ func (u *UserUseCase) Register(ctx context.Context, email, password string) (*en
 		return nil, err
 	}
 
-	user, err := u.userRepository.SaveUser(ctx, email, hashedPasword, nickname)
+	user, err = u.userRepository.SaveUser(ctx, email, hashedPasword, nickname)
 	if err != nil {
 		return nil, err
 	}
