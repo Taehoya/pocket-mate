@@ -11,6 +11,7 @@ import (
 
 	"github.com/Taehoya/pocket-mate/pkg/entities"
 	pathutil "github.com/Taehoya/pocket-mate/pkg/utils/path"
+	"github.com/Taehoya/pocket-mate/pkg/utils/token"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -72,7 +73,7 @@ func encrpyt(password string) (string, error) {
 func getNickNameFromSource() (string, error) {
 	rand.Seed(time.Now().UnixNano())
 
-	rootPath, err := pathutil.GetRootPath()
+	rootPath, err := pathutil.GetProjectRootDir()
 	if err != nil {
 		return "", fmt.Errorf("failed to get root path: %v", err)
 	}
