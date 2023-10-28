@@ -31,8 +31,9 @@ func (h *Handler) InitRoutes() http.Handler {
 	engine.GET("/", healthCheck())
 
 	apiGroup := engine.Group("api/v1")
-	apiGroup.GET("/country", h.GetCountries)
 	apiGroup.POST("/user", h.Register)
+	apiGroup.POST("/user/login", h.Login)
+	apiGroup.GET("/country", middlewares.JwtAuthMiddleware(), h.GetCountries)
 
 	engine.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return engine

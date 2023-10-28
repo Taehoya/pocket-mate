@@ -19,7 +19,7 @@ type CountryUsecase interface {
 //	@Tags			country
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	[]dto.CountryResponse
+//	@Success		200	{object}	[]dto.CountryResponseDTO
 //	@Failure		400
 //	@Failure		500
 //	@Router			/country [get]

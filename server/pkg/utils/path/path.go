@@ -13,7 +13,7 @@ func GetAbsolutePath(relativePath string) (string, error) {
 	return absPath, nil
 }
 
-func GetRootPath() (string, error) {
+func GetProjectRootDir() (string, error) {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return "", err

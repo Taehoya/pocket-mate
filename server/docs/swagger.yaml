@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  dto.CountryResponse:
+  dto.CountryResponseDTO:
     properties:
       code:
         example: CA
@@ -11,6 +11,18 @@ definitions:
       name:
         example: Canada
         type: string
+    type: object
+  dto.UserRequestDTO:
+    properties:
+      Email:
+        example: test@email.com
+        type: string
+      Password:
+        example: test-password
+        type: string
+    required:
+    - Email
+    - Password
     type: object
   entities.Trip:
     properties:
@@ -64,7 +76,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/dto.CountryResponse'
+              $ref: '#/definitions/dto.CountryResponseDTO'
             type: array
         "400":
           description: Bad Request
@@ -90,4 +102,51 @@ paths:
       summary: Get all trip
       tags:
       - trip
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: User registration
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: User registration
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Login
+      tags:
+      - user
 swagger: "2.0"
