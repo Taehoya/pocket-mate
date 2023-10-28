@@ -46,3 +46,33 @@ func TestRegister(t *testing.T) {
 		assert.Equal(t, 200, rr.Code)
 	})
 }
+
+func TestLogin(t *testing.T) {
+	t.Run("Successfully register user", func(t *testing.T) {
+		rr := httptest.NewRecorder()
+		tripUseCase := tripMocks.NewTripUseCase()
+		countryUseCase := countryMocks.NewCountryUseCase()
+		userUseCase := userMocks.NewUserUeseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase)
+		router := handler.InitRoutes()
+
+		email := "test-email"
+		password := "test-password"
+		token := "abc.abc.abc"
+
+		body := dto.UserRequestDTO{
+			Email:    email,
+			Password: password,
+		}
+
+		jsonBody, err := json.Marshal(body)
+		assert.NoError(t, err)
+
+		userUseCase.On("Login", mock.Anything, email, password).Return(token, nil)
+		request, err := http.NewRequest(http.MethodPost, "/api/v1/user/login", bytes.NewBuffer(jsonBody))
+		assert.NoError(t, err)
+
+		router.ServeHTTP(rr, request)
+		assert.Equal(t, 200, rr.Code)
+	})
+}

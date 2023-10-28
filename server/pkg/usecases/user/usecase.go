@@ -57,8 +57,24 @@ func (u *UserUseCase) Register(ctx context.Context, email, password string) (*en
 	return user, nil
 }
 
-func (u *UserUseCase) Login(ctx context.Context, email, password string) {
+func (u *UserUseCase) Login(ctx context.Context, email, password string) (string, error) {
+	user, err := u.userRepository.GetUser(ctx, email)
 
+	if user == nil || err != nil {
+		return "", fmt.Errorf("invalid account")
+	}
+
+	err = user.CheckPassword(password)
+	if err != nil {
+		return "", fmt.Errorf("invalid accouont")
+	}
+
+	token, err := token.MakeToken(user.ID())
+	if err != nil {
+		return "", fmt.Errorf("failed to create token")
+	}
+
+	return token, nil
 }
 
 func encrpyt(password string) (string, error) {
