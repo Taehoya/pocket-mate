@@ -1,0 +1,1 @@
+export const LoginLinkColor = "#979797";
