@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 )
@@ -23,7 +24,8 @@ func (r *CountryRepository) GetCountries(ctx context.Context) ([]*entities.Count
 	rows, err := r.db.QueryContext(ctx, "SELECT * FROM countries")
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get country: %v", err)
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
 	}
 	defer rows.Close()
 
@@ -34,14 +36,16 @@ func (r *CountryRepository) GetCountries(ctx context.Context) ([]*entities.Count
 		var currency string
 
 		if err := rows.Scan(&id, &code, &name, &currency); err != nil {
-			return nil, fmt.Errorf("failed to scan country: %v", err)
+			log.Printf("failed to scan country: %v\n", err)
+			return nil, fmt.Errorf("internal server error")
 		}
 		country := entities.NewCountry(id, code, name, currency)
 		countries = append(countries, country)
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("failed to iterate")
+		log.Printf("failed to iterate: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
 	}
 
 	return countries, nil

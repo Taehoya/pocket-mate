@@ -8,7 +8,7 @@ type CountryResponseDTO struct {
 	Currency string `json:"currency" example:"$"`
 }
 
-func CreateCountryResponse(country *entities.Country) *CountryResponseDTO {
+func NewCountryResponse(country *entities.Country) *CountryResponseDTO {
 	return &CountryResponseDTO{
 		Code:     country.Code(),
 		Name:     country.Name(),
@@ -16,11 +16,11 @@ func CreateCountryResponse(country *entities.Country) *CountryResponseDTO {
 	}
 }
 
-func CreateCountryResponseList(countries []*entities.Country) []*CountryResponseDTO {
+func NewCountryResponseList(countries []*entities.Country) []*CountryResponseDTO {
 	countryResp := make([]*CountryResponseDTO, 0)
 
 	for _, c := range countries {
-		country := CreateCountryResponse(c)
+		country := NewCountryResponse(c)
 		countryResp = append(countryResp, country)
 	}
 

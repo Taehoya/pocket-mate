@@ -1,5 +1,11 @@
 basePath: /api/v1
 definitions:
+  dto.BaseResponseDTO:
+    properties:
+      message:
+        example: message
+        type: string
+    type: object
   dto.CountryResponseDTO:
     properties:
       code:
@@ -10,6 +16,21 @@ definitions:
         type: string
       name:
         example: Canada
+        type: string
+    type: object
+  dto.ErrorResponseDTO:
+    properties:
+      error_message:
+        example: error message
+        type: string
+    type: object
+  dto.TokenDTO:
+    properties:
+      token:
+        example: abc.abc.abc
+        type: string
+      token_type:
+        example: Bearer
         type: string
     type: object
   dto.UserRequestDTO:
@@ -78,10 +99,10 @@ paths:
             items:
               $ref: '#/definitions/dto.CountryResponseDTO'
             type: array
-        "400":
-          description: Bad Request
         "500":
           description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
       summary: Get all country
       tags:
       - country
@@ -99,6 +120,8 @@ paths:
             $ref: '#/definitions/entities.Trip'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
       summary: Get all trip
       tags:
       - trip
@@ -119,10 +142,16 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseResponseDTO'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
         "500":
           description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
       summary: User registration
       tags:
       - user
@@ -142,10 +171,16 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/dto.TokenDTO'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
         "500":
           description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
       summary: Login
       tags:
       - user

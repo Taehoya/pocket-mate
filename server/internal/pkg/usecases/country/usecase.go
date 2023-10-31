@@ -23,7 +23,7 @@ func (u *CountryUsecase) GetCountries(ctx context.Context) ([]*dto.CountryRespon
 		return nil, err
 	}
 
-	countryResp := dto.CreateCountryResponseList(countries)
+	countryResp := dto.NewCountryResponseList(countries)
 
 	return countryResp, nil
 }

@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
@@ -28,21 +30,25 @@ func (r *UserRepository) SaveUser(ctx context.Context, emailParam string, passwo
 
 	result, err := r.db.ExecContext(ctx, query, nicknameParam, emailParam, passwordParam)
 	if err != nil {
-		return nil, err
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return nil, err
+		log.Printf("failed to get affected rows: %\nv", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	if rows != 1 {
-		return nil, err
+		log.Printf("expected 1 affected row, got %d\n", rows)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	user, err := r.GetUser(ctx, nicknameParam)
 	if err != nil {
-		return nil, err
+		log.Printf("failed to get user: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	return user, nil
@@ -54,7 +60,8 @@ func (r *UserRepository) GetUser(ctx context.Context, emailParam string) (*entit
 	rows, err := r.db.QueryContext(ctx, query, emailParam)
 
 	if err != nil {
-		return nil, err
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 	defer rows.Close()
 
@@ -67,14 +74,16 @@ func (r *UserRepository) GetUser(ctx context.Context, emailParam string) (*entit
 
 	for rows.Next() {
 		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {
-			return nil, err
+			log.Printf("failed to scan row: %v\n", err)
+			return nil, fmt.Errorf("internal Server Error")
 		}
 	}
 
 	user := entities.NewUser(id, nickname, email, password, createdAt, updatedAt)
 
 	if err := rows.Err(); err != nil {
-		return nil, err
+		log.Printf("failed scanning rows: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	return user, nil
@@ -85,7 +94,8 @@ func (r *UserRepository) GetUserById(ctx context.Context, idParam int) (*entitie
 	rows, err := r.db.QueryContext(ctx, query, idParam)
 
 	if err != nil {
-		return nil, err
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 	defer rows.Close()
 
@@ -98,13 +108,15 @@ func (r *UserRepository) GetUserById(ctx context.Context, idParam int) (*entitie
 
 	for rows.Next() {
 		if err := rows.Scan(&id, &nickname, &email, &password, &createdAt, &updatedAt); err != nil {
-			return nil, err
+			log.Printf("failed to scan row: %v\n", err)
+			return nil, fmt.Errorf("internal Server Error")
 		}
 	}
 
 	user := entities.NewUser(id, nickname, email, password, createdAt, updatedAt)
 	if err := rows.Err(); err != nil {
-		return nil, err
+		log.Printf("failed to scan rows: %v\n", err)
+		return nil, fmt.Errorf("internal Server Error")
 	}
 
 	return user, nil

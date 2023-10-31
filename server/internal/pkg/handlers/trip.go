@@ -14,19 +14,21 @@ type TripUseCase interface {
 
 // GetTripAll
 //
-//	@Summary		Get all trip
-//	@Description	get trip
-//	@Tags			trip
-//	@Accept			json
-//	@Produce		json
-//	@Success		200	{object}	entities.Trip
-//	@Failure		400
-//	@Router			/trip [get]
+// @Summary			Get all trip
+// @Description		get trip
+// @Tags			trip
+// @Accept			json
+// @Produce			json
+// @Success			200	{object}	entities.Trip
+// @Failure			400 {object}	dto.ErrorResponseDTO
+// @Router			/trip [get]
 func (h *Handler) GetTripAll(ctx *gin.Context) {
 	trips, err := h.TripUseCase.GetTripAll(ctx)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": err,
+		})
 	}
 
 	ctx.JSON(http.StatusOK, trips)
