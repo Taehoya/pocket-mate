@@ -1,0 +1,2 @@
+DELETE FROM trips;
+DELETE FROM users;
