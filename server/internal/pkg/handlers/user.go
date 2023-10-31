@@ -22,23 +22,25 @@ type UserUseCase interface {
 // @Accept			json
 // @Produce			json
 // @Param request 	body dto.UserRequestDTO true "User registration"
-// @Success			200
-// @Failure			400
-// @Failure			500
+// @Success			200	{object}	dto.BaseResponseDTO
+// @Failure			400	{object}	dto.ErrorResponseDTO
+// @Failure			500	{object}	dto.ErrorResponseDTO
 // @Router			/user [post]
 func (h *Handler) Register(ctx *gin.Context) {
 	var req dto.UserRequestDTO
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"error_message": "bad request",
 		})
 		return
 	}
 
 	_, err := h.UserUseCase.Register(ctx, req.Email, req.Password)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "failed to register"})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error_message": err,
+		})
 		return
 	}
 
@@ -51,31 +53,31 @@ func (h *Handler) Register(ctx *gin.Context) {
 // @Tags			user
 // @Accept			json
 // @Produce			json
-// @Param request 	body dto.UserRequestDTO true "User login"
-// @Success			200
-// @Failure			400
-// @Failure			500
+// @Param request 	body  dto.UserRequestDTO true "User login"
+// @Success			200 {object}	dto.TokenDTO
+// @Failure			400	{object}	dto.ErrorResponseDTO
+// @Failure			500	{object}	dto.ErrorResponseDTO
 // @Router			/user/login [post]
 func (h *Handler) Login(ctx *gin.Context) {
 	var req dto.UserRequestDTO
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"error_message": "bad request",
 		})
 		return
 	}
 
 	token, err := h.UserUseCase.Login(ctx, req.Email, req.Password)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "failed to login"})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error_message": err,
+		})
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "success",
-		"data": map[string]interface{}{
-			"token": token,
-		},
+		"token_type":   "Bearer",
+		"access_token": token,
 	})
 }

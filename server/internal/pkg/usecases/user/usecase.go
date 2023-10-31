@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"path"
@@ -42,11 +43,11 @@ func (u *UserUseCase) Register(ctx context.Context, email, password string) (*en
 	user, err := u.userRepository.GetUser(ctx, email)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get user")
+		return nil, err
 	}
 
 	if user.Email() != "" {
-		return nil, fmt.Errorf("email already exist")
+		return nil, fmt.Errorf("duplicated identification")
 	}
 
 	hashedPasword, err := encrpyt(password)
@@ -71,17 +72,18 @@ func (u *UserUseCase) Login(ctx context.Context, email, password string) (string
 	user, err := u.userRepository.GetUser(ctx, email)
 
 	if user == nil || err != nil {
-		return "", fmt.Errorf("invalid account")
+		return "", fmt.Errorf("invalid identification")
 	}
 
 	err = user.CheckPassword(password)
 	if err != nil {
-		return "", fmt.Errorf("invalid accouont")
+		return "", fmt.Errorf("invalid identification")
 	}
 
 	token, err := token.MakeToken(user.ID())
 	if err != nil {
-		return "", fmt.Errorf("failed to create token")
+		log.Printf("unable to make token: %v\n", err)
+		return "", fmt.Errorf("internal server error")
 	}
 
 	return token, nil
@@ -90,7 +92,8 @@ func (u *UserUseCase) Login(ctx context.Context, email, password string) (string
 func encrpyt(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", fmt.Errorf("failed to generated password")
+		log.Printf("failed to encrypt password: %v\n", err)
+		return "", fmt.Errorf("internal server error")
 	}
 
 	return string(hash), nil
@@ -101,13 +104,15 @@ func getNickNameFromSource() (string, error) {
 
 	rootPath, err := pathutil.GetProjectRootDir()
 	if err != nil {
-		return "", fmt.Errorf("failed to get root path: %v", err)
+		log.Printf("failed to get project root directory: %v\n", err)
+		return "", fmt.Errorf("internal server error")
 	}
 
 	sourceFile := path.Join(rootPath, "internal/pkg", "resources", "nickname.json")
 	file, err := os.Open(sourceFile)
 	if err != nil {
-		return "", fmt.Errorf("failed to open source: %v", err)
+		log.Printf("failed to open file: %v\n", err)
+		return "", fmt.Errorf("internal server error")
 	}
 	defer file.Close()
 
@@ -115,7 +120,8 @@ func getNickNameFromSource() (string, error) {
 	decoder := json.NewDecoder(file)
 
 	if err := decoder.Decode(&source); err != nil {
-		return "", fmt.Errorf("failed to decode json: %v", err)
+		log.Printf("failed to decode json: %v\n", err)
+		return "", fmt.Errorf("internal server error")
 	}
 
 	randomAdj := source.Adj[rand.Intn(len(source.Adj))]

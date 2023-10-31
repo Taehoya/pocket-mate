@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 )
@@ -22,20 +23,23 @@ func (r *TripRepository) GetTripAll() ([]entities.Trip, error) {
 
 	rows, err := r.db.Query("SELECT * FROM pm.trip;")
 	if err != nil {
-		return nil, fmt.Errorf("failed to get trip")
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		var trip entities.Trip
 		if err := rows.Scan(&trip.ID, &trip.Name, &trip.Budget, &trip.CountryId, &trip.Description, &trip.StartDateTime, &trip.EndDateTime); err != nil {
-			return nil, fmt.Errorf("failed to scan trip, err: %v", err)
+			log.Printf("failed to scan row: %v\n", err)
+			return nil, fmt.Errorf("internal server error")
 		}
 		trips = append(trips, trip)
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("failed to iterate")
+		log.Printf("failed to scanning rows: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
 	}
 
 	return trips, nil

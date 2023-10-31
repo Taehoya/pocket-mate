@@ -12,7 +12,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		err := token.IsValidToken(ctx)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"message": "unathorized user",
+				"error_message": "unathorized user",
 			})
 			return
 		}

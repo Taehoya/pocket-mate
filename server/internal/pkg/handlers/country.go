@@ -14,24 +14,23 @@ type CountryUsecase interface {
 
 // GetCountires
 //
-//	@Summary		Get all country
-//	@Description	get a list of all available countires
-//	@Tags			country
-//	@Accept			json
-//	@Produce		json
-//	@Success		200	{object}	[]dto.CountryResponseDTO
-//	@Failure		400
-//	@Failure		500
-//	@Router			/country [get]
+// @Summary			Get all country
+// @Description		get a list of all available countires
+// @Tags			country
+// @Accept			json
+// @Produce			json
+// @Success 		200 {object}	[]dto.CountryResponseDTO
+// @Failure			500	{object}    dto.ErrorResponseDTO
+// @Router			/country [get]
 func (h *Handler) GetCountries(ctx *gin.Context) {
 	countries, err := h.CountryUsecase.GetCountries(ctx)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": err,
+		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"data": countries,
-	})
+	ctx.JSON(http.StatusOK, countries)
 }
