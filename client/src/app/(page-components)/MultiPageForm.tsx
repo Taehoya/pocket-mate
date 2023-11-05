@@ -21,6 +21,9 @@ import "react-date-range/dist/theme/default.css";
 
 import Image from "next/image";
 
+// CONSTANTS
+import { DefaultButtonColor } from "../constants";
+
 const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4"];
 
 interface StepPageProps {
@@ -86,7 +89,7 @@ const StepPage: React.FC<StepPageProps> = ({
           onClick={buttonClick}
           disabled={isDisable}
           style={{
-            backgroundColor: isDisable ? "grey" : "#fb3f04",
+            backgroundColor: isDisable ? "grey" : DefaultButtonColor,
             color: "white",
             borderRadius: "25px",
             width: "90%",
@@ -100,9 +103,7 @@ const StepPage: React.FC<StepPageProps> = ({
   );
 };
 
-const MultiPageForm: React.FC<MultiPageFormProps> = (
-  {closeForm}
-) => {
+const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
@@ -171,7 +172,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = (
       <LinearProgress
         variant="determinate"
         value={progress}
-        color="success"
+        classes={{ bar: { bacgroundColor: "#0e85ff" } }}
         style={{
           backgroundColor: "#E6E0E9",
           height: "5px",
@@ -198,9 +199,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = (
                 alignItems: "center",
               }}
             >
-              <div
-                style={{ fontSize: "1.3rem", width: "95%" }}
-              >
+              <div style={{ fontSize: "1.3rem", width: "95%" }}>
                 Welcome to PocketMate!{" "}
               </div>
               <div

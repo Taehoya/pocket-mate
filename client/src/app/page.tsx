@@ -16,6 +16,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import WindowIcon from "@mui/icons-material/Window";
 import SwipableCards from "./(components)/SwipableCards";
 
+// CONSTANTS
+import { BackgroundColor, DefaultButtonColor } from "./constants";
+
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("coming-soon");
@@ -109,7 +112,7 @@ export default function Home() {
         <Button
           onClick={addTravelNote}
           style={{
-            backgroundColor: "#fb3f04",
+            backgroundColor: DefaultButtonColor,
             color: "white",
             borderRadius: "25px",
             width: "90%",
@@ -129,7 +132,7 @@ export default function Home() {
           style: {
             overflowY: "hidden",
             maxHeight: "100%",
-            backgroundColor: '#f8f7f2'
+            backgroundColor: BackgroundColor
           },
         }}
       >
