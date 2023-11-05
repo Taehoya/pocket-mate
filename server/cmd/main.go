@@ -5,24 +5,26 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Taehoya/go-utils/mysql"
 	_ "github.com/Taehoya/pocket-mate/docs"
-	handler "github.com/Taehoya/pocket-mate/pkg/handlers"
-	countryRepository "github.com/Taehoya/pocket-mate/pkg/repositories/country"
-	tripRepository "github.com/Taehoya/pocket-mate/pkg/repositories/trip"
-	countryUseCase "github.com/Taehoya/pocket-mate/pkg/usecases/country"
-	tripUsecase "github.com/Taehoya/pocket-mate/pkg/usecases/trip"
-	"github.com/Taehoya/pocket-mate/pkg/utils/config"
-	"github.com/Taehoya/pocket-mate/pkg/utils/db"
+	handler "github.com/Taehoya/pocket-mate/internal/pkg/handlers"
+	countryRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/country"
+	tripRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/trip"
+	userRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/user"
+	countryUseCase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/country"
+	tripUsecase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/trip"
+	userUsecase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/user"
+	"github.com/Taehoya/pocket-mate/internal/pkg/utils/config"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
 
-//	@title                  Pocket Mate API
-//	@version                1.0.0
-//	@description    This is a pocket-mate server api
+// @title           Pocket Mate API
+// @version         1.0.0
+// @description     This is a pocket-mate server api
 //
-// @host                localhost:8080
-// @BasePath    /api/v1
+// @host        	localhost:8080
+// @BasePath    	/api/v1
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -30,7 +32,7 @@ func main() {
 	}
 
 	config := config.New()
-	db, err := db.InitDB(config)
+	db, err := mysql.InitDB()
 
 	if err != nil {
 		log.Fatal("failed to init Database")
@@ -45,8 +47,10 @@ func main() {
 	tripUseCase := tripUsecase.NewTripUseCase(tripRepository)
 	countryRepository := countryRepository.NewCountryRepository(db)
 	countryUseCase := countryUseCase.NewCountryUseCase(countryRepository)
+	userRepository := userRepository.NewUserRepository(db)
+	userUsecase := userUsecase.NewUserUseCase(userRepository)
 
-	handler := handler.New(tripUseCase, countryUseCase)
+	handler := handler.New(tripUseCase, countryUseCase, userUsecase)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", config.Host, config.Port),
