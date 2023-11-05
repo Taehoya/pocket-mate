@@ -5,8 +5,8 @@
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 248, 247, 242;
-  --background-end-rgb: 248, 247, 242;
-  --background-color-default:  248, 247, 242;
+  --background-end-rgb: #F5F5F5;
+  --background-color-default:  #F5F5F5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,4 +38,8 @@ body {
   background: yellow;
 }
 
+
+.MuiLinearProgress-barColorPrimary{
+  color: "#0e85ff"
+}
 

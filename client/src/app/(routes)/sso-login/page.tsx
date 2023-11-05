@@ -42,7 +42,7 @@ const SSOButton: React.FC<SSOButtonProps> = ({
   );
 };
 
-const LoginPage = () => {
+const SSOLoginPage = () => {
   return (
     <div
       style={{
@@ -53,7 +53,12 @@ const LoginPage = () => {
       }}
     >
       <Typography
-        style={{ fontSize: "1.6rem", fontWeight: "bold", marginTop: "40%" }}
+        style={{
+          fontSize: "1.6rem",
+          fontWeight: "bold",
+          marginTop: "40%",
+          color: "black",
+        }}
       >
         Let's make a trip together,
       </Typography>
@@ -105,4 +110,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SSOLoginPage;
