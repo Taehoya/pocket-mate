@@ -7,12 +7,13 @@
     "date_title": "When shall we go?",
     "trip_title": "What is the Trip's name?",
     "trip_input": "Propose a travel title",
+    "note_type_title": " Which note type do you prefer?",
     "final_title": "A new travel note has been created",
     "container_title": "Trip Name",
     "container_destination": "Travel Destination",
     "container_start_date": "Start Date",
     "container_end_date": "End Date",
-    "button_text": "Next",
+    "button_next": "Next",
     "character": "Characters"
   }
 }
