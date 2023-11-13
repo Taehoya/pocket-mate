@@ -173,7 +173,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         <IconButton disabled={activeStep === 0} onClick={handleBack}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography style={{ fontSize: "1rem" }}>Add a travel note</Typography>
+        <Typography style={{ fontSize: "1rem" }}>{t('header')}</Typography>
         <IconButton onClick={closeForm}>
           <CloseIcon />
         </IconButton>
@@ -357,7 +357,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   onClick={() => handleNoteImage("BasicNote")}
                 />
                 <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
-                  Basic Note
+                  {t('basic_note_text')}
                 </Typography>
               </div>
               <div
@@ -379,7 +379,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   onClick={() => handleNoteImage("SpringNote")}
                 />
                 <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
-                  Spring Note
+                  {t('spring_note_text')}
                 </Typography>
               </div>
             </div>
