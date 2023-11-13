@@ -1,0 +1,18 @@
+{
+  "TripCreation": {
+    "welcome": "환영합니다",
+    "welcome_sub": "여행 노트를 만들어봐요",
+    "destination_title": "어디로 가시나요?",
+    "destination_input": "나라 선택",
+    "date_title": "언제 가시나요?",
+    "trip_title": "이 여행의 이름은 무엇인가요?",
+    "trip_input": "여행노트 이름을 적어주세요",
+    "final_title": "새로운 여행 노트가 만들어졌어요!",
+    "container_title": "노트 이름",
+    "container_destination": "여행 국가",
+    "container_start_date": "여행 시작일",
+    "container_end_date": "여행 종료일",
+    "button_text": "즐거운 여행 함께 해봐요~",
+    "character": "자"
+  }
+}

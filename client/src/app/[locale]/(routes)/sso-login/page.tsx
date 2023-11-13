@@ -3,7 +3,7 @@
 import React from "react";
 import { Typography, Button } from "@mui/material";
 import Image from "next/image";
-import { LoginLinkColor } from "@/app/constants";
+import { LoginLinkColor } from "@/app/[locale]/constants";
 
 interface SSOButtonProps {
   image: string;

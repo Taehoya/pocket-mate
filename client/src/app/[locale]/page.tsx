@@ -93,7 +93,7 @@ export default function Home() {
       </div>
 
       {/* Body */}
-      <div style={{marginTop: "10%"}}>
+      <div style={{ marginTop: "10%" }}>
         <SwipableCards />
       </div>
 
@@ -132,7 +132,7 @@ export default function Home() {
           style: {
             overflowY: "hidden",
             maxHeight: "100%",
-            backgroundColor: BackgroundColor
+            backgroundColor: BackgroundColor,
           },
         }}
       >

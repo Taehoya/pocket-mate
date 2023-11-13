@@ -25,6 +25,7 @@
     "i18next": "^23.6.0",
     "next": "13.4.13",
     "next-i18next": "^14.0.3",
+    "next-intl": "^2.22.1",
     "postcss": "8.4.27",
     "react": "18.2.0",
     "react-date-range": "^1.4.0",

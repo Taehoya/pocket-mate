@@ -1,0 +1,18 @@
+{
+  "TripCreation": {
+    "welcome": "Welcome to PocketMate!",
+    "welcome_sub": "Let's make a travel note",
+    "destination_title": "Where are you going for the trip?",
+    "destination_input": "Select Country",
+    "date_title": "When shall we go?",
+    "trip_title": "What is the Trip's name?",
+    "trip_input": "Propose a travel title",
+    "final_title": "A new travel note has been created",
+    "container_title": "Trip Name",
+    "container_destination": "Travel Destination",
+    "container_start_date": "Start Date",
+    "container_end_date": "End Date",
+    "button_text": "Next",
+    "character": "Characters"
+  }
+}
