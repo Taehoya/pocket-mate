@@ -18,6 +18,7 @@ import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { useTranslations } from "next-intl";
 
 import Image from "next/image";
 
@@ -61,6 +62,8 @@ const StepPage: React.FC<StepPageProps> = ({
   buttonClick,
   isDisable = true,
 }) => {
+  const t = useTranslations("TripCreation");
+
   return (
     <div
       style={{
@@ -96,7 +99,7 @@ const StepPage: React.FC<StepPageProps> = ({
             padding: "10px 0px",
           }}
         >
-          Sounds great
+          {t("button_text")}
         </Button>
       </div>
     </div>
@@ -110,6 +113,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const [endDate, setEndDate] = useState(addDays(new Date(), 7));
   const [title, setTitle] = useState("");
   const [destination, setDestination] = useState("");
+  const t = useTranslations("TripCreation");
 
   useEffect(() => {
     setProgress((activeStep / (steps.length - 1)) * 100);
@@ -199,13 +203,19 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 alignItems: "center",
               }}
             >
-              <div style={{ fontSize: "1.3rem", width: "95%" }}>
-                Welcome to PocketMate!{" "}
+              <div
+                style={{
+                  fontSize: "1.3rem",
+                  width: "95%",
+                  marginBottom: "5px",
+                }}
+              >
+                {t("welcome")}
               </div>
               <div
                 style={{ fontSize: "1.7rem", fontWeight: "bold", width: "95%" }}
               >
-                Let's make a travel note
+                {t("welcome_sub")}
               </div>
               <div style={{ marginTop: "30%", marginBottom: "30px" }}>
                 <Image
@@ -231,12 +241,12 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 lineHeight: 1.4,
               }}
             >
-              Where are you going for the trip?
+              {t("destination_title")}
             </div>
             <TextField
               variant="standard"
               fullWidth
-              placeholder="Please choose a travel destination"
+              placeholder={t("destination_input")}
               style={{
                 marginTop: "25px",
               }}
@@ -254,7 +264,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 width: "80%",
               }}
             >
-              When shall we go?
+              {t("date_title")}
             </div>
             <div style={{ marginTop: "30px" }}>
               <DateRange
@@ -282,13 +292,13 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 fontWeight: "bold",
               }}
             >
-              What is the Trip's name?
+              {t("trip_title")}
             </div>
             <div>
               <TextField
                 variant="standard"
                 fullWidth
-                placeholder="Propose a travel title"
+                placeholder={t("trip_input")}
                 style={{
                   marginTop: "20px",
                 }}
@@ -302,7 +312,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   fontSize: "0.8rem",
                 }}
               >
-                {title.length} / {maxCharacters} Characters
+                {title.length} / {maxCharacters} {t('character')}
               </div>
             </div>
           </StepPage>
@@ -320,7 +330,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
               <div
                 style={{ fontSize: "2rem", fontWeight: "bold", width: "80%" }}
               >
-                A new travel note has been created
+                {t("final_title")}
               </div>
               <div style={{ marginTop: "20px", marginBottom: "30px" }}>
                 <Image
@@ -335,7 +345,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 {/* Trip Title */}
                 <Grid container style={styles.resultListStyle}>
                   <Grid item xs={6} style={styles.resultKeyStyle}>
-                    Note name
+                    {t("container_title")}
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
                     {title}
@@ -345,7 +355,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 {/* Trip Destination */}
                 <Grid container style={styles.resultListStyle}>
                   <Grid item xs={6} style={styles.resultKeyStyle}>
-                    Travel Destination
+                    {t("container_destination")}
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
                     {destination}
@@ -355,7 +365,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 {/* Trip Start Date */}
                 <Grid container style={styles.resultListStyle}>
                   <Grid item xs={6} style={styles.resultKeyStyle}>
-                    Start Date
+                    {t("container_start_date")}
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
                     {startDate?.toDateString()}
@@ -365,7 +375,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                 {/* Trip End Date */}
                 <Grid container style={styles.resultListStyle}>
                   <Grid item xs={6} style={styles.resultKeyStyle}>
-                    End Date
+                    {t("container_end_date")}
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
                     {endDate?.toDateString()}
