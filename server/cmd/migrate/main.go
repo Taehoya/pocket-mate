@@ -15,16 +15,22 @@ import (
 func main() {
 	var direction string
 
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("failed to load .env file")
+	// }
+
 	flag.StringVar(&direction, "direction", "up", "migrate cmd: up or down")
 	flag.Parse()
 
 	dbConfig := mysql.Config{
-		User:      os.Getenv("DB_USER"),
-		Passwd:    os.Getenv("DB_PASSWORD"),
-		Net:       "tcp",
-		Addr:      fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
-		DBName:    os.Getenv("DB_NAME"),
-		ParseTime: true,
+		User:                 os.Getenv("DB_USER"),
+		Passwd:               os.Getenv("DB_PASSWORD"),
+		Net:                  "tcp",
+		Addr:                 fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
+		DBName:               os.Getenv("DB_NAME"),
+		ParseTime:            true,
+		AllowNativePasswords: true,
 	}
 
 	databaseURL := dbConfig.FormatDSN()
