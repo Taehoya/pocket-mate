@@ -25,7 +25,7 @@ import Image from "next/image";
 // CONSTANTS
 import { DefaultButtonColor } from "../constants";
 
-const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4"];
+const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4", "step 5"];
 
 interface StepPageProps {
   children: ReactNode;
@@ -99,7 +99,7 @@ const StepPage: React.FC<StepPageProps> = ({
             padding: "10px 0px",
           }}
         >
-          {t("button_text")}
+          {t("button_next")}
         </Button>
       </div>
     </div>
@@ -113,6 +113,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const [endDate, setEndDate] = useState(addDays(new Date(), 7));
   const [title, setTitle] = useState("");
   const [destination, setDestination] = useState("");
+  const [noteImage, setNoteImage] = useState("");
   const t = useTranslations("TripCreation");
 
   useEffect(() => {
@@ -137,6 +138,10 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const handleDestination = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setDestination(newValue);
+  };
+
+  const handleNoteImage = (noteImage: string) => {
+    setNoteImage(noteImage);
   };
 
   const handleNext = () => {
@@ -219,10 +224,10 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
               </div>
               <div style={{ marginTop: "30%", marginBottom: "30px" }}>
                 <Image
-                  src="/CreateTripStart.png"
+                  src="/create-trip/CreateTripStart.png"
                   alt="StartTripImage"
                   width={270}
-                  height={270}
+                  height={220}
                 />
               </div>
             </div>
@@ -312,12 +317,75 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   fontSize: "0.8rem",
                 }}
               >
-                {title.length} / {maxCharacters} {t('character')}
+                {title.length} / {maxCharacters} {t("character")}
               </div>
             </div>
           </StepPage>
         )}
         {activeStep === 4 && (
+          <StepPage buttonClick={handleNext} isDisable={!noteImage}>
+            <div
+              style={{
+                fontSize: "1.7rem",
+                fontWeight: "bold",
+              }}
+            >
+              {t("note_type_title")}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                marginTop: "35%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={`/create-trip/${
+                    noteImage == "BasicNote"
+                      ? "BasicNoteFilled"
+                      : "BasicNoteBlank"
+                  }.svg`}
+                  alt="My Image"
+                  width={180}
+                  height={180}
+                  onClick={() => handleNoteImage("BasicNote")}
+                />
+                <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
+                  Basic Note
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={`/create-trip/${
+                    noteImage == "SpringNote"
+                      ? "SpringNoteFilled"
+                      : "SpringNoteBlank"
+                  }.svg`}
+                  alt="My Image"
+                  width={180}
+                  height={180}
+                  onClick={() => handleNoteImage("SpringNote")}
+                />
+                <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
+                  Spring Note
+                </Typography>
+              </div>
+            </div>
+          </StepPage>
+        )}
+        {activeStep === 5 && (
           <StepPage buttonClick={() => {}} isDisable={false}>
             <div
               style={{
