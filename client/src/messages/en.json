@@ -9,7 +9,10 @@
     "kakao_login": "Login with KakaoTalk",
     "google_login": "Login with Google"
   },
+  "HomePage": {
+  },
   "TripCreation": {
+    "header": "Add a travel note",
     "welcome": "Welcome to PocketMate!",
     "welcome_sub": "Let's make a travel note",
     "destination_title": "Where are you going for the trip?",
@@ -17,7 +20,9 @@
     "date_title": "When shall we go?",
     "trip_title": "What is the Trip's name?",
     "trip_input": "Propose a travel title",
-    "note_type_title": " Which note type do you prefer?",
+    "note_type_title": "Which note type do you prefer?",
+    "basic_note_text": "Basic Note",
+    "spring_note_text": "Spring Note",
     "final_title": "A new travel note has been created",
     "container_title": "Trip Name",
     "container_destination": "Travel Destination",
