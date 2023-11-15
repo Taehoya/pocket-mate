@@ -44,13 +44,13 @@ func main() {
 
 	if direction == "up" {
 		if err := migrate.Up(); err != nil {
-			log.Printf("failed to migrate up ")
+			log.Printf("failed to migrate up: %v", err)
 		}
 	}
 
 	if direction == "down" {
 		if err := migrate.Down(); err != nil {
-			log.Printf("failed to migrate down")
+			log.Printf("failed to migrate down :%v", err)
 			return
 		}
 	}

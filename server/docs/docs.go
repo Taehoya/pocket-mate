@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/countries": {
+        "/v1/countries": {
             "get": {
                 "description": "get a list of all available countires",
                 "consumes": [
@@ -48,7 +48,27 @@ const docTemplate = `{
                 }
             }
         },
-        "/trips": {
+        "/v1/healthcheck": {
+            "get": {
+                "description": "check server status",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "default"
+                ],
+                "summary": "check server status",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResponseDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/trips": {
             "get": {
                 "security": [
                     {
@@ -165,7 +185,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/trips/{id}": {
+        "/v1/trips/{id}": {
             "put": {
                 "security": [
                     {
@@ -289,7 +309,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user": {
+        "/v1/users": {
             "post": {
                 "description": "Register a new user",
                 "consumes": [
@@ -335,7 +355,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/login": {
+        "/v1/users/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -455,7 +475,7 @@ const docTemplate = `{
                 },
                 "endDateTime": {
                     "type": "string",
-                    "example": "2023-08-29"
+                    "example": "2024-01-02T15:04:05Z"
                 },
                 "name": {
                     "type": "string",
@@ -463,7 +483,7 @@ const docTemplate = `{
                 },
                 "startDateTime": {
                     "type": "string",
-                    "example": "2023-05-29"
+                    "example": "2024-01-02T15:04:05Z"
                 }
             }
         },
@@ -484,7 +504,7 @@ const docTemplate = `{
                 },
                 "endDateTime": {
                     "type": "string",
-                    "example": "2023-08-29"
+                    "example": "2024-01-02T15:04:05Z"
                 },
                 "id": {
                     "type": "integer",
@@ -496,7 +516,7 @@ const docTemplate = `{
                 },
                 "startDateTime": {
                     "type": "string",
-                    "example": "2023-05-29"
+                    "example": "2024-01-02T15:04:05Z"
                 }
             }
         },
@@ -546,8 +566,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0.0",
-	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	Host:             "",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Pocket Mate API",
 	Description:      "This is a pocket-mate server api",
