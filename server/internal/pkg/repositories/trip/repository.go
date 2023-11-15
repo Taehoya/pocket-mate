@@ -124,14 +124,9 @@ func (r *TripRepository) UpdateTrip(ctx context.Context, tripId int, name string
 		return fmt.Errorf("internal Server Error")
 	}
 
-	rows, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		log.Printf("failed to get affected rows: %\nv", err)
-		return fmt.Errorf("internal Server Error")
-	}
-
-	if rows != 1 {
-		log.Printf("expected 1 affected row, got %d\n", rows)
 		return fmt.Errorf("internal Server Error")
 	}
 
