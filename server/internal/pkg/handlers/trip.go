@@ -32,7 +32,7 @@ type TripUseCase interface {
 // @Failure			400 {object}	dto.ErrorResponseDTO
 // @Failure 		401	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/trips [post]
+// @Router			/v1/trips [post]
 func (h *Handler) RegisterTrip(ctx *gin.Context) {
 	userId, err := token.ExtractTokenID(ctx)
 	if err != nil {
@@ -77,7 +77,7 @@ func (h *Handler) RegisterTrip(ctx *gin.Context) {
 // @Failure			400 {object}	dto.ErrorResponseDTO
 // @Failure 		401	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/trips [get]
+// @Router			/v1/trips [get]
 func (h *Handler) GetTrip(ctx *gin.Context) {
 	userId, err := token.ExtractTokenID(ctx)
 	if err != nil {
@@ -112,7 +112,7 @@ func (h *Handler) GetTrip(ctx *gin.Context) {
 // @Failure			400 {object}	dto.ErrorResponseDTO
 // @Failure 		401	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/trips/{id} [delete]
+// @Router			/v1/trips/{id} [delete]
 func (h *Handler) DeleteTrip(ctx *gin.Context) {
 	tripIdParam := ctx.Param("id")
 	tripId, err := strconv.Atoi(tripIdParam)
@@ -151,7 +151,7 @@ func (h *Handler) DeleteTrip(ctx *gin.Context) {
 // @Failure			400 {object}	dto.ErrorResponseDTO
 // @Failure 		401	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/trips/{id} [put]
+// @Router			/v1/trips/{id} [put]
 func (h *Handler) UpdateTrip(ctx *gin.Context) {
 	tripIdParam := ctx.Param("id")
 	tripId, err := strconv.Atoi(tripIdParam)

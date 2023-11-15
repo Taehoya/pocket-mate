@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /api
 definitions:
   dto.BaseResponseDTO:
     properties:
@@ -45,13 +45,13 @@ definitions:
         example: sample-description
         type: string
       endDateTime:
-        example: "2023-08-29"
+        example: "2024-01-02T15:04:05Z"
         type: string
       name:
         example: sample-name
         type: string
       startDateTime:
-        example: "2023-05-29"
+        example: "2024-01-02T15:04:05Z"
         type: string
     required:
     - budget
@@ -73,7 +73,7 @@ definitions:
         example: sample-description
         type: string
       endDateTime:
-        example: "2023-08-29"
+        example: "2024-01-02T15:04:05Z"
         type: string
       id:
         example: 1
@@ -82,7 +82,7 @@ definitions:
         example: sample-name
         type: string
       startDateTime:
-        example: "2023-05-29"
+        example: "2024-01-02T15:04:05Z"
         type: string
     type: object
   dto.TripStatusResponseDTO:
@@ -112,14 +112,13 @@ definitions:
     - Email
     - Password
     type: object
-host: localhost:8080
 info:
   contact: {}
   description: This is a pocket-mate server api
   title: Pocket Mate API
   version: 1.0.0
 paths:
-  /countries:
+  /v1/countries:
     get:
       consumes:
       - application/json
@@ -140,7 +139,20 @@ paths:
       summary: Get all country
       tags:
       - country
-  /trips:
+  /v1/healthcheck:
+    get:
+      description: check server status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseResponseDTO'
+      summary: check server status
+      tags:
+      - default
+  /v1/trips:
     get:
       consumes:
       - application/json
@@ -215,7 +227,7 @@ paths:
       summary: register trip
       tags:
       - trip
-  /trips/{id}:
+  /v1/trips/{id}:
     delete:
       consumes:
       - application/json
@@ -295,7 +307,7 @@ paths:
       summary: update trip
       tags:
       - trip
-  /user:
+  /v1/users:
     post:
       consumes:
       - application/json
@@ -325,7 +337,7 @@ paths:
       summary: User registration
       tags:
       - user
-  /user/login:
+  /v1/users/login:
     post:
       consumes:
       - application/json

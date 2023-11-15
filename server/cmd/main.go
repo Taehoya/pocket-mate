@@ -23,8 +23,7 @@ import (
 // @version         1.0.0
 // @description     This is a pocket-mate server api
 //
-// @host        	localhost:8080
-// @BasePath    	/api/v1
+// @BasePath    	/api
 func main() {
 	err := godotenv.Load()
 	if err != nil {
