@@ -19,6 +19,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Setup Golang
         uses: actions/setup-go@v4
         with:
@@ -30,9 +31,11 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE ${{ env.DB_NAME }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
-      - name: Database migration
+      - name: run migration
         working-directory: ./server
-        run: make migrate
+        run: |
+          cp .env.sample .env
+          make migrate
 
       - name: run test
         working-directory: ./server

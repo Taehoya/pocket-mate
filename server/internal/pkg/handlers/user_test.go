@@ -39,7 +39,7 @@ func TestRegister(t *testing.T) {
 		assert.NoError(t, err)
 
 		userUseCase.On("Register", mock.Anything, email, password).Return(mockUser, nil)
-		request, err := http.NewRequest(http.MethodPost, "/api/v1/user", bytes.NewBuffer(jsonBody))
+		request, err := http.NewRequest(http.MethodPost, "/api/v1/users", bytes.NewBuffer(jsonBody))
 		assert.NoError(t, err)
 
 		router.ServeHTTP(rr, request)
@@ -69,7 +69,7 @@ func TestLogin(t *testing.T) {
 		assert.NoError(t, err)
 
 		userUseCase.On("Login", mock.Anything, email, password).Return(token, nil)
-		request, err := http.NewRequest(http.MethodPost, "/api/v1/user/login", bytes.NewBuffer(jsonBody))
+		request, err := http.NewRequest(http.MethodPost, "/api/v1/users/login", bytes.NewBuffer(jsonBody))
 		assert.NoError(t, err)
 
 		router.ServeHTTP(rr, request)
