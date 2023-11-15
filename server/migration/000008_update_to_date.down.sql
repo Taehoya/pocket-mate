@@ -1,0 +1,2 @@
+ALTER TABLE trips MODIFY COLUMN start_date_time DATETIME;
+ALTER TABLE trips MODIFY COLUMN end_date_time DATETIME;
