@@ -60,7 +60,7 @@ func TestRegisterTrip(t *testing.T) {
 		request, err := http.NewRequest(http.MethodPost, "/api/v1/trips", bytes.NewBuffer(jsonBody))
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 		router.ServeHTTP(rr, request)
-		assert.Equal(t, 200, rr.Code)
+		assert.Equal(t, 201, rr.Code)
 		assert.NoError(t, err)
 	})
 }
