@@ -16,7 +16,10 @@ import (
 func main() {
 	var direction string
 
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("failed to load .env file")
+	}
 
 	flag.StringVar(&direction, "direction", "up", "migrate cmd: up or down")
 	flag.Parse()
