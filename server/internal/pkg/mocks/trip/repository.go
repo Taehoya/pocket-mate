@@ -27,22 +27,6 @@ func (m *TripRepositoryMock) SaveTrip(ctx context.Context, name string, userId i
 	return r0
 }
 
-func (m *TripRepositoryMock) GetTripAll() ([]*entities.Trip, error) {
-	ret := m.Called()
-
-	var r0 []*entities.Trip
-	if ret.Get(0) != nil {
-		r0 = ret.Get(0).([]*entities.Trip)
-	}
-
-	var r1 error
-	if ret.Get(1) != nil {
-		r1 = ret.Get(1).(error)
-	}
-
-	return r0, r1
-}
-
 func (m *TripRepositoryMock) GetTrip(ctx context.Context, userId int) ([]*entities.Trip, error) {
 	ret := m.Called(ctx, userId)
 

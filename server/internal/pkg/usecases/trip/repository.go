@@ -8,7 +8,6 @@ import (
 )
 
 type TripRepository interface {
-	GetTripAll() ([]*entities.Trip, error)
 	SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, startDateTime time.Time, endDateTime time.Time) error
 	GetTrip(ctx context.Context, userId int) ([]*entities.Trip, error)
 	DeleteTrip(ctx context.Context, tripId int) error
