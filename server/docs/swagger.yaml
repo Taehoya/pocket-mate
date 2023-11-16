@@ -277,6 +277,11 @@ paths:
         name: Authorization
         required: true
         type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: update trip
         in: body
         name: request
