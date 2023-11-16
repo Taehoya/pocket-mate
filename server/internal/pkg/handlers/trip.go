@@ -146,6 +146,7 @@ func (h *Handler) DeleteTrip(ctx *gin.Context) {
 // @Produce			json
 // @Security 		bearer
 // @param 			Authorization header string true "Authorization"
+// @Param id 		path int true "id"
 // @Param request 	body dto.TripRequestDTO true "update trip"
 // @Success			200	{object}	dto.BaseResponseDTO
 // @Failure			400 {object}	dto.ErrorResponseDTO
