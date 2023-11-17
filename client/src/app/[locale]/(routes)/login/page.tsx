@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Typography, Button, Link, TextField } from "@mui/material";
+import { Divider, Typography, Button, Link, TextField } from "@mui/material";
 
 // Constants
 import { DefaultButtonColor, LoginLinkColor } from "@/app/[locale]/constants";
@@ -146,11 +146,34 @@ const LoginPage = () => {
               height: "40px",
               borderRadius: "25px",
               backgroundColor: DefaultButtonColor,
-              color: "inherit"
+              color: "inherit",
             }}
           >
             {t("login_button")}
           </Button>
+        </div>
+
+        {/* Divider */}
+        <div
+          style={{ display: "flex", width: "70%", justifyContent: "center", margin: "6% 0px" }}
+        >
+          <Divider
+            sx={{
+              width: "25%",
+              borderColor: "#333333",
+              margin: "8px 16px",
+            }}
+          />
+          <Typography color="#333333" fontSize="12px">
+            간편 로그인
+          </Typography>
+          <Divider
+            sx={{
+              width: "25%",
+              borderColor: "#333333",
+              margin: "8px 16px",
+            }}
+          />
         </div>
 
         {/* SSO Button Group */}
@@ -159,7 +182,6 @@ const LoginPage = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            marginTop: "10%",
           }}
         >
           <SSOButton
@@ -181,7 +203,6 @@ const LoginPage = () => {
             display: "flex",
             justifyContent: "center",
             textAlign: "center",
-            marginTop: "5%",
             fontSize: "1rem",
             color: LoginLinkColor,
             textDecoration: "none",
