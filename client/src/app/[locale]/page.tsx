@@ -143,7 +143,7 @@ export default function Home() {
   );
 }
 
-const tripList: readonly TripObject[] = [
+const tripList: TripObject[] = [
   {
     "budget": 2000.12,
     "countryName": "Japan",

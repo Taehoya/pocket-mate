@@ -1,4 +1,3 @@
-
 type TripObject {
     budget: number;
     countryName: string;

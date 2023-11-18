@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, ReactNode, ChangeEvent } from "react";
 import {
+  Box,
   Stepper,
   Step,
   Button,
@@ -11,6 +12,7 @@ import {
   Typography,
   TextField,
   Grid,
+  Autocomplete,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,6 +21,7 @@ import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useTranslations } from "next-intl";
+import axios from 'axios';
 
 import Image from "next/image";
 
@@ -35,6 +38,12 @@ interface StepPageProps {
 
 interface MultiPageFormProps {
   closeForm: () => void;
+}
+
+interface CountryType {
+  code: string;
+  name: string;
+  currency: string;
 }
 
 const maxCharacters: number = 24;
@@ -112,9 +121,23 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(addDays(new Date(), 7));
   const [title, setTitle] = useState("");
-  const [destination, setDestination] = useState("");
+  const [destination, setDestination] = useState<CountryType | null>(null);
   const [noteImage, setNoteImage] = useState("");
+  const [countryList, setCountryList] = useState([]);
   const t = useTranslations("TripCreation");
+
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const countries = await axios.get('/api/v1/countries');
+        setCountryList(countries.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchCountries();
+  }, []);
 
   useEffect(() => {
     setProgress((activeStep / (steps.length - 1)) * 100);
@@ -135,8 +158,10 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
     setEndDate(selection.endDate);
   };
 
-  const handleDestination = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
+  const handleDestination = (
+    event: React.ChangeEvent<{}>,
+    newValue: CountryType
+  ) => {
     setDestination(newValue);
   };
 
@@ -173,7 +198,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         <IconButton disabled={activeStep === 0} onClick={handleBack}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography style={{ fontSize: "1rem" }}>{t('header')}</Typography>
+        <Typography style={{ fontSize: "1rem" }}>{t("header")}</Typography>
         <IconButton onClick={closeForm}>
           <CloseIcon />
         </IconButton>
@@ -236,7 +261,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         {activeStep === 1 && (
           <StepPage
             buttonClick={handleNext}
-            isDisable={!(destination.length > 0)}
+            isDisable={!destination || !(destination?.name.length > 0)}
           >
             <div
               style={{
@@ -248,13 +273,30 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
             >
               {t("destination_title")}
             </div>
-            <TextField
-              variant="standard"
-              fullWidth
-              placeholder={t("destination_input")}
-              style={{
-                marginTop: "25px",
-              }}
+            <Autocomplete
+              style={{ width: "100%", marginTop: "20px" }}
+              options={countryList}
+              autoHighlight
+              getOptionLabel={(option: any) => option.name}
+              renderOption={(props: any, option: any) => (
+                <Box
+                  component="li"
+                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                  {...props}
+                >
+                  {option.name}
+                </Box>
+              )}
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label={t("destination_input")}
+                  inputProps={{
+                    ...params.inputProps,
+                    autoComplete: "new-password",
+                  }}
+                />
+              )}
               value={destination}
               onChange={handleDestination}
             />
@@ -357,7 +399,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   onClick={() => handleNoteImage("BasicNote")}
                 />
                 <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
-                  {t('basic_note_text')}
+                  {t("basic_note_text")}
                 </Typography>
               </div>
               <div
@@ -379,7 +421,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                   onClick={() => handleNoteImage("SpringNote")}
                 />
                 <Typography style={{ fontSize: "1rem", marginTop: "5px" }}>
-                  {t('spring_note_text')}
+                  {t("spring_note_text")}
                 </Typography>
               </div>
             </div>
@@ -402,10 +444,10 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
               </div>
               <div style={{ marginTop: "20px", marginBottom: "30px" }}>
                 <Image
-                  src="/NewTripPlaceholder.png"
-                  alt="My Image"
-                  width={200}
-                  height={200}
+                  src={`/create-trip/${noteImage}Final.svg`}
+                  alt="Final Note Image"
+                  width={270}
+                  height={270}
                 />
               </div>
 
@@ -426,7 +468,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
                     {t("container_destination")}
                   </Grid>
                   <Grid item xs={6} style={styles.resultValueStyle}>
-                    {destination}
+                    {destination?.name}
                   </Grid>
                 </Grid>
 
