@@ -18,6 +18,7 @@ import SwipableCards from "./(components)/SwipableCards";
 
 // CONSTANTS
 import { BackgroundColor, DefaultButtonColor } from "./constants";
+import TripObject from "./(object-types)/TripObject";
 
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -94,7 +95,7 @@ export default function Home() {
 
       {/* Body */}
       <div style={{ marginTop: "10%" }}>
-        <SwipableCards />
+        <SwipableCards trips={tripList}/>
       </div>
 
       {/* Add Travel Button */}
@@ -141,3 +142,32 @@ export default function Home() {
     </div>
   );
 }
+
+const tripList: readonly TripObject[] = [
+  {
+    "budget": 2000.12,
+    "countryName": "Japan",
+    "description": "sample-description",
+    "endDate": "2024-01-05",
+    "title": "Trip to Japan",
+    "startDate": "2024-01-02",
+    "bookType": "blue",
+  },
+  {
+    "budget": 2000.12,
+    "countryName": "Japan",
+    "description": "sample-description",
+    "endDate": "2024-01-05",
+    "title": "Tour Canada",
+    "startDate": "2024-01-02",
+    "bookType": "blue",
+  },
+  {
+    "budget": 2000.12,
+    "countryName": "Japan",
+    "description": "sample-description",
+    "endDate": "2024-01-05",
+    "title": "Fun with Friends",
+    "startDate": "2024-01-02",
+    "bookType": "blue",
+  }]

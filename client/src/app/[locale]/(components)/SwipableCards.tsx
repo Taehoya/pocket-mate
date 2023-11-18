@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
+import TripObject from "../(object-types)/TripObject";
 
 const cards = [
   { title: "Card 1", content: "This is the first card." },
@@ -8,7 +9,12 @@ const cards = [
   { title: "Card 3", content: "This is the third card." },
 ];
 
-const SwipeableCards = () => {
+
+interface SwipeableCardsProps {
+  trips: TripObject[]; 
+}
+
+const SwipeableCards: React.FC<SwipeableCardsProps>  = ({trips}) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   const handleIndexChange = (index: number) => {
@@ -43,14 +49,14 @@ const SwipeableCards = () => {
           overflow: "hidden",
         }}
       >
-        {cards.map((card, index) => (
+        {trips.map((trip: TripObject, index: number) => (
           <div
             key={index}
             style={index === activeIndex ? activeCardStyle : cardStyle}
           >
             <CardContent>
-              <Typography variant="h5">{card.title}</Typography>
-              <Typography>{card.content}</Typography>
+              <Typography variant="h5">{trip.title}</Typography>
+              <Typography>{trip.description}</Typography>
             </CardContent>
           </div>
         ))}
