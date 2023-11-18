@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/country": {
+        "/v1/countries": {
             "get": {
                 "description": "get a list of all available countires",
                 "consumes": [
@@ -48,8 +48,33 @@ const docTemplate = `{
                 }
             }
         },
-        "/trip": {
+        "/v1/healthcheck": {
             "get": {
+                "description": "check server status",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "default"
+                ],
+                "summary": "check server status",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResponseDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/trips": {
+            "get": {
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
                 "description": "get trip",
                 "consumes": [
                     "application/json"
@@ -60,12 +85,21 @@ const docTemplate = `{
                 "tags": [
                     "trip"
                 ],
-                "summary": "Get all trip",
+                "summary": "get trip",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/entities.Trip"
+                            "$ref": "#/definitions/dto.TripStatusResponseDTO"
                         }
                     },
                     "400": {
@@ -73,11 +107,216 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.ErrorResponseDTO"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "description": "register trip",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "register trip",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "register trip",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TripRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
                     }
                 }
             }
         },
-        "/user": {
+        "/v1/trips/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "description": "update trip",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "update trip",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "update trip",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TripRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "description": "delete trip",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "delete trip",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users": {
             "post": {
                 "description": "Register a new user",
                 "consumes": [
@@ -123,7 +362,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/login": {
+        "/v1/users/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -218,6 +457,99 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.TripRequestDTO": {
+            "type": "object",
+            "required": [
+                "budget",
+                "countryId",
+                "description",
+                "endDateTime",
+                "name",
+                "startDateTime"
+            ],
+            "properties": {
+                "budget": {
+                    "type": "number",
+                    "example": 2000.12
+                },
+                "countryId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "description": {
+                    "type": "string",
+                    "example": "sample-description"
+                },
+                "endDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "sample-name"
+                },
+                "startDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                }
+            }
+        },
+        "dto.TripResponseDTO": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "type": "number",
+                    "example": 2000.12
+                },
+                "countryId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "description": {
+                    "type": "string",
+                    "example": "sample-description"
+                },
+                "endDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "sample-name"
+                },
+                "startDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                }
+            }
+        },
+        "dto.TripStatusResponseDTO": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TripResponseDTO"
+                    }
+                },
+                "future": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TripResponseDTO"
+                    }
+                },
+                "past": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TripResponseDTO"
+                    }
+                }
+            }
+        },
         "dto.UserRequestDTO": {
             "type": "object",
             "required": [
@@ -234,51 +566,6 @@ const docTemplate = `{
                     "example": "test-password"
                 }
             }
-        },
-        "entities.Trip": {
-            "type": "object",
-            "properties": {
-                "Budget": {
-                    "type": "number",
-                    "example": 2000.12
-                },
-                "CountryId": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "CreatedAt": {
-                    "type": "string",
-                    "example": "2023-05-29"
-                },
-                "DeletedAt": {
-                    "type": "string",
-                    "example": "2023-05-29"
-                },
-                "Description": {
-                    "type": "string",
-                    "example": "sample-description"
-                },
-                "EndDateTime": {
-                    "type": "string",
-                    "example": "2023-08-29"
-                },
-                "ID": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "Name": {
-                    "type": "string",
-                    "example": "sample-name"
-                },
-                "StartDateTime": {
-                    "type": "string",
-                    "example": "2023-05-29"
-                },
-                "UpdatedAt": {
-                    "type": "string",
-                    "example": "2023-05-29"
-                }
-            }
         }
     }
 }`
@@ -286,8 +573,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0.0",
-	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	Host:             "",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Pocket Mate API",
 	Description:      "This is a pocket-mate server api",

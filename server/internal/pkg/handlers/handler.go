@@ -27,18 +27,30 @@ func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase, UserUseCase Use
 func (h *Handler) InitRoutes() http.Handler {
 	engine := gin.Default()
 	engine.Use(middlewares.LoggingMiddleware())
-	engine.GET("/healthcheck", healthCheck())
 	engine.GET("/", healthCheck())
 
 	apiGroup := engine.Group("api/v1")
-	apiGroup.POST("/user", h.Register)
-	apiGroup.POST("/user/login", h.Login)
-	apiGroup.GET("/country", h.GetCountries)
+	apiGroup.GET("/healthcheck", healthCheck())
+	apiGroup.GET("/countries", h.GetCountries)
+	apiGroup.POST("/users", h.Register)
+	apiGroup.POST("/users/login", h.Login)
+	apiGroup.GET("/trips", middlewares.JwtAuthMiddleware(), h.GetTrip)
+	apiGroup.POST("/trips", middlewares.JwtAuthMiddleware(), h.RegisterTrip)
+	apiGroup.DELETE("/trips/:id", middlewares.JwtAuthMiddleware(), h.DeleteTrip)
+	apiGroup.PUT("/trips/:id", middlewares.JwtAuthMiddleware(), h.UpdateTrip)
 
 	engine.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return engine
 }
 
+// healthcheck
+//
+// @Summary			check server status
+// @Description		check server status
+// @Tags			default
+// @Produce			json
+// @Success			200	{object}	dto.BaseResponseDTO
+// @Router			/v1/healthcheck [get]
 func healthCheck() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{

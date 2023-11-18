@@ -4,20 +4,20 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Taehoya/go-utils/mysql"
+	"github.com/Taehoya/go-utils/mysqltest"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSaveUser(t *testing.T) {
-	db, err := mysql.InitTestDB()
+	db, err := mysqltest.InitDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully save user", func(t *testing.T) {
-		defer mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./teardown_test.sql")
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
 
 		nickname := "test-nickname"
 		email := "test-email"
@@ -36,16 +36,16 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	db, err := mysql.InitTestDB()
+	db, err := mysqltest.InitDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully get user", func(t *testing.T) {
-		defer mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "setup_test.sql")
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "setup_test.sql")
 
 		email := "test-email"
 
@@ -59,16 +59,16 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestGetUserById(t *testing.T) {
-	db, err := mysql.InitTestDB()
+	db, err := mysqltest.InitDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewUserRepository(db)
 
 	t.Run("Successfully get user by id", func(t *testing.T) {
-		defer mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "setup_test.sql")
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "setup_test.sql")
 
 		id := 1
 		expectedNickName := "test-nickname"

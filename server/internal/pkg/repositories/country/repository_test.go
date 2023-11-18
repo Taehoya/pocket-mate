@@ -4,22 +4,22 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Taehoya/go-utils/mysql"
+	"github.com/Taehoya/go-utils/mysqltest"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetCountryAll(t *testing.T) {
-	db, err := mysql.InitTestDB()
+	db, err := mysqltest.InitDB()
 	assert.NoError(t, err)
 	defer db.Close()
 
 	repository := NewCountryRepository(db)
 
 	t.Run("successfully get list of countries", func(t *testing.T) {
-		defer mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./setup_test.sql")
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./setup_test.sql")
 
 		expected := []*entities.Country{
 			entities.NewCountry(1, "AF", "Afghanistan", "؋"),

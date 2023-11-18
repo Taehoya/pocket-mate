@@ -10,15 +10,16 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	var direction string
 
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("failed to load .env file")
-	// }
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("failed to load .env file")
+	}
 
 	flag.StringVar(&direction, "direction", "up", "migrate cmd: up or down")
 	flag.Parse()
@@ -43,13 +44,13 @@ func main() {
 
 	if direction == "up" {
 		if err := migrate.Up(); err != nil {
-			log.Printf("failed to migrate up ")
+			log.Printf("failed to migrate up: %v", err)
 		}
 	}
 
 	if direction == "down" {
 		if err := migrate.Down(); err != nil {
-			log.Printf("failed to migrate down")
+			log.Printf("failed to migrate down :%v", err)
 			return
 		}
 	}

@@ -25,7 +25,7 @@ type UserUseCase interface {
 // @Success			200	{object}	dto.BaseResponseDTO
 // @Failure			400	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/user [post]
+// @Router			/v1/users [post]
 func (h *Handler) Register(ctx *gin.Context) {
 	var req dto.UserRequestDTO
 
@@ -57,7 +57,7 @@ func (h *Handler) Register(ctx *gin.Context) {
 // @Success			200 {object}	dto.TokenDTO
 // @Failure			400	{object}	dto.ErrorResponseDTO
 // @Failure			500	{object}	dto.ErrorResponseDTO
-// @Router			/user/login [post]
+// @Router			/v1/users/login [post]
 func (h *Handler) Login(ctx *gin.Context) {
 	var req dto.UserRequestDTO
 

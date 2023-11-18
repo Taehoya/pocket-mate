@@ -21,7 +21,7 @@ type CountryUsecase interface {
 // @Produce			json
 // @Success 		200 {object}	[]dto.CountryResponseDTO
 // @Failure			500	{object}    dto.ErrorResponseDTO
-// @Router			/country [get]
+// @Router			/v1/countries [get]
 func (h *Handler) GetCountries(ctx *gin.Context) {
 	countries, err := h.CountryUsecase.GetCountries(ctx)
 

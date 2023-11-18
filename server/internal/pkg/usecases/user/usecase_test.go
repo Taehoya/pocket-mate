@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Taehoya/go-utils/mysql"
+	"github.com/Taehoya/go-utils/mysqltest"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	mocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/user"
 	repo "github.com/Taehoya/pocket-mate/internal/pkg/repositories/user"
@@ -58,12 +58,12 @@ func TestGet(t *testing.T) {
 // Currently test is integration test because of encrpyt function
 func TestRegister(t *testing.T) {
 	t.Run("successfully register user", func(t *testing.T) {
-		db, err := mysql.InitTestDB()
+		db, err := mysqltest.InitDB()
 		assert.NoError(t, err)
 		defer db.Close()
 
-		defer mysql.SetUp(db, "./teardown_test.sql")
-		mysql.SetUp(db, "./teardown_test.sql")
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
 
 		email := "test-email"
 		password := "test-password"

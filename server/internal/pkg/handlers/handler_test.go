@@ -19,7 +19,7 @@ func TestHealthCheck(t *testing.T) {
 	handler := New(tripUseCase, countryUseCase, userUseCase)
 	router := handler.InitRoutes()
 
-	request, err := http.NewRequest(http.MethodGet, "/healthcheck", nil)
+	request, err := http.NewRequest(http.MethodGet, "/api/v1/healthcheck", nil)
 	assert.NoError(t, err)
 
 	router.ServeHTTP(rr, request)
