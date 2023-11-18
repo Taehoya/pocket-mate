@@ -29,6 +29,7 @@
     "container_start_date": "Start Date",
     "container_end_date": "End Date",
     "button_next": "Next",
+    "button_final": "Create New Trip",
     "character": "Characters"
   }
 }

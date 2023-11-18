@@ -33,7 +33,8 @@ const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4", "step 5"];
 interface StepPageProps {
   children: ReactNode;
   buttonClick: () => void;
-  isDisable: Boolean;
+  isDisable?: Boolean;
+  step?: number;
 }
 
 interface MultiPageFormProps {
@@ -70,6 +71,7 @@ const StepPage: React.FC<StepPageProps> = ({
   children,
   buttonClick,
   isDisable = true,
+  step = 0,
 }) => {
   const t = useTranslations("TripCreation");
 
@@ -108,7 +110,7 @@ const StepPage: React.FC<StepPageProps> = ({
             padding: "10px 0px",
           }}
         >
-          {t("button_next")}
+          {step === (steps.length - 1) ? t("button_final") : t("button_next") }
         </Button>
       </div>
     </div>
@@ -428,7 +430,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
           </StepPage>
         )}
         {activeStep === 5 && (
-          <StepPage buttonClick={() => {}} isDisable={false}>
+          <StepPage buttonClick={() => {}} isDisable={false} step={activeStep}>
             <div
               style={{
                 display: "flex",
