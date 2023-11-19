@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
 import { useTranslations } from "next-intl";
 import { Divider, Typography, Button, Link, TextField } from "@mui/material";
 
@@ -48,6 +49,34 @@ const SSOButton: React.FC<SSOButtonProps> = ({
 
 const LoginPage = () => {
   const t = useTranslations("LoginPage");
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmailText(event.target.value);
+    setLoginError(null);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPasswordText(event.target.value);
+    setLoginError(null);
+  };
+
+  const handleLogin = async () => {
+    try {
+      await axios
+        .post("/api/v1/users/login", {
+          email: emailText,
+          password: passwordText,
+        })
+        .then((result: any) => {
+          if (result.status === 200) window.location.href = "/";
+        });
+    } catch (error: any) {
+      setLoginError("Invalid email or password. Please try again.");
+    }
+  };
 
   return (
     <div
@@ -124,7 +153,7 @@ const LoginPage = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: "12%",
+            marginTop: "8%",
             width: "70%",
           }}
         >
@@ -133,13 +162,18 @@ const LoginPage = () => {
             variant="outlined"
             fullWidth
             style={{ marginBottom: "10px" }}
+            onChange={handleEmailChange}
           />
           <TextField
             label={t("password_text")}
             variant="outlined"
             fullWidth
-            style={{ marginBottom: "20px" }}
+            style={{ marginBottom: "5px" }}
+            onChange={handlePasswordChange}
           />
+          <Typography color="red" fontSize="0.7rem" style={{ height: "20px" }}>
+            {loginError}
+          </Typography>
           <Button
             style={{
               width: "160px",
@@ -148,6 +182,7 @@ const LoginPage = () => {
               backgroundColor: DefaultButtonColor,
               color: "inherit",
             }}
+            onClick={handleLogin}
           >
             {t("login_button")}
           </Button>
@@ -155,7 +190,12 @@ const LoginPage = () => {
 
         {/* Divider */}
         <div
-          style={{ display: "flex", width: "70%", justifyContent: "center", margin: "6% 0px" }}
+          style={{
+            display: "flex",
+            width: "70%",
+            justifyContent: "center",
+            margin: "6% 0px",
+          }}
         >
           <Divider
             sx={{
@@ -208,12 +248,12 @@ const LoginPage = () => {
             textDecoration: "none",
           }}
         >
-          <a href="/register" style={{ marginRight: "20px" }}>
+          <a style={{ marginRight: "20px" }}>
             Register
           </a>
           <div>{"|"}</div>
-          <a href="/login" style={{ marginLeft: "20px" }}>
-            Login
+          <a style={{ marginLeft: "20px" }}>
+            Guest
           </a>
         </div>
       </div>
