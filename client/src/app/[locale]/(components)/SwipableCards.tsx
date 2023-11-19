@@ -1,14 +1,7 @@
 import React from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, CardContent, Typography } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
-
-const cards = [
-  { title: "Card 1", content: "This is the first card." },
-  { title: "Card 2", content: "This is the second card." },
-  { title: "Card 3", content: "This is the third card." },
-];
-
 
 interface SwipeableCardsProps {
   trips: TripObject[]; 
