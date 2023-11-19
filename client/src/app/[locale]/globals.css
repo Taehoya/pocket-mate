@@ -19,6 +19,7 @@ body {
   color: rgb(var(--background-end-rgb));
   background-color: rgb(var(--background-color-default));
   overflow: hidden;
+  width: "100%",
 }
 
 /* Set a transparent background */

@@ -29,6 +29,7 @@
     "container_start_date": "여행 시작일",
     "container_end_date": "여행 종료일",
     "button_next": "즐거운 여행 함께 해봐요~",
+    "button_final": "Create New Trip",
     "character": "자"
   }
 }

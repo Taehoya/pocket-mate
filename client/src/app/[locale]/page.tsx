@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import MultiPageForm from "./(page-components)/MultiPageForm";
+import SwipableCards from "./(components)/SwipableCards";
 import {
   Button,
   Dialog,
@@ -14,14 +15,17 @@ import {
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
 import WindowIcon from "@mui/icons-material/Window";
-import SwipableCards from "./(components)/SwipableCards";
+import ListIcon from '@mui/icons-material/FormatListBulleted';
 
 // CONSTANTS
 import { BackgroundColor, DefaultButtonColor } from "./constants";
+import TripObject from "./(object-types)/TripObject";
+import GridCards from "./(components)/GridCards";
 
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("coming-soon");
+  const [swipeView, setSwipeView] = useState(true);
 
   const addTravelNote = () => {
     setIsFormOpen(true);
@@ -29,6 +33,10 @@ export default function Home() {
 
   const closeTravelNote = () => {
     setIsFormOpen(false);
+  };
+
+  const controlChangeView = () => {
+    setSwipeView(!swipeView);
   };
 
   const handleDropdown = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -86,15 +94,15 @@ export default function Home() {
           </Select>
 
           {/* Change View */}
-          <IconButton>
-            <WindowIcon />
+          <IconButton onClick={controlChangeView}>
+            {swipeView ? <WindowIcon /> : <ListIcon/>}
           </IconButton>
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ marginTop: "10%" }}>
-        <SwipableCards />
+      <div style={{ marginTop: "10%", height: "100%"}}>
+        {swipeView ? <SwipableCards trips={tripList} /> : <GridCards trips={tripList} />}
       </div>
 
       {/* Add Travel Button */}
@@ -141,3 +149,51 @@ export default function Home() {
     </div>
   );
 }
+
+const tripList: TripObject[] = [
+  {
+    budget: 2000.12,
+    countryName: "Japan",
+    description: "sample-description",
+    endDate: "2024-01-05",
+    title: "Trip to Japan",
+    startDate: "2024-01-02",
+    bookType: "blue",
+  },
+  {
+    budget: 2000.12,
+    countryName: "Japan",
+    description: "sample-description",
+    endDate: "2024-01-05",
+    title: "Tour Canada",
+    startDate: "2024-01-02",
+    bookType: "blue",
+  },
+  {
+    budget: 2000.12,
+    countryName: "Japan",
+    description: "sample-description",
+    endDate: "2024-01-05",
+    title: "Fun with Friends",
+    startDate: "2024-01-02",
+    bookType: "blue",
+  },
+  {
+    budget: 2000.12,
+    countryName: "Japan",
+    description: "sample-description",
+    endDate: "2024-01-05",
+    title: "Journey to the Earth",
+    startDate: "2024-01-02",
+    bookType: "blue",
+  },
+  {
+    budget: 2000.12,
+    countryName: "Japan",
+    description: "sample-description",
+    endDate: "2024-01-05",
+    title: "Fun with Friends",
+    startDate: "2024-01-02",
+    bookType: "blue",
+  },
+];
