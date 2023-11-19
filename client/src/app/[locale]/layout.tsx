@@ -18,7 +18,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body style={{ margin: 0 }}>
+      <body style={{ margin: 0}}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

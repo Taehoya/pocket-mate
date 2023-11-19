@@ -4,10 +4,10 @@ import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
 
 interface SwipeableCardsProps {
-  trips: TripObject[]; 
+  trips: TripObject[];
 }
 
-const SwipeableCards: React.FC<SwipeableCardsProps>  = ({trips}) => {
+const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   const [activeIndex, setActiveIndex] = React.useState(0);
 
   const handleIndexChange = (index: number) => {
@@ -15,7 +15,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps>  = ({trips}) => {
   };
 
   const cardStyle = {
-    width: "300px",
+    width: "92%",
     height: "400px",
     borderRadius: "20px",
     overflow: "hidden",
@@ -30,16 +30,17 @@ const SwipeableCards: React.FC<SwipeableCardsProps>  = ({trips}) => {
   };
 
   return (
-    <Box>
+    <Box style={{ height: "100%"}}>
       <SwipeableViews
         index={activeIndex}
         onChangeIndex={handleIndexChange}
-        style={{ padding: "10px 30px" }}
+        style={{ padding: "10px 30px", height: "100%"}}
         slideStyle={{
           padding: "20px 0px",
           display: "flex",
           justifyContent: "center",
           overflow: "hidden",
+          height: "100%",
         }}
       >
         {trips.map((trip: TripObject, index: number) => (
