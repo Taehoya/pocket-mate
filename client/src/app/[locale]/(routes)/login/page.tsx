@@ -168,6 +168,7 @@ const LoginPage = () => {
             label={t("password_text")}
             variant="outlined"
             fullWidth
+            type="password"
             style={{ marginBottom: "5px" }}
             onChange={handlePasswordChange}
           />
@@ -248,13 +249,9 @@ const LoginPage = () => {
             textDecoration: "none",
           }}
         >
-          <a style={{ marginRight: "20px" }}>
-            Register
-          </a>
+          <a style={{ marginRight: "20px" }}>Register</a>
           <div>{"|"}</div>
-          <a style={{ marginLeft: "20px" }}>
-            Guest
-          </a>
+          <a style={{ marginLeft: "20px" }}>Guest</a>
         </div>
       </div>
     </div>
