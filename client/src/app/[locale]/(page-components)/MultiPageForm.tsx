@@ -4,10 +4,8 @@ import React, { useState, useEffect, ReactNode, ChangeEvent } from "react";
 import {
   Box,
   Stepper,
-  Step,
   Button,
   IconButton,
-  Paper,
   LinearProgress,
   Typography,
   TextField,
@@ -16,17 +14,18 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
-import { DateRange } from "react-date-range";
+import { DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useTranslations } from "next-intl";
-import axios from 'axios';
+import axios from "axios";
 
 import Image from "next/image";
 
 // CONSTANTS
 import { DefaultButtonColor } from "../constants";
+import DatePicker from "../(components)/DatePicker";
 
 const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4", "step 5"];
 
@@ -110,7 +109,7 @@ const StepPage: React.FC<StepPageProps> = ({
             padding: "10px 0px",
           }}
         >
-          {step === (steps.length - 1) ? t("button_final") : t("button_next") }
+          {step === steps.length - 1 ? t("button_final") : t("button_next")}
         </Button>
       </div>
     </div>
@@ -128,14 +127,13 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   const [countryList, setCountryList] = useState([]);
   const t = useTranslations("TripCreation");
 
-
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const countries = await axios.get('/api/v1/countries');
+        const countries = await axios.get("/api/v1/countries");
         setCountryList(countries.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchCountries();
@@ -152,12 +150,9 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
     }
   };
 
-  const handleDateChange = (ranges: {
-    selection: { startDate: Date; endDate: Date };
-  }) => {
-    const { selection } = ranges;
-    setStartDate(selection.startDate);
-    setEndDate(selection.endDate);
+  const handleDateChange = (ranges: DateRange) => {
+    setStartDate(ranges.from);
+    setEndDate(ranges.to);
   };
 
   const handleDestination = (
@@ -280,15 +275,19 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
               options={countryList}
               autoHighlight
               getOptionLabel={(option: any) => option.name}
-              renderOption={(props: any, option: any) => (
-                <Box
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...props}
-                >
-                  {option.name}
-                </Box>
-              )}
+              renderOption={(props: any, option: any) => {
+                const { key, ...otherProps } = props;
+                return (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    key={key}
+                    {...otherProps}
+                  >
+                    {option.name}
+                  </Box>
+                );
+              }}
               renderInput={(params: any) => (
                 <TextField
                   {...params}
@@ -316,19 +315,12 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
               {t("date_title")}
             </div>
             <div style={{ marginTop: "30px" }}>
-              <DateRange
-                ranges={[
-                  {
-                    startDate: startDate,
-                    endDate: endDate,
-                    key: "selection",
-                  },
-                ]}
-                onChange={handleDateChange}
-                editableDateInputs={true}
-                moveRangeOnFirstSelection={false}
-                showDateDisplay={false}
-                // rangeColors={["yellow", "#3ecf8e", "#fed14c"]}
+              <DatePicker
+                handleDateChange={handleDateChange}
+                range={{
+                  from: startDate,
+                  to: endDate,
+                }}
               />
             </div>
           </StepPage>

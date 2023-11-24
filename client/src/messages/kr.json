@@ -1,4 +1,7 @@
 {
+  "DatePicker":{
+    "language": "korean"
+  },
   "LoginPage": {
     "lang": "korean",
     "login_title": "여행할 때 필요한 친구,",
