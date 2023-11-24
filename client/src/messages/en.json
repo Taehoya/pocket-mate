@@ -1,4 +1,7 @@
 {
+  "DatePicker":{
+    "language": "english"
+  },
   "LoginPage": {
     "lang": "english",
     "login_title": "Friend for Trip,",

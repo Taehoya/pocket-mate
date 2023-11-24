@@ -1,4 +1,4 @@
-type TripObject {
+type TripObject = {
     budget: number;
     countryName: string;
     description: string;
