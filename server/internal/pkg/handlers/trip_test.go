@@ -12,6 +12,7 @@ import (
 	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	countryMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/country"
+	transactionMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/transaction"
 	tripMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/trip"
 	userMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/user"
 	pathutil "github.com/Taehoya/pocket-mate/internal/pkg/utils/path"
@@ -31,7 +32,8 @@ func TestRegisterTrip(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		name := "test-name"
@@ -75,7 +77,8 @@ func TestGetTrips(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		userId := 1
@@ -106,7 +109,8 @@ func TestUpdateTrip(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		tripId := 1
@@ -152,7 +156,8 @@ func TestDeleteTrip(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		userId := 1

@@ -11,6 +11,7 @@ import (
 	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	countryMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/country"
+	transactionMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/transaction"
 	tripMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/trip"
 	userMocks "github.com/Taehoya/pocket-mate/internal/pkg/mocks/user"
 	"github.com/stretchr/testify/assert"
@@ -23,7 +24,8 @@ func TestRegister(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		email := "test-email"
@@ -53,7 +55,8 @@ func TestLogin(t *testing.T) {
 		tripUseCase := tripMocks.NewTripUseCase()
 		countryUseCase := countryMocks.NewCountryUseCase()
 		userUseCase := userMocks.NewUserUeseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase)
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
 		router := handler.InitRoutes()
 
 		email := "test-email"
