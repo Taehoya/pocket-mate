@@ -37,8 +37,8 @@ func (m *TransactionRepositoryMock) DeleteTransaction(ctx context.Context, trans
 	return r0
 }
 
-func (m *TransactionRepositoryMock) UpdateTransaction(ctx context.Context, transactionId int, name string, amount float64, categoryId int, description string, transactionDateTime time.Time) error {
-	ret := m.Called(ctx, transactionId, name, amount, categoryId, description, transactionDateTime)
+func (m *TransactionRepositoryMock) UpdateTransaction(ctx context.Context, tripId int, userId int, name string, amount float64, categoryId int, description string, transactionDateTime time.Time, transactionId int) error {
+	ret := m.Called(ctx, tripId, userId, name, amount, categoryId, description, transactionDateTime, transactionId)
 
 	var r0 error
 	if ret.Get(0) != nil {
