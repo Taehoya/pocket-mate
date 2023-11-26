@@ -11,16 +11,18 @@ import (
 )
 
 type Handler struct {
-	TripUseCase    TripUseCase
-	CountryUsecase CountryUsecase
-	UserUseCase    UserUseCase
+	TripUseCase        TripUseCase
+	CountryUsecase     CountryUsecase
+	UserUseCase        UserUseCase
+	TransactionUseCase TransactionUseCase
 }
 
-func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase, UserUseCase UserUseCase) *Handler {
+func New(TripUseCase TripUseCase, CountryUseCase CountryUsecase, UserUseCase UserUseCase, TransactionUseCase TransactionUseCase) *Handler {
 	return &Handler{
-		TripUseCase:    TripUseCase,
-		CountryUsecase: CountryUseCase,
-		UserUseCase:    UserUseCase,
+		TripUseCase:        TripUseCase,
+		CountryUsecase:     CountryUseCase,
+		UserUseCase:        UserUseCase,
+		TransactionUseCase: TransactionUseCase,
 	}
 }
 
@@ -38,6 +40,9 @@ func (h *Handler) InitRoutes() http.Handler {
 	apiGroup.POST("/trips", middlewares.JwtAuthMiddleware(), h.RegisterTrip)
 	apiGroup.DELETE("/trips/:id", middlewares.JwtAuthMiddleware(), h.DeleteTrip)
 	apiGroup.PUT("/trips/:id", middlewares.JwtAuthMiddleware(), h.UpdateTrip)
+	apiGroup.POST("/transactions", middlewares.JwtAuthMiddleware(), h.RegisterTransaction)
+	apiGroup.PUT("/transactions/:id", middlewares.JwtAuthMiddleware(), h.UpdateTransaction)
+	apiGroup.DELETE("/transactions/:id", middlewares.JwtAuthMiddleware(), h.DeleteTransaction)
 
 	engine.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return engine

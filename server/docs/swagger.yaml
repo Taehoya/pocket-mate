@@ -33,6 +33,27 @@ definitions:
         example: Bearer
         type: string
     type: object
+  dto.TransactionRequestDTO:
+    properties:
+      amount:
+        example: 2000.12
+        type: number
+      categoryId:
+        example: 1
+        type: integer
+      description:
+        example: sample-description
+        type: string
+      name:
+        example: sample-name
+        type: string
+      transactionDateTime:
+        example: "2023-11-25T15:04:05Z"
+        type: string
+      tripId:
+        example: 1
+        type: integer
+    type: object
   dto.TripRequestDTO:
     properties:
       budget:
@@ -152,6 +173,132 @@ paths:
       summary: check server status
       tags:
       - default
+  /v1/transactions:
+    post:
+      consumes:
+      - application/json
+      description: register transaction
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: register transaction
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TransactionRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.BaseResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+      security:
+      - bearer: []
+      summary: register transaction
+      tags:
+      - transaction
+  /v1/transactions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete transaction
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+      security:
+      - bearer: []
+      summary: delete transaction
+      tags:
+      - transaction
+    put:
+      consumes:
+      - application/json
+      description: update transaction
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: update transaction
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TransactionRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+      security:
+      - bearer: []
+      summary: update transaction
+      tags:
+      - transaction
   /v1/trips:
     get:
       consumes:

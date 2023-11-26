@@ -9,9 +9,11 @@ import (
 	_ "github.com/Taehoya/pocket-mate/docs"
 	handler "github.com/Taehoya/pocket-mate/internal/pkg/handlers"
 	countryRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/country"
+	transactionRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/transaction"
 	tripRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/trip"
 	userRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/user"
 	countryUseCase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/country"
+	transactionUseCase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/transaction"
 	tripUsecase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/trip"
 	userUsecase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/user"
 	"github.com/Taehoya/pocket-mate/internal/pkg/utils/config"
@@ -48,8 +50,10 @@ func main() {
 	countryUseCase := countryUseCase.NewCountryUseCase(countryRepository)
 	userRepository := userRepository.NewUserRepository(db)
 	userUsecase := userUsecase.NewUserUseCase(userRepository)
+	transactionRepository := transactionRepository.NewTransactionRepository(db)
+	transactionUseCase := transactionUseCase.NewTransactionUseCase(transactionRepository)
 
-	handler := handler.New(tripUseCase, countryUseCase, userUsecase)
+	handler := handler.New(tripUseCase, countryUseCase, userUsecase, transactionUseCase)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%s", config.Host, config.Port),
