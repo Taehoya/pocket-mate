@@ -106,6 +106,7 @@ func TestUpdateTransaction(t *testing.T) {
 
 		ctx := context.TODO()
 		transactionId := 1
+		userId := 1
 		tripId := 1
 		name := "test-name"
 		amount := 1000.0
@@ -122,8 +123,8 @@ func TestUpdateTransaction(t *testing.T) {
 			TransactionDateTime: transactionDateTime,
 		}
 
-		repository.Mock.On("UpdateTransaction", ctx, tripId, name, amount, categoryId, description, transactionDateTime).Return(nil)
-		err := usecase.UpdateTransaction(ctx, transactionId, dto)
+		repository.Mock.On("UpdateTransaction", ctx, tripId, userId, name, amount, categoryId, description, transactionDateTime, transactionId).Return(nil)
+		err := usecase.UpdateTransaction(ctx, userId, transactionId, dto)
 		assert.NoError(t, err)
 		repository.AssertExpectations(t)
 	})
@@ -133,6 +134,7 @@ func TestUpdateTransaction(t *testing.T) {
 		usecase := NewTransactionUseCase(repository)
 
 		ctx := context.TODO()
+		userId := 1
 		transactionId := 1
 		tripId := 1
 		name := "test-name"
@@ -150,8 +152,8 @@ func TestUpdateTransaction(t *testing.T) {
 			TransactionDateTime: transactionDateTime,
 		}
 
-		repository.Mock.On("UpdateTransaction", ctx, tripId, name, amount, categoryId, description, transactionDateTime).Return(fmt.Errorf("error"))
-		err := usecase.UpdateTransaction(ctx, transactionId, dto)
+		repository.Mock.On("UpdateTransaction", ctx, tripId, userId, name, amount, categoryId, description, transactionDateTime, transactionId).Return(fmt.Errorf("error"))
+		err := usecase.UpdateTransaction(ctx, userId, transactionId, dto)
 		assert.Error(t, err)
 		repository.AssertExpectations(t)
 	})
