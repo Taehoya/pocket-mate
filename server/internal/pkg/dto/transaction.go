@@ -8,5 +8,5 @@ type TransactionRequestDTO struct {
 	Amount              float64   `json:"amount" example:"2000.12"`
 	CategoryId          int       `json:"categoryId" example:"1"`
 	Description         string    `json:"description" example:"sample-description"`
-	TransactionDateTime time.Time `json:"transactionDateTime" example:"2023-11-18T15:04:05Z"`
+	TransactionDateTime time.Time `json:"transactionDateTime" example:"2023-11-25T15:04:05Z"`
 }
