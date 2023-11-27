@@ -4,7 +4,7 @@ import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
 
 interface SwipeableCardsProps {
-  trips: TripObject[];
+  trips: TripObject[] | undefined;
 }
 
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {

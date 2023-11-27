@@ -3,7 +3,7 @@ import { Box, CardContent, Typography } from "@mui/material";
 import TripObject from "../(object-types)/TripObject";
 
 interface GridCardProps {
-  trips: TripObject[];
+  trips: TripObject[] | undefined;
 }
 
 const GridCards: React.FC<GridCardProps> = ({ trips }) => {
