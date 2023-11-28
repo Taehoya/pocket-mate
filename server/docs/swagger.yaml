@@ -14,6 +14,9 @@ definitions:
       currency:
         example: $
         type: string
+      id:
+        example: 1
+        type: integer
       name:
         example: Canada
         type: string

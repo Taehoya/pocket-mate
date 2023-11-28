@@ -3,6 +3,7 @@ package dto
 import "github.com/Taehoya/pocket-mate/internal/pkg/entities"
 
 type CountryResponseDTO struct {
+	Id       int    `json:"id" example:"1"`
 	Code     string `json:"code" example:"CA"`
 	Name     string `json:"name" example:"Canada"`
 	Currency string `json:"currency" example:"$"`
@@ -10,6 +11,7 @@ type CountryResponseDTO struct {
 
 func NewCountryResponse(country *entities.Country) *CountryResponseDTO {
 	return &CountryResponseDTO{
+		Id:       country.ID(),
 		Code:     country.Code(),
 		Name:     country.Name(),
 		Currency: country.Currency(),

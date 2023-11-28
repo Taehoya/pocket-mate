@@ -624,6 +624,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "$"
                 },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
                 "name": {
                     "type": "string",
                     "example": "Canada"
