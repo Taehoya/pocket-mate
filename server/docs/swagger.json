@@ -673,6 +673,23 @@
                 }
             }
         },
+        "dto.TripNoteProperty": {
+            "type": "object",
+            "properties": {
+                "bound": {
+                    "type": "string",
+                    "example": "SpiralBound"
+                },
+                "boundColor": {
+                    "type": "string",
+                    "example": "#111111"
+                },
+                "noteColor": {
+                    "type": "string",
+                    "example": "#000000"
+                }
+            }
+        },
         "dto.TripRequestDTO": {
             "type": "object",
             "required": [
@@ -681,6 +698,7 @@
                 "description",
                 "endDateTime",
                 "name",
+                "noteProperty",
                 "startDateTime"
             ],
             "properties": {
@@ -703,6 +721,9 @@
                 "name": {
                     "type": "string",
                     "example": "sample-name"
+                },
+                "noteProperty": {
+                    "$ref": "#/definitions/dto.TripNoteProperty"
                 },
                 "startDateTime": {
                     "type": "string",
@@ -736,6 +757,9 @@
                 "name": {
                     "type": "string",
                     "example": "sample-name"
+                },
+                "noteProperty": {
+                    "$ref": "#/definitions/dto.TripNoteProperty"
                 },
                 "startDateTime": {
                     "type": "string",

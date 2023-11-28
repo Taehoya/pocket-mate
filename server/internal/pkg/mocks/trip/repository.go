@@ -16,8 +16,8 @@ func NewTripRepositoryMock() *TripRepositoryMock {
 	return new(TripRepositoryMock)
 }
 
-func (m *TripRepositoryMock) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, startDateTime time.Time, endDateTime time.Time) error {
-	ret := m.Called(ctx, name, userId, budget, countryId, description, startDateTime, endDateTime)
+func (m *TripRepositoryMock) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error {
+	ret := m.Called(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
 
 	var r0 error
 	if ret.Get(0) != nil {
@@ -54,8 +54,8 @@ func (m *TripRepositoryMock) DeleteTrip(ctx context.Context, tripId int) error {
 	return r0
 }
 
-func (m *TripRepositoryMock) UpdateTrip(ctx context.Context, tripId int, name string, budget float64, countryId int, description string, startDateTime time.Time, endDateTime time.Time) error {
-	ret := m.Called(ctx, tripId, name, budget, countryId, description, startDateTime, endDateTime)
+func (m *TripRepositoryMock) UpdateTrip(ctx context.Context, tripId int, name string, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error {
+	ret := m.Called(ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime)
 
 	var r0 error
 	if ret.Get(0) != nil {

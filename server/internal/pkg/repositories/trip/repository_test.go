@@ -27,11 +27,16 @@ func TestSaveTrip(t *testing.T) {
 		userId := 1
 		budget := 1000.0
 		countryId := 1
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
 		description := "test-description"
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err := repository.SaveTrip(ctx, name, userId, budget, countryId, description, startDateTime, endDateTime)
+		err = repository.SaveTrip(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
 	})
 }
@@ -50,9 +55,14 @@ func TestGetTrip(t *testing.T) {
 
 		ctx := context.TODO()
 		userId := 1
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "test-note-color",
+			BoundColor: "test-bound-color",
+		}
 
 		expected := []*entities.Trip{
-			entities.NewTrip(1, "test-name", 1, 1.0000, "test-description", time.Now(), time.Now(), time.Now(), time.Now()),
+			entities.NewTrip(1, "test-name", 1, 1.0000, "test-description", note, time.Now(), time.Now(), time.Now(), time.Now()),
 		}
 
 		trips, err := repository.GetTrip(ctx, userId)
@@ -105,10 +115,16 @@ func TestUpdateTrip(t *testing.T) {
 		budget := 1000.0
 		countryId := 1
 		description := "updated-description"
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "test-note-color",
+			BoundColor: "test-bound-color",
+		}
+
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err := repository.UpdateTrip(ctx, userId, name, budget, countryId, description, startDateTime, endDateTime)
+		err = repository.UpdateTrip(ctx, userId, name, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
 
 		trip, err := repository.GetTripById(ctx, tripId)
