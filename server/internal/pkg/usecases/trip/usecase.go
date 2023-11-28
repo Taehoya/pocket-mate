@@ -19,7 +19,13 @@ func NewTripUseCase(repository TripRepository) *TripUseCase {
 }
 
 func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
-	return u.Repository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, dto.StartDateTime, dto.EndDateTime)
+	note := entities.Note{
+		Bound:      BoundFromString(dto.NoteProperty.Bound),
+		NoteColor:  dto.NoteProperty.NoteColor,
+		BoundColor: dto.NoteProperty.BoundColor,
+	}
+
+	return u.Repository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, note, dto.StartDateTime, dto.EndDateTime)
 }
 
 func (u *TripUseCase) GetTrips(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error) {
@@ -54,5 +60,22 @@ func (u *TripUseCase) DeleteTrip(ctx context.Context, tripId int) error {
 }
 
 func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error {
-	return u.Repository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, dto.StartDateTime, dto.EndDateTime)
+	note := entities.Note{
+		Bound:      BoundFromString(dto.NoteProperty.Bound),
+		NoteColor:  dto.NoteProperty.NoteColor,
+		BoundColor: dto.NoteProperty.BoundColor,
+	}
+
+	return u.Repository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, note, dto.StartDateTime, dto.EndDateTime)
+}
+
+func BoundFromString(s string) entities.Bound {
+	switch s {
+	case "SpiralBound":
+		return entities.SpiralBound
+	case "GlueBound":
+		return entities.GlueBound
+	default:
+		return entities.SpiralBound
+	}
 }

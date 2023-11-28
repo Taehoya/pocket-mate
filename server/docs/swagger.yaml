@@ -54,6 +54,18 @@ definitions:
         example: 1
         type: integer
     type: object
+  dto.TripNoteProperty:
+    properties:
+      bound:
+        example: SpiralBound
+        type: string
+      boundColor:
+        example: '#111111'
+        type: string
+      noteColor:
+        example: '#000000'
+        type: string
+    type: object
   dto.TripRequestDTO:
     properties:
       budget:
@@ -71,6 +83,8 @@ definitions:
       name:
         example: sample-name
         type: string
+      noteProperty:
+        $ref: '#/definitions/dto.TripNoteProperty'
       startDateTime:
         example: "2024-01-02T15:04:05Z"
         type: string
@@ -80,6 +94,7 @@ definitions:
     - description
     - endDateTime
     - name
+    - noteProperty
     - startDateTime
     type: object
   dto.TripResponseDTO:
@@ -102,6 +117,8 @@ definitions:
       name:
         example: sample-name
         type: string
+      noteProperty:
+        $ref: '#/definitions/dto.TripNoteProperty'
       startDateTime:
         example: "2024-01-02T15:04:05Z"
         type: string

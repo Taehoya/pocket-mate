@@ -7,13 +7,20 @@ import (
 )
 
 type TripResponseDTO struct {
-	ID            int       `json:"id" example:"1"`
-	Name          string    `json:"name" example:"sample-name"`
-	Budget        float64   `json:"budget" example:"2000.12"`
-	CountryId     int       `json:"countryId" example:"1"`
-	Description   string    `json:"description" example:"sample-description"`
-	StartDateTime time.Time `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
-	EndDateTime   time.Time `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
+	ID            int              `json:"id" example:"1"`
+	Name          string           `json:"name" example:"sample-name"`
+	Budget        float64          `json:"budget" example:"2000.12"`
+	CountryId     int              `json:"countryId" example:"1"`
+	NoteProperty  TripNoteProperty `json:"noteProperty"`
+	Description   string           `json:"description" example:"sample-description"`
+	StartDateTime time.Time        `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
+	EndDateTime   time.Time        `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
+}
+
+type TripNoteProperty struct {
+	Bound      string `json:"bound" example:"SpiralBound"`
+	NoteColor  string `json:"noteColor" example:"#000000"`
+	BoundColor string `json:"boundColor" example:"#111111"`
 }
 
 type TripStatusResponseDTO struct {
@@ -23,12 +30,13 @@ type TripStatusResponseDTO struct {
 }
 
 type TripRequestDTO struct {
-	Name          string    `json:"name" binding:"required" example:"sample-name"`
-	Budget        float64   `json:"budget" binding:"required" example:"2000.12"`
-	CountryId     int       `json:"countryId" binding:"required" example:"1"`
-	Description   string    `json:"description" binding:"required" example:"sample-description"`
-	StartDateTime time.Time `json:"startDateTime" binding:"required" example:"2024-01-02T15:04:05Z"`
-	EndDateTime   time.Time `json:"endDateTime" binding:"required" example:"2024-01-02T15:04:05Z"`
+	Name          string           `json:"name" binding:"required" example:"sample-name"`
+	Budget        float64          `json:"budget" binding:"required" example:"2000.12"`
+	CountryId     int              `json:"countryId" binding:"required" example:"1"`
+	Description   string           `json:"description" binding:"required" example:"sample-description"`
+	NoteProperty  TripNoteProperty `json:"noteProperty" binding:"required"`
+	StartDateTime time.Time        `json:"startDateTime" binding:"required" example:"2024-01-02T15:04:05Z"`
+	EndDateTime   time.Time        `json:"endDateTime" binding:"required" example:"2024-01-02T15:04:05Z"`
 }
 
 func NewTripResponse(trip *entities.Trip) *TripResponseDTO {
@@ -38,6 +46,7 @@ func NewTripResponse(trip *entities.Trip) *TripResponseDTO {
 		Budget:        trip.Budget(),
 		CountryId:     trip.CountryID(),
 		Description:   trip.Description(),
+		NoteProperty:  TripNoteProperty{Bound: trip.Note().Bound.String(), NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
 		StartDateTime: trip.StartDateTime(),
 		EndDateTime:   trip.EndDateTime(),
 	}

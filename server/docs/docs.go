@@ -681,6 +681,23 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.TripNoteProperty": {
+            "type": "object",
+            "properties": {
+                "bound": {
+                    "type": "string",
+                    "example": "SpiralBound"
+                },
+                "boundColor": {
+                    "type": "string",
+                    "example": "#111111"
+                },
+                "noteColor": {
+                    "type": "string",
+                    "example": "#000000"
+                }
+            }
+        },
         "dto.TripRequestDTO": {
             "type": "object",
             "required": [
@@ -689,6 +706,7 @@ const docTemplate = `{
                 "description",
                 "endDateTime",
                 "name",
+                "noteProperty",
                 "startDateTime"
             ],
             "properties": {
@@ -711,6 +729,9 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "sample-name"
+                },
+                "noteProperty": {
+                    "$ref": "#/definitions/dto.TripNoteProperty"
                 },
                 "startDateTime": {
                     "type": "string",
@@ -744,6 +765,9 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "sample-name"
+                },
+                "noteProperty": {
+                    "$ref": "#/definitions/dto.TripNoteProperty"
                 },
                 "startDateTime": {
                     "type": "string",

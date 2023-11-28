@@ -26,17 +26,23 @@ func TestRegisterTrip(t *testing.T) {
 		description := "test-description"
 		startDateTime := time.Now()
 		endDateTime := time.Now()
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
 
 		dto := dto.TripRequestDTO{
 			Name:          name,
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
+			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
 
-		repository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, startDateTime, endDateTime).Return(nil)
+		repository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(nil)
 		err := usecase.RegisterTrip(ctx, userId, dto)
 		assert.NoError(t, err)
 		repository.AssertExpectations(t)
@@ -54,17 +60,23 @@ func TestRegisterTrip(t *testing.T) {
 		description := "test-description"
 		startDateTime := time.Now()
 		endDateTime := time.Now()
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
 
 		dto := dto.TripRequestDTO{
 			Name:          name,
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
+			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
 
-		repository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, startDateTime, endDateTime).Return(fmt.Errorf("error"))
+		repository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(fmt.Errorf("error"))
 		err := usecase.RegisterTrip(ctx, userId, dto)
 		assert.Error(t, err)
 		repository.AssertExpectations(t)
@@ -140,17 +152,23 @@ func TestUpdateTrip(t *testing.T) {
 		description := "test-description"
 		startDateTime := time.Now()
 		endDateTime := time.Now()
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
 
 		dto := dto.TripRequestDTO{
 			Name:          name,
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
+			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
 
-		repository.Mock.On("UpdateTrip", ctx, tripId, name, budget, countryId, description, startDateTime, endDateTime).Return(nil)
+		repository.Mock.On("UpdateTrip", ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime).Return(nil)
 		err := usecase.UpdateTrip(ctx, tripId, dto)
 		assert.NoError(t, err)
 		repository.AssertExpectations(t)
@@ -168,17 +186,23 @@ func TestUpdateTrip(t *testing.T) {
 		description := "test-description"
 		startDateTime := time.Now()
 		endDateTime := time.Now()
+		note := entities.Note{
+			Bound:      entities.GlueBound,
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
 
 		dto := dto.TripRequestDTO{
 			Name:          name,
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
+			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
 
-		repository.Mock.On("UpdateTrip", ctx, tripId, name, budget, countryId, description, startDateTime, endDateTime).Return(fmt.Errorf("error"))
+		repository.Mock.On("UpdateTrip", ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime).Return(fmt.Errorf("error"))
 		err := usecase.UpdateTrip(ctx, tripId, dto)
 		assert.Error(t, err)
 		repository.AssertExpectations(t)
