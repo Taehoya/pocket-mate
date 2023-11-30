@@ -3,11 +3,16 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
+	"os"
+	"path"
 	"time"
 
+	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
+	pathutil "github.com/Taehoya/pocket-mate/internal/pkg/utils/path"
 )
 
 type TransactionRepository struct {
@@ -138,4 +143,31 @@ func (r *TransactionRepository) GetTransactionById(ctx context.Context, transact
 	}
 
 	return transaction, nil
+}
+
+func (t *TransactionRepository) GetTransactionOptions() ([]*dto.TransactionOption, error) {
+	rootPath, err := pathutil.GetProjectRootDir()
+	if err != nil {
+		log.Printf("failed to get project root directory: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	sourceFile := path.Join(rootPath, "internal/pkg", "resources", "category.json")
+	file, err := os.Open(sourceFile)
+	if err != nil {
+		log.Printf("failed to open file: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+	defer file.Close()
+
+	var transactionOptions []*dto.TransactionOption
+	decoder := json.NewDecoder(file)
+
+	err = decoder.Decode(&transactionOptions)
+	if err != nil {
+		log.Printf("failed to decode json: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	return transactionOptions, nil
 }

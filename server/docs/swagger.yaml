@@ -36,6 +36,21 @@ definitions:
         example: Bearer
         type: string
     type: object
+  dto.TransactionOption:
+    properties:
+      id:
+        example: 1
+        type: integer
+      image:
+        example: food_icon.png
+        type: string
+      name_en:
+        example: Food
+        type: string
+      name_ko:
+        example: 음식
+        type: string
+    type: object
   dto.TransactionRequestDTO:
     properties:
       amount:
@@ -317,6 +332,29 @@ paths:
       security:
       - bearer: []
       summary: update transaction
+      tags:
+      - transaction
+  /v1/transactions/options:
+    get:
+      description: get transaction option
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TransactionOption'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+      summary: get transaction option
       tags:
       - transaction
   /v1/trips:

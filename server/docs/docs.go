@@ -132,6 +132,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/transactions/options": {
+            "get": {
+                "description": "get transaction option",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "get transaction option",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TransactionOption"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/transactions/{id}": {
             "put": {
                 "security": [
@@ -653,6 +688,27 @@ const docTemplate = `{
                 "token_type": {
                     "type": "string",
                     "example": "Bearer"
+                }
+            }
+        },
+        "dto.TransactionOption": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "image": {
+                    "type": "string",
+                    "example": "food_icon.png"
+                },
+                "name_en": {
+                    "type": "string",
+                    "example": "Food"
+                },
+                "name_ko": {
+                    "type": "string",
+                    "example": "음식"
                 }
             }
         },

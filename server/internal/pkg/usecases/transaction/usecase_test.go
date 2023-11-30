@@ -158,3 +158,25 @@ func TestUpdateTransaction(t *testing.T) {
 		repository.AssertExpectations(t)
 	})
 }
+
+func TestGetTransactionOption(t *testing.T) {
+	t.Run("successfully get transaction option", func(t *testing.T) {
+		repository := mocks.NewTransactionRepositoryMock()
+		usecase := NewTransactionUseCase(repository)
+
+		transactionOptions := []*dto.TransactionOption{
+			{
+				Id:     1,
+				NameKo: "테스트",
+				NameEn: "test-name",
+				Image:  "test-image",
+			},
+		}
+
+		repository.Mock.On("GetTransactionOptions").Return(transactionOptions, nil)
+		result, err := usecase.GetTransactionOptions()
+		assert.NoError(t, err)
+		assert.NotNil(t, result)
+		repository.AssertExpectations(t)
+	})
+}

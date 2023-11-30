@@ -14,6 +14,7 @@ type TransactionUseCase interface {
 	RegisterTransaction(ctx context.Context, userId int, dto dto.TransactionRequestDTO) error
 	UpdateTransaction(ctx context.Context, userId int, transactionId int, dto dto.TransactionRequestDTO) error
 	DeleteTransaction(ctx context.Context, transactionId int) error
+	GetTransactionOptions() ([]*dto.TransactionOption, error)
 }
 
 // register transaction
@@ -154,4 +155,26 @@ func (h *Handler) UpdateTransaction(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "success",
 	})
+}
+
+// get transaction option
+//
+// @Summary			get transaction option
+// @Description		get transaction option
+// @Tags			transaction
+// @Produce			json
+// @Success			200	{object}	[]dto.TransactionOption
+// @Failure			400 {object}	dto.ErrorResponseDTO
+// @Failure			500	{object}	dto.ErrorResponseDTO
+// @Router			/v1/transactions/options [get]
+func (h *Handler) GetTransactionOptions(ctx *gin.Context) {
+	options, err := h.TransactionUseCase.GetTransactionOptions()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, options)
 }
