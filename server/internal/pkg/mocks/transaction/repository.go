@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -46,4 +47,19 @@ func (m *TransactionRepositoryMock) UpdateTransaction(ctx context.Context, tripI
 	}
 
 	return r0
+}
+
+func (m *TransactionRepositoryMock) GetTransactionOptions() ([]*dto.TransactionOption, error) {
+	ret := m.Called()
+	var r0 []*dto.TransactionOption
+	if ret.Get(0) != nil {
+		r0 = ret.Get(0).([]*dto.TransactionOption)
+	}
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
 }

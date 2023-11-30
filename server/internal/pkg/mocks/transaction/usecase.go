@@ -46,3 +46,18 @@ func (m *TransactionUseCaseMock) DeleteTransaction(ctx context.Context, transact
 
 	return r0
 }
+
+func (m *TransactionUseCaseMock) GetTransactionOptions() ([]*dto.TransactionOption, error) {
+	ret := m.Called()
+	var r0 []*dto.TransactionOption
+	if ret.Get(0) != nil {
+		r0 = ret.Get(0).([]*dto.TransactionOption)
+	}
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
+}
