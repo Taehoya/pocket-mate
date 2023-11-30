@@ -27,3 +27,7 @@ func (u *TransactionUsecase) UpdateTransaction(ctx context.Context, userId int, 
 func (u *TransactionUsecase) DeleteTransaction(ctx context.Context, transactionId int) error {
 	return u.repository.DeleteTransaction(ctx, transactionId)
 }
+
+func (u *TransactionUsecase) GetTransactionOptions() ([]*dto.TransactionOption, error) {
+	return u.repository.GetTransactionOptions()
+}
