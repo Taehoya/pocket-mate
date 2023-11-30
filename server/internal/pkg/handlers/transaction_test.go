@@ -149,3 +149,35 @@ func TestUpdateTransaction(t *testing.T) {
 		assert.Equal(t, 200, rr.Code)
 	})
 }
+
+func TestGetTransactionOption(t *testing.T) {
+	t.Run("successfully get transaction options", func(t *testing.T) {
+		projectRootDir, _ := pathutil.GetProjectRootDir()
+		err := godotenv.Load(fmt.Sprintf("%s/.env", projectRootDir))
+		assert.NoError(t, err)
+
+		rr := httptest.NewRecorder()
+		tripUseCase := tripMocks.NewTripUseCase()
+		countryUseCase := countryMocks.NewCountryUseCase()
+		userUseCase := userMocks.NewUserUeseCase()
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
+		router := handler.InitRoutes()
+
+		options := []*dto.TransactionOption{
+			{
+				Id:     1,
+				NameKo: "테스트",
+				NameEn: "test-name",
+				Image:  "test-image",
+			},
+		}
+
+		transactionUseCase.On("GetTransactionOptions").Return(options, nil)
+		request, err := http.NewRequest(http.MethodGet, "/api/v1/transactions/options", nil)
+		assert.NoError(t, err)
+
+		router.ServeHTTP(rr, request)
+		assert.Equal(t, 200, rr.Code)
+	})
+}

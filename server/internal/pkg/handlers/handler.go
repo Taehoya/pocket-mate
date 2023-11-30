@@ -41,6 +41,7 @@ func (h *Handler) InitRoutes() http.Handler {
 	apiGroup.DELETE("/trips/:id", middlewares.JwtAuthMiddleware(), h.DeleteTrip)
 	apiGroup.PUT("/trips/:id", middlewares.JwtAuthMiddleware(), h.UpdateTrip)
 	apiGroup.POST("/transactions", middlewares.JwtAuthMiddleware(), h.RegisterTransaction)
+	apiGroup.GET("/transactions/options", h.GetTransactionOptions)
 	apiGroup.PUT("/transactions/:id", middlewares.JwtAuthMiddleware(), h.UpdateTransaction)
 	apiGroup.DELETE("/transactions/:id", middlewares.JwtAuthMiddleware(), h.DeleteTransaction)
 
