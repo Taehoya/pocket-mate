@@ -115,3 +115,17 @@ func TestDeleteTransaction(t *testing.T) {
 		assert.Nil(t, trip)
 	})
 }
+
+func TestGetTransactionOption(t *testing.T) {
+	db, err := mysqltest.InitDB()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	repository := NewTransactionRepository(db)
+
+	t.Run("Successfully get transaction option", func(t *testing.T) {
+		transactionOption, err := repository.GetTransactionOptions()
+		assert.NoError(t, err)
+		assert.NotNil(t, transactionOption)
+	})
+}
