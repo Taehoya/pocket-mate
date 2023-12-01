@@ -1,38 +1,38 @@
 [
     {
         "id": 0,
-        "image": "etc_icon",
+        "image": "etc_icon.png",
         "name_en": "etc",
         "name_ko": "기타"
     },
     {
-        "id": 2,
-        "image": "food_icon",
+        "id": 1,
+        "image": "food_icon.png",
         "name_en": "food",
         "name_ko": "식사"
     },
     {
-        "id": 3,
+        "id": 2,
         "name": "food",
-        "image": "food_icon",
+        "image": "food_icon.png",
         "name_en": "tour",
         "name_ko": "관광"
     },
     {
-        "id": 4,
-        "image": "food_icon",
+        "id": 3,
+        "image": "food_icon.png",
         "name_en": "transporation",
         "name_ko": "교통"
     },
     {
-        "id": 5,
-        "image": "shopping_icon",
+        "id": 4,
+        "image": "hotel_icon.png",
         "name_en": "hotel",
         "name_ko": "숙박"
     },
     {
-        "id": 6,
-        "image": "shopping_icon",
+        "id": 5,
+        "image": "shopping_icon.png",
         "name_en": "shopping",
         "name_ko": "쇼핑"
     }
