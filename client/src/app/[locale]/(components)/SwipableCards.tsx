@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -14,7 +14,7 @@ interface SwipeableCardsProps {
 }
 
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleIndexChange = (index: number) => {
     setActiveIndex(index);
@@ -49,8 +49,9 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
         }}
       >
         {trips?.map((trip: TripObject, index: number) => {
-          const startDate = new Date(trip.startDateTime).toLocaleDateString();
-          const endDate = new Date(trip.endDateTime).toLocaleDateString();
+          const startDate = new Date(trip.startDateTime);
+          const endDate = new Date(trip.endDateTime);
+          const duration = 1 + (endDate.getTime() - startDate.getTime()) / 24;
           return (
             <div
               key={index}
@@ -90,7 +91,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                     }}
                   >
                     <img src="https://flagsapi.com/CA/flat/64.png" />
-                    <Typography>5 days</Typography>
+                    <Typography>{duration} days</Typography>
                   </div>
 
                   {/* Body Section */}
@@ -98,7 +99,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                     variant="h6"
                     color="white"
                     sx={{
-                      flex: 5,
+                      flex: 4,
                       display: "flex",
                       alignItems: "center",
                     }}
@@ -124,7 +125,8 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                     }}
                   >
                     <Typography fontSize="0.8rem" color="white">
-                      {startDate} - {endDate}
+                      {startDate.toLocaleDateString()} -{" "}
+                      {endDate.toLocaleDateString()}
                     </Typography>
                   </div>
                 </div>
