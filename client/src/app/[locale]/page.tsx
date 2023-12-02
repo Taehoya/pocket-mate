@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MultiPageForm from "./(page-components)/MultiPageForm";
 import SwipableCards from "./(components)/SwipableCards";
 import {
@@ -11,14 +11,19 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
 import WindowIcon from "@mui/icons-material/Window";
-import ListIcon from '@mui/icons-material/FormatListBulleted';
+import ListIcon from "@mui/icons-material/FormatListBulleted";
 
 // CONSTANTS
-import { BackgroundColor, DefaultButtonColor } from "./constants";
+import {
+  BackgroundColor,
+  DefaultButtonColor,
+  HomeBackgroundColor,
+} from "./constants";
 import TripObject from "./(object-types)/TripObject";
 import GridCards from "./(components)/GridCards";
 
@@ -26,6 +31,32 @@ export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("coming-soon");
   const [swipeView, setSwipeView] = useState(true);
+  const [pastTripList, setPastTripList] = useState<TripObject[] | undefined>();
+  const [futureTripList, setFutureTripList] = useState<
+    TripObject[] | undefined
+  >();
+  const [tripList, setTripList] = useState<TripObject[]>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const accessToken = sessionStorage.getItem("access_token");
+    if (!accessToken) window.location.href = "/login";
+    else {
+      fetchTrips(accessToken);
+    }
+  }, []);
+
+  const fetchTrips = async (token: String) => {
+    setLoading(true);
+    const trips = await axios.get("/api/v1/trips", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setPastTripList(trips.data.past);
+    setFutureTripList(trips.data.future);
+    setTripList(trips.data.future);
+    console.log(trips);
+    setLoading(false);
+  };
 
   const addTravelNote = () => {
     setIsFormOpen(true);
@@ -40,7 +71,10 @@ export default function Home() {
   };
 
   const handleDropdown = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDropdownValue(event.target.value as string);
+    const time = event.target.value as string;
+    setDropdownValue(time);
+    if (time === "past") setTripList(pastTripList);
+    else setTripList(futureTripList);
   };
 
   return (
@@ -49,6 +83,7 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
+        backgroundColor: HomeBackgroundColor,
       }}
     >
       {/* Header */}
@@ -56,6 +91,7 @@ export default function Home() {
         style={{
           marginTop: "3%",
           textAlign: "center",
+          flex: 2,
         }}
       >
         {/* Title Text */}
@@ -95,15 +131,21 @@ export default function Home() {
 
           {/* Change View */}
           <IconButton onClick={controlChangeView}>
-            {swipeView ? <WindowIcon /> : <ListIcon/>}
+            {swipeView ? <WindowIcon /> : <ListIcon />}
           </IconButton>
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ marginTop: "10%", height: "100%"}}>
-        {swipeView ? <SwipableCards trips={tripList} /> : <GridCards trips={tripList} />}
-      </div>
+      {!loading && (
+        <div style={{flex: 8 }}>
+          {swipeView ? (
+            <SwipableCards trips={tripList} />
+          ) : (
+            <GridCards trips={tripList} />
+          )}
+        </div>
+      )}
 
       {/* Add Travel Button */}
       <div
@@ -114,7 +156,7 @@ export default function Home() {
           justifyContent: "flex-end",
           alignItems: "center",
           width: "100%",
-          marginBottom: "15%",
+          paddingBottom: "15%",
         }}
       >
         <Button
@@ -149,51 +191,3 @@ export default function Home() {
     </div>
   );
 }
-
-const tripList: TripObject[] = [
-  {
-    budget: 2000.12,
-    countryName: "Japan",
-    description: "sample-description",
-    endDate: "2024-01-05",
-    title: "Trip to Japan",
-    startDate: "2024-01-02",
-    bookType: "blue",
-  },
-  {
-    budget: 2000.12,
-    countryName: "Japan",
-    description: "sample-description",
-    endDate: "2024-01-05",
-    title: "Tour Canada",
-    startDate: "2024-01-02",
-    bookType: "blue",
-  },
-  {
-    budget: 2000.12,
-    countryName: "Japan",
-    description: "sample-description",
-    endDate: "2024-01-05",
-    title: "Fun with Friends",
-    startDate: "2024-01-02",
-    bookType: "blue",
-  },
-  {
-    budget: 2000.12,
-    countryName: "Japan",
-    description: "sample-description",
-    endDate: "2024-01-05",
-    title: "Journey to the Earth",
-    startDate: "2024-01-02",
-    bookType: "blue",
-  },
-  {
-    budget: 2000.12,
-    countryName: "Japan",
-    description: "sample-description",
-    endDate: "2024-01-05",
-    title: "Fun with Friends",
-    startDate: "2024-01-02",
-    bookType: "blue",
-  },
-];

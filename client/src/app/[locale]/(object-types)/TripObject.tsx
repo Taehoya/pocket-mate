@@ -1,11 +1,16 @@
 type TripObject = {
-    budget: number;
-    countryName: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    title: string;
-    bookType: string;
+  id: number;
+  budget: number;
+  countryID: number;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  name: string;
+  noteProperty: {
+    bound: string,
+    boundColor: string,
+    noteColor: string
   }
-  
+};
+
 export default TripObject;

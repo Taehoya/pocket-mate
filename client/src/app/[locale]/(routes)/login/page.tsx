@@ -71,7 +71,11 @@ const LoginPage = () => {
           password: passwordText,
         })
         .then((result: any) => {
-          if (result.status === 200) window.location.href = "/";
+          if (result.status === 200) {
+            const accessToken = result.data.access_token;
+            sessionStorage.setItem("access_token", accessToken);
+            window.location.href = "/";
+          }
         });
     } catch (error: any) {
       setLoginError("Invalid email or password. Please try again.");

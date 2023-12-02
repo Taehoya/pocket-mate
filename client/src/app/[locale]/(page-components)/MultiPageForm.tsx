@@ -41,6 +41,7 @@ interface MultiPageFormProps {
 }
 
 interface CountryType {
+  id: number;
   code: string;
   name: string;
   currency: string;
@@ -172,6 +173,35 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  };
+
+  const submitForm = async () => {
+    const accessToken = sessionStorage.getItem("access_token");
+    if (accessToken) {
+      await axios.post(
+        "/api/v1/trips",
+        {
+          budget: 5450,
+          countryId: destination?.id,
+          description: "A trip for the ages!",
+          endDateTime: endDate,
+          name: title,
+          noteProperty: {
+            bound: "SpiralBound",
+            boundColor: "#111111",
+            noteColor: "#000000",
+          },
+          startDateTime: startDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      closeForm();
+    }
   };
 
   return (
@@ -422,7 +452,11 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
           </StepPage>
         )}
         {activeStep === 5 && (
-          <StepPage buttonClick={() => {}} isDisable={false} step={activeStep}>
+          <StepPage
+            buttonClick={submitForm}
+            isDisable={false}
+            step={activeStep}
+          >
             <div
               style={{
                 display: "flex",
