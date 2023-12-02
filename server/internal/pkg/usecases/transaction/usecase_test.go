@@ -169,7 +169,6 @@ func TestGetTransactionOption(t *testing.T) {
 				Id:     1,
 				NameKo: "테스트",
 				NameEn: "test-name",
-				Image:  "test-image",
 			},
 		}
 

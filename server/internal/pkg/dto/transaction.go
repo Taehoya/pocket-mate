@@ -15,5 +15,4 @@ type TransactionOption struct {
 	Id     int    `json:"id" example:"1"`
 	NameKo string `json:"name_ko" example:"음식"`
 	NameEn string `json:"name_en" example:"Food"`
-	Image  string `json:"image" example:"food_icon.png"`
 }
