@@ -415,6 +415,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/trips/options": {
+            "get": {
+                "description": "get trip option",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "get trip option",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TripNoteOptions"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/trips/{id}": {
             "put": {
                 "security": [
@@ -698,10 +733,6 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
-                "image": {
-                    "type": "string",
-                    "example": "food_icon.png"
-                },
                 "name_en": {
                     "type": "string",
                     "example": "Food"
@@ -741,16 +772,35 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.TripNoteOptions": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "default": 0,
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "default": "spiralbound",
+                    "example": "spiralbound"
+                }
+            }
+        },
         "dto.TripNoteProperty": {
             "type": "object",
             "properties": {
-                "bound": {
-                    "type": "string",
-                    "example": "SpiralBound"
-                },
                 "boundColor": {
                     "type": "string",
                     "example": "#111111"
+                },
+                "boundId": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/entities.Bound"
+                        }
+                    ],
+                    "example": 1
                 },
                 "noteColor": {
                     "type": "string",
@@ -874,6 +924,17 @@ const docTemplate = `{
                     "example": "test-password"
                 }
             }
+        },
+        "entities.Bound": {
+            "type": "integer",
+            "enum": [
+                0,
+                1
+            ],
+            "x-enum-varnames": [
+                "SpiralBound",
+                "GlueBound"
+            ]
         }
     }
 }`

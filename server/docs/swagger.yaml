@@ -41,9 +41,6 @@ definitions:
       id:
         example: 1
         type: integer
-      image:
-        example: food_icon.png
-        type: string
       name_en:
         example: Food
         type: string
@@ -72,14 +69,26 @@ definitions:
         example: 1
         type: integer
     type: object
+  dto.TripNoteOptions:
+    properties:
+      id:
+        default: 0
+        example: 1
+        type: integer
+      name:
+        default: spiralbound
+        example: spiralbound
+        type: string
+    type: object
   dto.TripNoteProperty:
     properties:
-      bound:
-        example: SpiralBound
-        type: string
       boundColor:
         example: '#111111'
         type: string
+      boundId:
+        allOf:
+        - $ref: '#/definitions/entities.Bound'
+        example: 1
       noteColor:
         example: '#000000'
         type: string
@@ -168,6 +177,14 @@ definitions:
     - Email
     - Password
     type: object
+  entities.Bound:
+    enum:
+    - 0
+    - 1
+    type: integer
+    x-enum-varnames:
+    - SpiralBound
+    - GlueBound
 info:
   contact: {}
   description: This is a pocket-mate server api
@@ -515,6 +532,29 @@ paths:
       security:
       - bearer: []
       summary: update trip
+      tags:
+      - trip
+  /v1/trips/options:
+    get:
+      description: get trip option
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TripNoteOptions'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseDTO'
+      summary: get trip option
       tags:
       - trip
   /v1/users:
