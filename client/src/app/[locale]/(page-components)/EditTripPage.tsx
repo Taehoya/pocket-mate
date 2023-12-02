@@ -137,6 +137,11 @@ const EditTripPage = () => {
         <Typography sx={{ flexGrow: 1, textAlign: "center" }}>TETS </Typography>
         <EditField fieldTitle="Trip Name" />
         <EditField fieldTitle="Travel To" />
+        <EditField fieldTitle="Start Date" />
+        <EditField fieldTitle="End Date" />
+        <EditField fieldTitle="Currency Unit" />
+        <EditField fieldTitle="Travel Note Type" />
+        <EditField fieldTitle="Travel Note Color" />
       </Box>
     </div>
   );
