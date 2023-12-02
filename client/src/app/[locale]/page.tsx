@@ -19,7 +19,11 @@ import WindowIcon from "@mui/icons-material/Window";
 import ListIcon from "@mui/icons-material/FormatListBulleted";
 
 // CONSTANTS
-import { BackgroundColor, DefaultButtonColor } from "./constants";
+import {
+  BackgroundColor,
+  DefaultButtonColor,
+  HomeBackgroundColor,
+} from "./constants";
 import TripObject from "./(object-types)/TripObject";
 import GridCards from "./(components)/GridCards";
 
@@ -28,13 +32,14 @@ export default function Home() {
   const [dropdownValue, setDropdownValue] = useState("coming-soon");
   const [swipeView, setSwipeView] = useState(true);
   const [pastTripList, setPastTripList] = useState<TripObject[] | undefined>();
-  const [futureTripList, setFutureTripList] = useState<TripObject[] | undefined>();
+  const [futureTripList, setFutureTripList] = useState<
+    TripObject[] | undefined
+  >();
   const [tripList, setTripList] = useState<TripObject[]>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const accessToken = sessionStorage.getItem("access_token");
-    console.log(accessToken);
     if (!accessToken) window.location.href = "/login";
     else {
       fetchTrips(accessToken);
@@ -49,6 +54,7 @@ export default function Home() {
     setPastTripList(trips.data.past);
     setFutureTripList(trips.data.future);
     setTripList(trips.data.future);
+    console.log(trips);
     setLoading(false);
   };
 
@@ -67,7 +73,7 @@ export default function Home() {
   const handleDropdown = (event: React.ChangeEvent<{ value: unknown }>) => {
     const time = event.target.value as string;
     setDropdownValue(time);
-    if(time === "past") setTripList(pastTripList);
+    if (time === "past") setTripList(pastTripList);
     else setTripList(futureTripList);
   };
 
@@ -77,6 +83,7 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
+        backgroundColor: HomeBackgroundColor,
       }}
     >
       {/* Header */}
@@ -84,6 +91,7 @@ export default function Home() {
         style={{
           marginTop: "3%",
           textAlign: "center",
+          flex: 2,
         }}
       >
         {/* Title Text */}
@@ -129,13 +137,15 @@ export default function Home() {
       </div>
 
       {/* Body */}
-      {!loading && <div style={{ marginTop: "10%", height: "100%" }}>
-        {swipeView ? (
-          <SwipableCards trips={tripList} />
-        ) : (
-          <GridCards trips={tripList} />
-        )}
-      </div>}
+      {!loading && (
+        <div style={{flex: 8 }}>
+          {swipeView ? (
+            <SwipableCards trips={tripList} />
+          ) : (
+            <GridCards trips={tripList} />
+          )}
+        </div>
+      )}
 
       {/* Add Travel Button */}
       <div
@@ -146,7 +156,7 @@ export default function Home() {
           justifyContent: "flex-end",
           alignItems: "center",
           width: "100%",
-          marginBottom: "15%",
+          paddingBottom: "15%",
         }}
       >
         <Button
@@ -181,4 +191,3 @@ export default function Home() {
     </div>
   );
 }
-

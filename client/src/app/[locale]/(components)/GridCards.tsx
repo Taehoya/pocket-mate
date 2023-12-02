@@ -26,7 +26,7 @@ const GridCards: React.FC<GridCardProps> = ({ trips }) => {
         overflowY: "scroll",
       }}
     >
-      {trips.map((trip: TripObject, index: number) => (
+      {trips?.map((trip: TripObject, index: number) => (
         <div key={index} style={cardStyle}>
           <CardContent style={{ fontSize: "1rem" }}>
             <Typography>{trip.title}</Typography>

@@ -1,7 +1,13 @@
 import React from "react";
-import { Box, CardContent, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
 import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
+
+// CONSTANTS
+import { HomeBackgroundColor, DefaultButtonColor } from "../constants";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 interface SwipeableCardsProps {
   trips: TripObject[] | undefined;
@@ -15,26 +21,25 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   };
 
   const cardStyle = {
+    display: "flex",
+    justifyContent: "flex-end", // to make the content be on right side
     width: "92%",
     height: "400px",
     borderRadius: "20px",
     overflow: "hidden",
     transition: "transform 0.3s",
-    position: "relative",
-    backgroundColor: "lightblue",
-  };
-
-  const activeCardStyle = {
-    ...cardStyle,
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundColor: HomeBackgroundColor,
+    color: "#E5E5E5",
   };
 
   return (
-    <Box style={{ height: "100%"}}>
+    <Box style={{ height: "100%" }}>
       <SwipeableViews
         index={activeIndex}
         onChangeIndex={handleIndexChange}
-        style={{ padding: "10px 30px", height: "100%"}}
+        style={{ padding: "10px 32px", height: "100%" }}
         slideStyle={{
           padding: "20px 0px",
           display: "flex",
@@ -43,17 +48,120 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
           height: "100%",
         }}
       >
-        {trips.map((trip: TripObject, index: number) => (
-          <div
-            key={index}
-            style={index === activeIndex ? activeCardStyle : cardStyle}
-          >
-            <CardContent>
-              <Typography variant="h5">{trip.title}</Typography>
-              <Typography>{trip.description}</Typography>
-            </CardContent>
-          </div>
-        ))}
+        {trips?.map((trip: TripObject, index: number) => {
+          const startDate = new Date(trip.startDateTime).toLocaleDateString();
+          const endDate = new Date(trip.endDateTime).toLocaleDateString();
+          return (
+            <div
+              key={index}
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {/* Trip Book */}
+              <div
+                style={{
+                  ...cardStyle,
+                  backgroundImage: `url('/trip/${trip?.noteProperty?.bound}.svg')`,
+                }}
+              >
+                {/* Section withou Binder */}
+                <div
+                  style={{
+                    width: "85%",
+                    height: "100%",
+                    paddingRight: "10%",
+                    paddingLeft: "20%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {/* Head Section */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginTop: "20%",
+                    }}
+                  >
+                    <img src="https://flagsapi.com/CA/flat/64.png" />
+                    <Typography>5 days</Typography>
+                  </div>
+
+                  {/* Body Section */}
+                  <Typography
+                    variant="h6"
+                    color="white"
+                    sx={{
+                      flex: 5,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {trip.name}
+                  </Typography>
+
+                  {/* Cash Section */}
+                  <Typography
+                    variant="h4"
+                    color="white"
+                    sx={{
+                      flex: 1,
+                    }}
+                  >
+                    $ {trip.budget}
+                  </Typography>
+
+                  {/* Footer Section */}
+                  <div
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    <Typography fontSize="0.8rem" color="white">
+                      {startDate} - {endDate}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+
+              {/* Group */}
+              <div
+                style={{
+                  width: "80%",
+                  height: "30px",
+                  marginTop: "10%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <AvatarGroup total={8}>
+                  <Avatar alt="Remy Sharp" src="/" sx={{ bgcolor: "green" }} />
+                  <Avatar
+                    alt="Agnes Walker"
+                    src="/"
+                    sx={{ bgcolor: "lightblue" }}
+                  />
+                  <Avatar
+                    alt="Trevor Henderson"
+                    src="/"
+                    sx={{ bgcolor: "red" }}
+                  />
+                </AvatarGroup>
+                <Avatar
+                  sx={{ marginLeft: "3%", backgroundColor: DefaultButtonColor }}
+                >
+                  <GroupAddIcon />
+                </Avatar>
+              </div>
+            </div>
+          );
+        })}
       </SwipeableViews>
     </Box>
   );
