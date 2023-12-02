@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	"github.com/stretchr/testify/mock"
 )
@@ -63,4 +64,19 @@ func (m *TripRepositoryMock) UpdateTrip(ctx context.Context, tripId int, name st
 	}
 
 	return r0
+}
+
+func (m *TripRepositoryMock) GetTripOptions() ([]*dto.TripNoteOptions, error) {
+	ret := m.Called()
+	var r0 []*dto.TripNoteOptions
+	if ret.Get(0) != nil {
+		r0 = ret.Get(0).([]*dto.TripNoteOptions)
+	}
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
 }

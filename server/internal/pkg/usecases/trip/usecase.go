@@ -20,7 +20,7 @@ func NewTripUseCase(repository TripRepository) *TripUseCase {
 
 func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
 	note := entities.Note{
-		Bound:      BoundFromString(dto.NoteProperty.Bound),
+		Bound:      BoundFromString(dto.NoteProperty.Id.String()),
 		NoteColor:  dto.NoteProperty.NoteColor,
 		BoundColor: dto.NoteProperty.BoundColor,
 	}
@@ -61,12 +61,16 @@ func (u *TripUseCase) DeleteTrip(ctx context.Context, tripId int) error {
 
 func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error {
 	note := entities.Note{
-		Bound:      BoundFromString(dto.NoteProperty.Bound),
+		Bound:      BoundFromString(dto.NoteProperty.Id.String()),
 		NoteColor:  dto.NoteProperty.NoteColor,
 		BoundColor: dto.NoteProperty.BoundColor,
 	}
 
 	return u.Repository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, note, dto.StartDateTime, dto.EndDateTime)
+}
+
+func (u *TripUseCase) GetTripOptions() ([]*dto.TripNoteOptions, error) {
+	return u.Repository.GetTripOptions()
 }
 
 func BoundFromString(s string) entities.Bound {

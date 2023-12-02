@@ -16,6 +16,7 @@ type TripUseCase interface {
 	GetTrips(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error)
 	DeleteTrip(ctx context.Context, tripId int) error
 	UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error
+	GetTripOptions() ([]*dto.TripNoteOptions, error)
 }
 
 // register trip
@@ -184,4 +185,26 @@ func (h *Handler) UpdateTrip(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "success",
 	})
+}
+
+// get trip option
+//
+// @Summary			get trip note option
+// @Description		get trip note option
+// @Tags			trip
+// @Produce			json
+// @Success			200	{object}	[]dto.TripNoteOptions
+// @Failure			400 {object}	dto.ErrorResponseDTO
+// @Failure			500	{object}	dto.ErrorResponseDTO
+// @Router			/v1/trips/options [get]
+func (h *Handler) GetTripOptions(ctx *gin.Context) {
+	options, err := h.TripUseCase.GetTripOptions()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, options)
 }

@@ -18,15 +18,20 @@ type TripResponseDTO struct {
 }
 
 type TripNoteProperty struct {
-	Bound      string `json:"bound" example:"SpiralBound"`
-	NoteColor  string `json:"noteColor" example:"#000000"`
-	BoundColor string `json:"boundColor" example:"#111111"`
+	Id         entities.Bound `json:"boundId" example:"1"`
+	NoteColor  string         `json:"noteColor" example:"#000000"`
+	BoundColor string         `json:"boundColor" example:"#111111"`
 }
 
 type TripStatusResponseDTO struct {
 	Future  []*TripResponseDTO `json:"future"`
 	Past    []*TripResponseDTO `json:"past"`
 	Current []*TripResponseDTO `json:"current"`
+}
+
+type TripNoteOptions struct {
+	Id   int    `json:"id" default:"0" example:"1"`
+	Name string `json:"name" default:"spiralbound" example:"spiralbound"`
 }
 
 type TripRequestDTO struct {
@@ -46,7 +51,7 @@ func NewTripResponse(trip *entities.Trip) *TripResponseDTO {
 		Budget:        trip.Budget(),
 		CountryId:     trip.CountryID(),
 		Description:   trip.Description(),
-		NoteProperty:  TripNoteProperty{Bound: trip.Note().Bound.String(), NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
+		NoteProperty:  TripNoteProperty{Id: trip.Note().Bound, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
 		StartDateTime: trip.StartDateTime(),
 		EndDateTime:   trip.EndDateTime(),
 	}

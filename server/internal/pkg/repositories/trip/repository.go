@@ -6,9 +6,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
+	"path"
 	"time"
 
+	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
+	pathutil "github.com/Taehoya/pocket-mate/internal/pkg/utils/path"
 )
 
 type TripRepository struct {
@@ -200,4 +204,31 @@ func (r *TripRepository) GetTripById(ctx context.Context, tripId int) (*entities
 	}
 
 	return trip, nil
+}
+
+func (t *TripRepository) GetTripOptions() ([]*dto.TripNoteOptions, error) {
+	rootPath, err := pathutil.GetProjectRootDir()
+	if err != nil {
+		log.Printf("failed to get project root directory: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	sourceFile := path.Join(rootPath, "internal/pkg", "resources", "note.json")
+	file, err := os.Open(sourceFile)
+	if err != nil {
+		log.Printf("failed to open file: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+	defer file.Close()
+
+	var tripOptions []*dto.TripNoteOptions
+	decoder := json.NewDecoder(file)
+
+	err = decoder.Decode(&tripOptions)
+	if err != nil {
+		log.Printf("failed to decode json: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	return tripOptions, nil
 }

@@ -37,7 +37,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: entities.GlueBound, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -71,7 +71,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: entities.GlueBound, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -163,7 +163,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: entities.GlueBound, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -197,7 +197,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: entities.GlueBound, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -205,6 +205,26 @@ func TestUpdateTrip(t *testing.T) {
 		repository.Mock.On("UpdateTrip", ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime).Return(fmt.Errorf("error"))
 		err := usecase.UpdateTrip(ctx, tripId, dto)
 		assert.Error(t, err)
+		repository.AssertExpectations(t)
+	})
+}
+
+func TestGetTripOptions(t *testing.T) {
+	t.Run("successfully get transaction option", func(t *testing.T) {
+		repository := mocks.NewTripRepositoryMock()
+		usecase := NewTripUseCase(repository)
+
+		tripOptions := []*dto.TripNoteOptions{
+			{
+				Id:   1,
+				Name: "test-name",
+			},
+		}
+
+		repository.Mock.On("GetTripOptions").Return(tripOptions, nil)
+		result, err := usecase.GetTripOptions()
+		assert.NoError(t, err)
+		assert.NotNil(t, result)
 		repository.AssertExpectations(t)
 	})
 }
