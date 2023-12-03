@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import Skeleton from '@mui/material/Skeleton';
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -138,7 +139,7 @@ export default function Home() {
 
       {/* Body */}
       {!loading && (
-        <div style={{flex: 8 }}>
+        <div style={{ flex: 8 }}>
           {swipeView ? (
             <SwipableCards trips={tripList} />
           ) : (
