@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Box, Typography, IconButton, TextField } from "@mui/material";
+import { Box, Button, Typography, IconButton, TextField } from "@mui/material";
 import { styled } from "@mui/system";
+import Image from "next/image";
 
 // ICONS
 import CloseIcon from "@mui/icons-material/Close";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 // CONSTANTS
-import { HomeBackgroundColor } from "../constants";
+import { DefaultButtonColor, HomeBackgroundColor } from "../constants";
 
 interface EditFieldProps {
   fieldType?: string;
@@ -22,7 +23,7 @@ const NoBorderTextField = styled(TextField)({
     fontWeight: "bold",
     margin: "1% 0",
     padding: 0,
-    width: "max-content",
+    width: "auto",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -46,6 +47,7 @@ const EditField: React.FC<EditFieldProps> = ({
 }) => {
   const [editMode, setEditMode] = useState(true);
   const textFieldRef = useRef<HTMLInputElement>(null);
+  const [noteImage, setNoteImage] = useState("");
   let inputComponent;
 
   useEffect(() => {
@@ -62,15 +64,22 @@ const EditField: React.FC<EditFieldProps> = ({
   };
 
   const handleBlur = () => {
-    // setEditMode(true);
+    setEditMode(true);
+  };
+
+  const handleNoteImage = (noteImage: string) => {
+    setNoteImage(noteImage);
   };
 
   switch (fieldType) {
     case "TextField":
       inputComponent = (
-        <Box sx={{ display: "flex" }} onBlur={handleBlur}>
+        <Box sx={{ display: "flex" }}>
           <NoBorderTextField
-            disabled={editMode}
+            onBlur={handleBlur}
+            InputProps={{
+              readOnly: editMode,
+            }}
             inputRef={textFieldRef}
             defaultValue="Hello world"
           />
@@ -81,6 +90,112 @@ const EditField: React.FC<EditFieldProps> = ({
       );
       break;
     case "NoteField":
+      inputComponent = (
+        <Box sx={{ display: "flex" }}>
+          {/* Basic Note */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "5%",
+              marginBottom: "2%",
+            }}
+          >
+            <Image
+              src={`/create-trip/${
+                noteImage == "BasicNote" ? "BasicNoteFilled" : "BasicNoteBlank"
+              }.svg`}
+              alt="My Image"
+              width={180}
+              height={180}
+              onClick={() => handleNoteImage("BasicNote")}
+            />
+            <Typography sx={{ fontSize: "1rem", marginTop: "5px" }}>
+              Basic Note
+            </Typography>
+          </Box>
+
+          {/* Spring Note */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "5%",
+            }}
+          >
+            <Image
+              src={`/create-trip/${
+                noteImage == "SpringNote"
+                  ? "SpringNoteFilled"
+                  : "SpringNoteBlank"
+              }.svg`}
+              alt="My Image"
+              width={180}
+              height={180}
+              onClick={() => handleNoteImage("SpringNote")}
+            />
+            <Typography sx={{ fontSize: "1rem", marginTop: "5px" }}>
+              Spring Note
+            </Typography>
+          </Box>
+        </Box>
+      );
+      break;
+    case "ColorField":
+      inputComponent = (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Color 1 */}
+          <Box
+            sx={{
+              display: "flex",
+              margin: "2% 0",
+            }}
+          >
+            <Typography fontSize="1.5rem" fontWeight="bold" sx={{ flex: 1 }}>
+              Binder
+            </Typography>
+            <Box
+              sx={{
+                flex: 1,
+                backgroundColor: "blue",
+                width: "30%",
+                borderRadius: "5px",
+              }}
+            />
+            <Box sx={{ flex: 1, marginLeft: "5%" }}>
+              <IconButton>
+                <ModeEditIcon />
+              </IconButton>
+            </Box>
+          </Box>
+          {/* Color 2 */}
+          <Box sx={{ display: "flex" }}>
+            <Typography fontSize="1.5rem" fontWeight="bold" sx={{ flex: 1 }}>
+              Body
+            </Typography>
+            <Box
+              sx={{
+                flex: 1,
+                backgroundColor: "blue",
+                width: "30%",
+                borderRadius: "5px",
+              }}
+            />
+            <Box sx={{ flex: 1, marginLeft: "5%" }}>
+              <IconButton>
+                <ModeEditIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+      );
       break;
   }
 
@@ -101,7 +216,14 @@ const EditField: React.FC<EditFieldProps> = ({
 
 const EditTripPage = () => {
   return (
-    <div style={{ position: "relative", backgroundColor: HomeBackgroundColor }}>
+    <div
+      style={{
+        position: "relative",
+        backgroundColor: HomeBackgroundColor,
+        height: "100vh",
+        width: "100%",
+      }}
+    >
       {/* Header */}
       <Box
         sx={{
@@ -112,7 +234,7 @@ const EditTripPage = () => {
           justifyContent: "space-between",
           borderBottom: "2px solid #000",
           position: "fixed",
-          zIndex: 0,
+          zIndex: 1,
           backgroundColor: HomeBackgroundColor,
         }}
       >
@@ -130,19 +252,40 @@ const EditTripPage = () => {
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          paddingTop: "15%",
+          paddingTop: "10%",
           zIndex: -1,
         }}
       >
-        <Typography sx={{ flexGrow: 1, textAlign: "center" }}>TETS </Typography>
         <EditField fieldTitle="Trip Name" />
         <EditField fieldTitle="Travel To" />
         <EditField fieldTitle="Start Date" />
         <EditField fieldTitle="End Date" />
         <EditField fieldTitle="Currency Unit" />
-        <EditField fieldTitle="Travel Note Type" />
-        <EditField fieldTitle="Travel Note Color" />
+        <EditField fieldTitle="Travel Note Type" fieldType="NoteField" />
+        <EditField fieldTitle="Travel Note Color" fieldType="ColorField" />
       </Box>
+
+      {/* Button */}
+      <Button
+        style={{
+          position: "fixed",
+          right: 0,
+          bottom: "10%",
+          transform: "translateX(-20%)",
+          borderRadius: 27,
+          height: "5.5%",
+          width: "70%",
+          fontSize: "1rem",
+          fontWeight: "bold",
+          backgroundColor: DefaultButtonColor,
+          color: "white",
+        }}
+      >
+        Complete
+      </Button>
+
+      {/* Extra spacing */}
+      <Box sx={{ height: "20%", backgroundColor: HomeBackgroundColor }} />
     </div>
   );
 };
