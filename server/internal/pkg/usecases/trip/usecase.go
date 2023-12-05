@@ -95,7 +95,3 @@ func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRe
 
 	return u.tripRepository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
 }
-
-func (u *TripUseCase) GetTripOptions() ([]*dto.TripNoteOptions, error) {
-	return u.tripRepository.GetTripOptions()
-}

@@ -216,24 +216,3 @@ func TestUpdateTrip(t *testing.T) {
 		tripRepository.AssertExpectations(t)
 	})
 }
-
-func TestGetTripOptions(t *testing.T) {
-	t.Run("successfully get transaction option", func(t *testing.T) {
-		tripRepository := tripMock.NewTripRepositoryMock()
-		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
-
-		tripOptions := []*dto.TripNoteOptions{
-			{
-				Id:   1,
-				Name: "test-name",
-			},
-		}
-
-		tripRepository.Mock.On("GetTripOptions").Return(tripOptions, nil)
-		result, err := usecase.GetTripOptions()
-		assert.NoError(t, err)
-		assert.NotNil(t, result)
-		tripRepository.AssertExpectations(t)
-	})
-}

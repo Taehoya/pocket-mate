@@ -133,17 +133,3 @@ func TestUpdateTrip(t *testing.T) {
 		assert.Equal(t, trip.Name(), name)
 	})
 }
-
-func TestGetTripOption(t *testing.T) {
-	db, err := mysqltest.InitDB()
-	assert.NoError(t, err)
-	defer db.Close()
-
-	repository := NewTripRepository(db)
-
-	t.Run("Successfully get transaction option", func(t *testing.T) {
-		tripOptions, err := repository.GetTripOptions()
-		assert.NoError(t, err)
-		assert.NotNil(t, tripOptions)
-	})
-}

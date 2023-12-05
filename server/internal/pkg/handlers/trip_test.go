@@ -91,7 +91,7 @@ func TestGetTrips(t *testing.T) {
 		assert.NoError(t, err)
 
 		tripStatusResponseDTO := dto.TripStatusResponseDTO{}
-		tripUseCase.On("GetTrips", mock.Anything, mockUser.ID()).Return(&tripStatusResponseDTO, nil)
+		tripUseCase.On("GetTripsByStatus", mock.Anything, mockUser.ID()).Return(&tripStatusResponseDTO, nil)
 		request, err := http.NewRequest(http.MethodGet, "/api/v1/trips", nil)
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 		router.ServeHTTP(rr, request)
@@ -174,35 +174,5 @@ func TestDeleteTrip(t *testing.T) {
 		router.ServeHTTP(rr, request)
 		assert.Equal(t, 200, rr.Code)
 		assert.NoError(t, err)
-	})
-}
-
-func TestGetTripOptions(t *testing.T) {
-	t.Run("successfully get trip options", func(t *testing.T) {
-		projectRootDir, _ := pathutil.GetProjectRootDir()
-		err := godotenv.Load(fmt.Sprintf("%s/.env", projectRootDir))
-		assert.NoError(t, err)
-
-		rr := httptest.NewRecorder()
-		tripUseCase := tripMocks.NewTripUseCase()
-		countryUseCase := countryMocks.NewCountryUseCase()
-		userUseCase := userMocks.NewUserUeseCase()
-		transactionUseCase := transactionMocks.NewTransactionUseCase()
-		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
-		router := handler.InitRoutes()
-
-		options := []*dto.TripNoteOptions{
-			{
-				Id:   1,
-				Name: "test-name",
-			},
-		}
-
-		tripUseCase.On("GetTripOptions").Return(options, nil)
-		request, err := http.NewRequest(http.MethodGet, "/api/v1/trips/options", nil)
-		assert.NoError(t, err)
-
-		router.ServeHTTP(rr, request)
-		assert.Equal(t, 200, rr.Code)
 	})
 }
