@@ -28,10 +28,6 @@ func (u *TripUseCase) GetTrips(ctx context.Context, userId int) ([]*entities.Tri
 
 	date := time.Now()
 	for _, trip := range trips {
-		if err != nil {
-			return nil, err
-		}
-
 		if trip.StartDateTime().After(date) {
 			trip.SetStatus(entities.TripStatusFuture)
 		} else if trip.EndDateTime().Before(date) {
@@ -69,11 +65,11 @@ func (u *TripUseCase) GetTripsByStatus(ctx context.Context, userId int) (*dto.Tr
 
 		switch trip.Status() {
 		case entities.TripStatusPast:
-			tripStatusMap["past"] = append(tripStatusMap["past"], trip)
+			tripStatusMap[entities.TripStatusPast] = append(tripStatusMap[entities.TripStatusPast], trip)
 		case entities.TripStatusCurrent:
-			tripStatusMap["current"] = append(tripStatusMap["current"], trip)
+			tripStatusMap[entities.TripStatusCurrent] = append(tripStatusMap[entities.TripStatusCurrent], trip)
 		case entities.TripStatusFuture:
-			tripStatusMap["future"] = append(tripStatusMap["future"], trip)
+			tripStatusMap[entities.TripStatusFuture] = append(tripStatusMap[entities.TripStatusFuture], trip)
 		}
 	}
 
