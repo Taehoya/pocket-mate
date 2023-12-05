@@ -32,7 +32,6 @@ func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, 
 		log.Printf("failed to marshal note: %v\n", err)
 		return fmt.Errorf("internal Server Error")
 	}
-
 	noteString := string(noteJson)
 
 	query := `

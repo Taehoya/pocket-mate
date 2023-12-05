@@ -76,13 +76,14 @@ definitions:
         example: 1
         type: integer
       name:
-        default: spiralbound
-        example: spiralbound
+        default: Basic Note
+        example: Basic Note
         type: string
     type: object
   dto.TripNoteProperty:
     properties:
       boundColor:
+        default: '#111111'
         example: '#111111'
         type: string
       boundId:
@@ -90,6 +91,7 @@ definitions:
         - $ref: '#/definitions/entities.Bound'
         example: 1
       noteColor:
+        default: '#000000'
         example: '#000000'
         type: string
     type: object
@@ -127,11 +129,10 @@ definitions:
   dto.TripResponseDTO:
     properties:
       budget:
-        example: 2000.12
+        example: 100.12
         type: number
-      countryId:
-        example: 1
-        type: integer
+      countryProperty:
+        $ref: '#/definitions/dto.CountryResponseDTO'
       description:
         example: sample-description
         type: string
@@ -149,6 +150,8 @@ definitions:
       startDateTime:
         example: "2024-01-02T15:04:05Z"
         type: string
+    required:
+    - countryProperty
     type: object
   dto.TripStatusResponseDTO:
     properties:
@@ -183,8 +186,8 @@ definitions:
     - 1
     type: integer
     x-enum-varnames:
-    - SpiralBound
-    - GlueBound
+    - SpringBound
+    - BasicBound
 info:
   contact: {}
   description: This is a pocket-mate server api
@@ -536,7 +539,7 @@ paths:
       - trip
   /v1/trips/options:
     get:
-      description: get trip option
+      description: get trip note option
       produces:
       - application/json
       responses:
@@ -554,7 +557,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.ErrorResponseDTO'
-      summary: get trip option
+      summary: get trip note option
       tags:
       - trip
   /v1/users:

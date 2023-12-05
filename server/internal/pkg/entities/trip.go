@@ -4,18 +4,13 @@ import (
 	"time"
 )
 
-type Bound int
+type Status string
 
 const (
-	SpiralBound Bound = iota
-	GlueBound
+	TripStatusPast    = "past"
+	TripStatusCurrent = "current"
+	TripStatusFuture  = "future"
 )
-
-type Note struct {
-	Bound      Bound
-	NoteColor  string
-	BoundColor string
-}
 
 type Trip struct {
 	id            int
@@ -24,6 +19,7 @@ type Trip struct {
 	countryId     int
 	description   string
 	note          Note
+	status        Status
 	startDateTime time.Time
 	endDateTime   time.Time
 	createdAt     time.Time
@@ -69,6 +65,10 @@ func (t *Trip) Note() Note {
 	return t.note
 }
 
+func (t *Trip) Status() Status {
+	return t.status
+}
+
 func (t *Trip) StartDateTime() time.Time {
 	return t.startDateTime
 }
@@ -77,13 +77,6 @@ func (t *Trip) EndDateTime() time.Time {
 	return t.endDateTime
 }
 
-func (b Bound) String() string {
-	switch b {
-	case SpiralBound:
-		return "SpiralBound"
-	case GlueBound:
-		return "GlueBound"
-	default:
-		return "UnknownBound"
-	}
+func (t *Trip) SetStatus(status Status) {
+	t.status = status
 }

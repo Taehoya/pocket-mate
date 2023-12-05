@@ -417,14 +417,14 @@ const docTemplate = `{
         },
         "/v1/trips/options": {
             "get": {
-                "description": "get trip option",
+                "description": "get trip note option",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "trip"
                 ],
-                "summary": "get trip option",
+                "summary": "get trip note option",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -782,8 +782,8 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string",
-                    "default": "spiralbound",
-                    "example": "spiralbound"
+                    "default": "Basic Note",
+                    "example": "Basic Note"
                 }
             }
         },
@@ -792,6 +792,7 @@ const docTemplate = `{
             "properties": {
                 "boundColor": {
                     "type": "string",
+                    "default": "#111111",
                     "example": "#111111"
                 },
                 "boundId": {
@@ -804,6 +805,7 @@ const docTemplate = `{
                 },
                 "noteColor": {
                     "type": "string",
+                    "default": "#000000",
                     "example": "#000000"
                 }
             }
@@ -851,14 +853,16 @@ const docTemplate = `{
         },
         "dto.TripResponseDTO": {
             "type": "object",
+            "required": [
+                "countryProperty"
+            ],
             "properties": {
                 "budget": {
                     "type": "number",
-                    "example": 2000.12
+                    "example": 100.12
                 },
-                "countryId": {
-                    "type": "integer",
-                    "example": 1
+                "countryProperty": {
+                    "$ref": "#/definitions/dto.CountryResponseDTO"
                 },
                 "description": {
                     "type": "string",
@@ -932,8 +936,8 @@ const docTemplate = `{
                 1
             ],
             "x-enum-varnames": [
-                "SpiralBound",
-                "GlueBound"
+                "SpringBound",
+                "BasicBound"
             ]
         }
     }

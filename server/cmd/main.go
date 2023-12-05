@@ -44,11 +44,11 @@ func main() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.Print("starting process")
 
-	tripRepository := tripRepository.NewTripRepository(db)
-	tripUseCase := tripUsecase.NewTripUseCase(tripRepository)
 	countryRepository := countryRepository.NewCountryRepository(db)
 	countryUseCase := countryUseCase.NewCountryUseCase(countryRepository)
 	userRepository := userRepository.NewUserRepository(db)
+	tripRepository := tripRepository.NewTripRepository(db)
+	tripUseCase := tripUsecase.NewTripUseCase(tripRepository, countryRepository)
 	userUsecase := userUsecase.NewUserUseCase(userRepository)
 	transactionRepository := transactionRepository.NewTransactionRepository(db)
 	transactionUseCase := transactionUseCase.NewTransactionUseCase(transactionRepository)

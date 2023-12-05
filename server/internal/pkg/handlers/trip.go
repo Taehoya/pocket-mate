@@ -13,7 +13,7 @@ import (
 
 type TripUseCase interface {
 	RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error
-	GetTrips(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error)
+	GetTripsByStatus(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error)
 	DeleteTrip(ctx context.Context, tripId int) error
 	UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error
 	GetTripOptions() ([]*dto.TripNoteOptions, error)
@@ -88,7 +88,7 @@ func (h *Handler) GetTrip(ctx *gin.Context) {
 		return
 	}
 
-	trips, err := h.TripUseCase.GetTrips(ctx, userId)
+	trips, err := h.TripUseCase.GetTripsByStatus(ctx, userId)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error_message": err,
