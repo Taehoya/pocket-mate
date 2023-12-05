@@ -50,3 +50,23 @@ func (r *CountryRepository) GetCountries(ctx context.Context) ([]*entities.Count
 
 	return countries, nil
 }
+
+func (r *CountryRepository) GetCountryById(ctx context.Context, id int) (*entities.Country, error) {
+	var country *entities.Country
+	query := `SELECT * FROM countries WHERE id = ?`
+
+	row := r.db.QueryRowContext(ctx, query, id)
+
+	var code string
+	var name string
+	var currency string
+
+	if err := row.Scan(&id, &code, &name, &currency); err != nil {
+		log.Printf("failed to scan country: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	country = entities.NewCountry(id, code, name, currency)
+
+	return country, nil
+}

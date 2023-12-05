@@ -34,3 +34,25 @@ func TestGetCountryAll(t *testing.T) {
 	})
 
 }
+
+func TestGetCountryById(t *testing.T) {
+	db, err := mysqltest.InitDB()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	repository := NewCountryRepository(db)
+
+	t.Run("successfully get country by id", func(t *testing.T) {
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./setup_test.sql")
+
+		expected := entities.NewCountry(1, "AF", "Afghanistan", "؋")
+
+		ctx := context.TODO()
+		actual, err := repository.GetCountryById(ctx, 1)
+
+		assert.NoError(t, err)
+		assert.Equal(t, actual, expected)
+	})
+}

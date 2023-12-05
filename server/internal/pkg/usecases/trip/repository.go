@@ -13,3 +13,8 @@ type TripRepository interface {
 	DeleteTrip(ctx context.Context, tripId int) error
 	UpdateTrip(ctx context.Context, tripId int, name string, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error
 }
+
+type CountryRepository interface {
+	GetCountries(ctx context.Context) ([]*entities.Country, error)
+	GetCountryById(ctx context.Context, id int) (*entities.Country, error)
+}

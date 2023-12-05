@@ -2,10 +2,6 @@ github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 h1:L/gRVlceqvL25
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
-github.com/Taehoya/go-utils v0.0.0-20231024000027-f8dd9bc6aa30 h1:525HkzKPW858IGjAhNqynIzlUmDV0ZM4+Q4K04O964o=
-github.com/Taehoya/go-utils v0.0.0-20231024000027-f8dd9bc6aa30/go.mod h1:YhqoNnC/v7vQSWa39AGi90f2/l9zAEAwXG2r+kWoAr4=
-github.com/Taehoya/go-utils v0.0.1 h1:Om3Rdd2oFFA3XF2YyUy3HdvrzbHvbi18v8VflZT4Lkw=
-github.com/Taehoya/go-utils v0.0.1/go.mod h1:YhqoNnC/v7vQSWa39AGi90f2/l9zAEAwXG2r+kWoAr4=
 github.com/Taehoya/go-utils v0.0.2 h1:6K3JkXdD3ZQuz8t41c0+EF5PKEyoAI6RMjDM6BhCiIw=
 github.com/Taehoya/go-utils v0.0.2/go.mod h1:YhqoNnC/v7vQSWa39AGi90f2/l9zAEAwXG2r+kWoAr4=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=

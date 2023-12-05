@@ -9,73 +9,89 @@ import (
 )
 
 type TripUseCase struct {
-	Repository TripRepository
+	tripRepository    TripRepository
+	CountryRepository CountryRepository
 }
 
-func NewTripUseCase(repository TripRepository) *TripUseCase {
+func NewTripUseCase(tripRepository TripRepository, countryRepository CountryRepository) *TripUseCase {
 	return &TripUseCase{
-		Repository: repository,
+		tripRepository:    tripRepository,
+		CountryRepository: countryRepository,
 	}
 }
 
-func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
-	note := entities.Note{
-		Bound:      BoundFromString(dto.NoteProperty.Bound),
-		NoteColor:  dto.NoteProperty.NoteColor,
-		BoundColor: dto.NoteProperty.BoundColor,
-	}
-
-	return u.Repository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, note, dto.StartDateTime, dto.EndDateTime)
-}
-
-func (u *TripUseCase) GetTrips(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error) {
-	trips, err := u.Repository.GetTrip(ctx, userId)
-	tripStatusMap := make(map[string][]*entities.Trip)
-	tripStatusMap["past"] = make([]*entities.Trip, 0)
-	tripStatusMap["current"] = make([]*entities.Trip, 0)
-	tripStatusMap["future"] = make([]*entities.Trip, 0)
-
+func (u *TripUseCase) GetTrips(ctx context.Context, userId int) ([]*entities.Trip, error) {
+	trips, err := u.tripRepository.GetTrip(ctx, userId)
 	if err != nil {
 		return nil, err
 	}
 
 	date := time.Now()
 	for _, trip := range trips {
-		if trip.StartDateTime().After(date) {
-			tripStatusMap["future"] = append(tripStatusMap["future"], trip)
-		} else if trip.EndDateTime().Before(date) {
-			tripStatusMap["past"] = append(tripStatusMap["past"], trip)
-		} else {
-			tripStatusMap["current"] = append(tripStatusMap["current"], trip)
+		if err != nil {
+			return nil, err
+		}
 
+		if trip.StartDateTime().After(date) {
+			trip.SetStatus(entities.TripStatusFuture)
+		} else if trip.EndDateTime().Before(date) {
+			trip.SetStatus(entities.TripStatusPast)
+		} else {
+			trip.SetStatus(entities.TripStatusCurrent)
 		}
 	}
 
-	tripResp := dto.NewTripResponseList(tripStatusMap)
+	return trips, nil
+}
+
+func (u *TripUseCase) GetTripsByStatus(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error) {
+	trips, err := u.GetTrips(ctx, userId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	tripStatusMap := make(map[string][]*entities.Trip)
+	tripStatusMap[entities.TripStatusPast] = make([]*entities.Trip, 0)
+	tripStatusMap[entities.TripStatusCurrent] = make([]*entities.Trip, 0)
+	tripStatusMap[entities.TripStatusFuture] = make([]*entities.Trip, 0)
+	countries := make(map[int]*entities.Country)
+
+	for _, trip := range trips {
+		countryId := trip.CountryID()
+		if _, ok := countries[countryId]; !ok {
+			country, err := u.CountryRepository.GetCountryById(ctx, countryId)
+			if err != nil {
+				return nil, err
+			}
+			countries[countryId] = country
+		}
+
+		switch trip.Status() {
+		case entities.TripStatusPast:
+			tripStatusMap["past"] = append(tripStatusMap["past"], trip)
+		case entities.TripStatusCurrent:
+			tripStatusMap["current"] = append(tripStatusMap["current"], trip)
+		case entities.TripStatusFuture:
+			tripStatusMap["future"] = append(tripStatusMap["future"], trip)
+		}
+	}
+
+	tripResp := dto.NewTripResponseList(tripStatusMap, countries)
 	return tripResp, nil
 }
 
+func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
+	note := entities.NewNote(dto.NoteProperty.Id, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
+	return u.tripRepository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
+}
+
 func (u *TripUseCase) DeleteTrip(ctx context.Context, tripId int) error {
-	return u.Repository.DeleteTrip(ctx, tripId)
+	return u.tripRepository.DeleteTrip(ctx, tripId)
 }
 
 func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error {
-	note := entities.Note{
-		Bound:      BoundFromString(dto.NoteProperty.Bound),
-		NoteColor:  dto.NoteProperty.NoteColor,
-		BoundColor: dto.NoteProperty.BoundColor,
-	}
+	note := entities.NewNote(dto.NoteProperty.Id, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
 
-	return u.Repository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, note, dto.StartDateTime, dto.EndDateTime)
-}
-
-func BoundFromString(s string) entities.Bound {
-	switch s {
-	case "SpiralBound":
-		return entities.SpiralBound
-	case "GlueBound":
-		return entities.GlueBound
-	default:
-		return entities.SpiralBound
-	}
+	return u.tripRepository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
 }

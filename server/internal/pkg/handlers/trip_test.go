@@ -49,7 +49,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: 1, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -91,7 +91,7 @@ func TestGetTrips(t *testing.T) {
 		assert.NoError(t, err)
 
 		tripStatusResponseDTO := dto.TripStatusResponseDTO{}
-		tripUseCase.On("GetTrips", mock.Anything, mockUser.ID()).Return(&tripStatusResponseDTO, nil)
+		tripUseCase.On("GetTripsByStatus", mock.Anything, mockUser.ID()).Return(&tripStatusResponseDTO, nil)
 		request, err := http.NewRequest(http.MethodGet, "/api/v1/trips", nil)
 		request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 		router.ServeHTTP(rr, request)
@@ -128,7 +128,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Bound: "GlueBound", NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{Id: 1, NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
