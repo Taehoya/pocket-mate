@@ -69,31 +69,21 @@ definitions:
         example: 1
         type: integer
     type: object
-  dto.TripNoteOptions:
-    properties:
-      id:
-        default: 0
-        example: 1
-        type: integer
-      name:
-        default: Basic Note
-        example: Basic Note
-        type: string
-    type: object
   dto.TripNoteProperty:
     properties:
       boundColor:
         default: '#111111'
         example: '#111111'
         type: string
-      boundId:
-        allOf:
-        - $ref: '#/definitions/entities.Bound'
-        example: 1
       noteColor:
         default: '#000000'
         example: '#000000'
         type: string
+      noteType:
+        example: BasicNote
+        type: string
+    required:
+    - noteType
     type: object
   dto.TripRequestDTO:
     properties:
@@ -180,14 +170,6 @@ definitions:
     - Email
     - Password
     type: object
-  entities.Bound:
-    enum:
-    - 0
-    - 1
-    type: integer
-    x-enum-varnames:
-    - SpringBound
-    - BasicBound
 info:
   contact: {}
   description: This is a pocket-mate server api
@@ -535,29 +517,6 @@ paths:
       security:
       - bearer: []
       summary: update trip
-      tags:
-      - trip
-  /v1/trips/options:
-    get:
-      description: get trip note option
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/dto.TripNoteOptions'
-            type: array
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/dto.ErrorResponseDTO'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/dto.ErrorResponseDTO'
-      summary: get trip note option
       tags:
       - trip
   /v1/users:

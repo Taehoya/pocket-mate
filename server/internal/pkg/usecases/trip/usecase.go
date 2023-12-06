@@ -78,7 +78,7 @@ func (u *TripUseCase) GetTripsByStatus(ctx context.Context, userId int) (*dto.Tr
 }
 
 func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
-	note := entities.NewNote(dto.NoteProperty.Id, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
+	note := entities.NewNote(dto.NoteProperty.NoteType, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
 	return u.tripRepository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
 }
 
@@ -87,7 +87,7 @@ func (u *TripUseCase) DeleteTrip(ctx context.Context, tripId int) error {
 }
 
 func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error {
-	note := entities.NewNote(dto.NoteProperty.Id, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
+	note := entities.NewNote(dto.NoteProperty.NoteType, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
 
 	return u.tripRepository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
 }

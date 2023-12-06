@@ -29,7 +29,7 @@ func TestRegisterTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "#000000",
 			BoundColor: "#111111",
 		}
@@ -39,7 +39,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: entities.BasicBound, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -64,7 +64,7 @@ func TestRegisterTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "#000000",
 			BoundColor: "#111111",
 		}
@@ -74,7 +74,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: entities.BasicBound, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -161,7 +161,7 @@ func TestUpdateTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "#000000",
 			BoundColor: "#111111",
 		}
@@ -171,7 +171,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: entities.BasicBound, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -195,7 +195,7 @@ func TestUpdateTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "#000000",
 			BoundColor: "#111111",
 		}
@@ -205,7 +205,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: entities.BasicBound, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}

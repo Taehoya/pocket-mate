@@ -407,41 +407,6 @@
                 }
             }
         },
-        "/v1/trips/options": {
-            "get": {
-                "description": "get trip note option",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "trip"
-                ],
-                "summary": "get trip note option",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/dto.TripNoteOptions"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponseDTO"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ErrorResponseDTO"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/trips/{id}": {
             "put": {
                 "security": [
@@ -764,41 +729,25 @@
                 }
             }
         },
-        "dto.TripNoteOptions": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "default": 0,
-                    "example": 1
-                },
-                "name": {
-                    "type": "string",
-                    "default": "Basic Note",
-                    "example": "Basic Note"
-                }
-            }
-        },
         "dto.TripNoteProperty": {
             "type": "object",
+            "required": [
+                "noteType"
+            ],
             "properties": {
                 "boundColor": {
                     "type": "string",
                     "default": "#111111",
                     "example": "#111111"
                 },
-                "boundId": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/entities.Bound"
-                        }
-                    ],
-                    "example": 1
-                },
                 "noteColor": {
                     "type": "string",
                     "default": "#000000",
                     "example": "#000000"
+                },
+                "noteType": {
+                    "type": "string",
+                    "example": "BasicNote"
                 }
             }
         },
@@ -920,17 +869,6 @@
                     "example": "test-password"
                 }
             }
-        },
-        "entities.Bound": {
-            "type": "integer",
-            "enum": [
-                0,
-                1
-            ],
-            "x-enum-varnames": [
-                "SpringBound",
-                "BasicBound"
-            ]
         }
     }
 }

@@ -49,7 +49,7 @@ func TestRegisterTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: 1, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
@@ -128,7 +128,7 @@ func TestUpdateTrip(t *testing.T) {
 			Budget:        budget,
 			CountryId:     countryId,
 			Description:   description,
-			NoteProperty:  dto.TripNoteProperty{Id: 1, NoteColor: "#000000", BoundColor: "#111111"},
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
 			StartDateTime: startDateTime,
 			EndDateTime:   endDateTime,
 		}
