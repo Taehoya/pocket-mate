@@ -253,7 +253,14 @@ const LoginPage = () => {
             textDecoration: "none",
           }}
         >
-          <a style={{ marginRight: "20px" }}>Register</a>
+          <a
+            style={{ marginRight: "20px" }}
+            onClick={() => {
+              window.location.href = "/register";
+            }}
+          >
+            Register
+          </a>
           <div>{"|"}</div>
           <a style={{ marginLeft: "20px" }}>Guest</a>
         </div>
