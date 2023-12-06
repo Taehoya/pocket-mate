@@ -28,7 +28,7 @@ func TestSaveTrip(t *testing.T) {
 		budget := 1000.0
 		countryId := 1
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "#000000",
 			BoundColor: "#111111",
 		}
@@ -56,7 +56,7 @@ func TestGetTrip(t *testing.T) {
 		ctx := context.TODO()
 		userId := 1
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "test-note-color",
 			BoundColor: "test-bound-color",
 		}
@@ -116,7 +116,7 @@ func TestUpdateTrip(t *testing.T) {
 		countryId := 1
 		description := "updated-description"
 		note := entities.Note{
-			Bound:      entities.BasicBound,
+			NoteType:   "test-type",
 			NoteColor:  "test-note-color",
 			BoundColor: "test-bound-color",
 		}

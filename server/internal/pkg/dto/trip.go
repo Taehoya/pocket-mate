@@ -18,9 +18,9 @@ type TripResponseDTO struct {
 }
 
 type TripNoteProperty struct {
-	Id         entities.Bound `json:"boundId" example:"1"`
-	NoteColor  string         `json:"noteColor" default:"#000000" example:"#000000"`
-	BoundColor string         `json:"boundColor" default:"#111111" example:"#111111"`
+	NoteType   entities.NoteType `json:"noteType" binding:"required" example:"BasicNote"`
+	NoteColor  string            `json:"noteColor" default:"#000000" example:"#000000"`
+	BoundColor string            `json:"boundColor" default:"#111111" example:"#111111"`
 }
 
 type TripStatusResponseDTO struct {
@@ -51,7 +51,7 @@ func NewTripResponse(trip *entities.Trip, country *entities.Country) *TripRespon
 		Budget:          trip.Budget(),
 		CountryProperty: *NewCountryResponse(country),
 		Description:     trip.Description(),
-		NoteProperty:    TripNoteProperty{Id: trip.Note().Bound, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
+		NoteProperty:    TripNoteProperty{NoteType: trip.Note().NoteType, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
 		StartDateTime:   trip.StartDateTime(),
 		EndDateTime:     trip.EndDateTime(),
 	}
