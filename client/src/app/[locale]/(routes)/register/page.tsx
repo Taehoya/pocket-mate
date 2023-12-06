@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   IconButton,
@@ -24,6 +24,7 @@ interface FormTextFieldProps {
   fieldTitle: string;
   type?: string;
   desc?: string;
+  descType?: string;
   value?: string;
   setFunc?: (val: string) => void;
 }
@@ -33,15 +34,34 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
   type = "TextField",
   desc,
   value,
+  descType = "text",
   setFunc = () => {},
 }) => {
   let inputComponent;
+  let descComponent;
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFunc(event.target.value);
   };
+
+  switch (descType) {
+    case "text":
+      descComponent = (
+        <Typography color="gray" fontSize="0.8rem" sx={{ marginTop: "2%" }}>
+          {desc}
+        </Typography>
+      );
+      break;
+    case "warning":
+      descComponent = (
+        <Typography color="red" fontSize="0.8rem" sx={{ marginTop: "2%" }}>
+          {desc}
+        </Typography>
+      );
+      break;
+  }
 
   switch (type) {
     case "TextField":
@@ -79,9 +99,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
             }
             onChange={handleInput}
           />
-          <Typography color="gray" fontSize="0.8rem" sx={{ marginTop: "2%" }}>
-            {desc}
-          </Typography>
+          {descComponent}
         </FormControl>
       );
       break;
@@ -94,13 +112,27 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [disabled, setDisabled] = useState(true);
+  const [errorConfirm, setErrorConfirm] = useState(false);
+
+  useEffect(() => {
+    if (email && password && confirmPassword) setDisabled(false);
+    else if (!disabled) setDisabled(true);
+
+    if (errorConfirm) setErrorConfirm(false);
+  }, [confirmPassword]);
 
   const submitForm = async () => {
+    if (confirmPassword !== password) {
+      setErrorConfirm(true);
+      return;
+    }
+
     const result = await axios.post("/api/v1/users", {
-      Email: "",
-      Password: "",
+      Email: email,
+      Password: password,
     });
-    console.log(result);
+    window.location.href = "/login";
   };
 
   return (
@@ -176,10 +208,10 @@ lowercase, number, and special character"
         }}
       >
         <Button
-          disabled
+          disabled={disabled}
           onClick={submitForm}
           style={{
-            backgroundColor: DefaultButtonColor,
+            backgroundColor: disabled ? "gray" : DefaultButtonColor,
             color: "white",
             borderRadius: "25px",
             width: "90%",
