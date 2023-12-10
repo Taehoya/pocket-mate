@@ -1,5 +1,5 @@
 {
-  "DatePicker":{
+  "DatePicker": {
     "language": "english"
   },
   "LoginPage": {
@@ -12,7 +12,13 @@
     "kakao_login": "Login with KakaoTalk",
     "google_login": "Login with Google"
   },
+  "RegisterPage": {},
   "HomePage": {
+    "header": "Travel note list",
+    "add_note": "Add a Travel Note",
+    "current": "Ongoing",
+    "future": "Coming Soon",
+    "present": "Past"
   },
   "TripCreation": {
     "header": "Add a travel note",

@@ -12,7 +12,13 @@
     "kakao_login": "카카오톡으로 계속하기",
     "google_login": "Google 계정으로 계속하기"
   },
+  "RegisterPage": {},
   "HomePage": {
+    "header": "여행 노트 목록",
+    "add_note": "여행 메모 추가",
+    "current": "전진",
+    "future": "곧 온다",
+    "present": "과거"
   },
   "TripCreation": {
     "header": "여행 노트 추가",
