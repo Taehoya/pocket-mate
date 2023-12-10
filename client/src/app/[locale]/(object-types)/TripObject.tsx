@@ -1,7 +1,12 @@
 type TripObject = {
   id: number;
   budget: number;
-  countryID: number;
+  countryProperty: {
+    id: number,
+    code: string,
+    name: string,
+    currency: string,
+  },
   description: string;
   startDateTime: string;
   endDateTime: string;

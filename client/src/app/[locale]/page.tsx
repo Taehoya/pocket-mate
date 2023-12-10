@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -30,10 +30,13 @@ import GridCards from "./(components)/GridCards";
 
 export default function Home() {
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState("coming-soon");
+  const [dropdownValue, setDropdownValue] = useState("current");
   const [swipeView, setSwipeView] = useState(true);
   const [pastTripList, setPastTripList] = useState<TripObject[] | undefined>();
   const [futureTripList, setFutureTripList] = useState<
+    TripObject[] | undefined
+  >();
+  const [currentTripList, setCurrentTripList] = useState<
     TripObject[] | undefined
   >();
   const [tripList, setTripList] = useState<TripObject[]>();
@@ -54,8 +57,9 @@ export default function Home() {
     });
     setPastTripList(trips.data.past);
     setFutureTripList(trips.data.future);
-    setTripList(trips.data.future);
-    console.log(trips);
+    setCurrentTripList(trips.data.current);
+    setTripList(trips.data.current);
+    console.log(trips.data);
     setLoading(false);
   };
 
@@ -75,7 +79,8 @@ export default function Home() {
     const time = event.target.value as string;
     setDropdownValue(time);
     if (time === "past") setTripList(pastTripList);
-    else setTripList(futureTripList);
+    else if (time === "coming-soon") setTripList(futureTripList);
+    else setTripList(currentTripList);
   };
 
   return (
@@ -126,6 +131,7 @@ export default function Home() {
               border: "none",
             }}
           >
+            <MenuItem value="current">Ongoing</MenuItem>
             <MenuItem value="coming-soon">Coming Soon</MenuItem>
             <MenuItem value="past">Past</MenuItem>
           </Select>

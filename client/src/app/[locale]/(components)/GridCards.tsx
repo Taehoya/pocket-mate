@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, CardContent, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import TripObject from "../(object-types)/TripObject";
+import SpringNote from "./(notes)/SpringNote";
 
 interface GridCardProps {
   trips: TripObject[] | undefined;
@@ -11,8 +12,9 @@ const GridCards: React.FC<GridCardProps> = ({ trips }) => {
     width: "30%",
     height: "170px",
     borderRadius: "20px",
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightblue",
     margin: "5px 5px",
+    position: "relative",
   };
 
   return (
@@ -28,10 +30,37 @@ const GridCards: React.FC<GridCardProps> = ({ trips }) => {
     >
       {trips?.map((trip: TripObject, index: number) => (
         <div key={index} style={cardStyle}>
-          <CardContent style={{ fontSize: "1rem" }}>
-            <Typography>{trip.title}</Typography>
-            <Typography>{trip.description}</Typography>
-          </CardContent>
+          <div>
+            <SpringNote />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              margin: "0 5px",
+              padding: "0px 20px",
+              paddingTop: "10px",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
+          >
+            <img
+              src={`https://flagsapi.com/${trip?.countryProperty?.code}/flat/64.png`}
+              width="48"
+              height="48"
+            />
+            <div
+              style={{
+                flexGrow: 1,
+                alignItems: "flex-end",
+              }}
+            >
+              <Typography fontSize="0.8rem" color="white">
+                {trip.name}
+              </Typography>
+            </div>
+          </div>
         </div>
       ))}
     </Box>

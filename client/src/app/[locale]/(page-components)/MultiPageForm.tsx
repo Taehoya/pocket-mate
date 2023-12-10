@@ -182,12 +182,17 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         "/api/v1/trips",
         {
           budget: 5450,
-          countryId: destination?.id,
+          countryProperty: {
+            id: destination?.id,
+            code: destination?.code,
+            name: destination?.name,
+            currency: destination?.currency,
+          },
           description: "A trip for the ages!",
           endDateTime: endDate,
           name: title,
           noteProperty: {
-            bound: "SpiralBound",
+            bound: "SpringNote",
             boundColor: "#111111",
             noteColor: "#000000",
           },
