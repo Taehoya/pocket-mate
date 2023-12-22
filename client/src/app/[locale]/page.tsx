@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import MultiPageForm from "./(page-components)/MultiPageForm";
-import SwipableCards from "./(components)/SwipableCards";
+import SwipableCards from "./(components)/(home)/SwipableCards";
+import GridCards from "./(components)/(home)/GridCards";
 import {
   Button,
   Dialog,
@@ -12,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import TripObject from "./(object-types)/TripObject";
-import GridCards from "./(components)/GridCards";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 

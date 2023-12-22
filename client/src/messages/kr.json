@@ -9,8 +9,8 @@
     "email_text": "이메일 주소",
     "password_text": "패스워드",
     "login_button": "로그인",
-    "kakao_login": "카카오톡으로 계속하기",
-    "google_login": "Google 계정으로 계속하기"
+    "or_divider": "간편 로그인",
+    "guest_login": "게스트로 시작"
   },
   "RegisterPage": {},
   "HomePage": {

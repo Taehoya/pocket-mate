@@ -4,13 +4,13 @@
   },
   "LoginPage": {
     "lang": "english",
-    "login_title": "Friend for Trip,",
+    "login_title": "Friend for Your Trip,",
     "login_logo": "LoginEnglishTitle",
     "email_text": "Email",
     "password_text": "Password",
     "login_button": "Login",
-    "kakao_login": "Login with KakaoTalk",
-    "google_login": "Login with Google"
+    "or_divider": "or",
+    "guest_login": "Guest Login"
   },
   "RegisterPage": {},
   "HomePage": {

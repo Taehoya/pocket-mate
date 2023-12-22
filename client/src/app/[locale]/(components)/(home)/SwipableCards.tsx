@@ -6,7 +6,7 @@ import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
 
 // CONSTANTS
-import { HomeBackgroundColor, DefaultButtonColor } from "../constants";
+import { HomeBackgroundColor, DefaultButtonColor } from "../../constants";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 interface SwipeableCardsProps {
