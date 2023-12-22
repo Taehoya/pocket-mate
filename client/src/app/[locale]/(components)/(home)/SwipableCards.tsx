@@ -69,6 +69,9 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                   ...cardStyle,
                   backgroundImage: `url('/trip/SpringNote.svg')`,
                 }}
+                onClick={() => {
+                  window.location.href = "/tripen-trop";
+                }}
               >
                 {/* Section withou Binder */}
                 <div
@@ -90,7 +93,9 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                       marginTop: "20%",
                     }}
                   >
-                    <img src={`https://flagsapi.com/${trip?.countryProperty?.code}/flat/64.png`} />
+                    <img
+                      src={`https://flagsapi.com/${trip?.countryProperty?.code}/flat/64.png`}
+                    />
                     <Typography>{duration} days</Typography>
                   </div>
 
