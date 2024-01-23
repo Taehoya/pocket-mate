@@ -1,15 +1,37 @@
 "use client";
 
-import { Typography, IconButton } from "@mui/material";
+import { useState } from "react";
+import { Typography, IconButton, Grid } from "@mui/material";
 
 // Icons
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import SettingsIcon from "@mui/icons-material/Settings";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 // Constants
-import { DefaultButtonColor, UnactiveColor } from "../../constants";
+
+// Components
+import TripFooter from "../../(components)/(trip)/TripFooter";
+import TripPlan from "../../(components)/(trip)/TripPlan";
+import TripInfo from "../../(components)/(trip)/TripInfo";
 
 const TripPage = ({ params }: { params: { trip: string } }) => {
+  const [activeComponent, setActiveComponent] = useState<number>(2);
+
+  const handleSelect = (componentNumber: number) => {
+    setActiveComponent(componentNumber);
+  };
+
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case 1:
+        return <TripInfo />;
+      case 2:
+        return <TripPlan />;
+      default:
+        return <TripPlan />;
+    }
+  };
+
   return (
     <div
       style={{
@@ -23,8 +45,6 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
       {/* Top Header */}
       <div
         style={{
-          flex: 1,
-          backgroundColor: "green",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -38,60 +58,25 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
           <ArrowBackIosNewRoundedIcon />
         </IconButton>
         <Typography sx={{ flexGrow: 1, textAlign: "center" }}>
-          Trip Title
+          Travel Note
         </Typography>
+        <IconButton onClick={() => {}}>
+          <MenuRoundedIcon />
+        </IconButton>
       </div>
 
-      {/* Title Section */}
+      {/* Body Section */}
       <div
         style={{
-          flex: 2,
-          backgroundColor: "red",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          flex: 1,
+          overflowY: "auto",
         }}
       >
-        {/* Settings */}
-        <IconButton>
-          <SettingsIcon />
-        </IconButton>
-
-        {/* Title */}
-        <Typography fontSize="1.4rem">나만의 힐링 여행</Typography>
-
-        {/* Duration */}
-        <Typography fontSize="1rem">2023/10/12-2023/10/15</Typography>
+        {renderActiveComponent()}
       </div>
-
-      {/* Dynamic Main Body */}
-      <div style={{ flex: 12 }}>wut!</div>
 
       {/* Footer Buttons */}
-      <div
-        style={{
-          flex: 4,
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: DefaultButtonColor,
-          borderRadius: "20px 20px 0 0",
-        }}
-      >
-        {/* Top Buttons */}
-        <div
-          style={{
-            flex: 1,
-          }}
-        ></div>
-        {/* Bottom Buttons */}
-        <div
-          style={{
-            flex: 1.4,
-            backgroundColor: UnactiveColor,
-            borderRadius: "20px 20px 0 0",
-          }}
-        ></div>
-      </div>
+      <TripFooter onSelect={handleSelect} activeComponent={activeComponent} />
     </div>
   );
 };

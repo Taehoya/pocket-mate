@@ -60,7 +60,6 @@ export default function Home() {
     setFutureTripList(trips.data.future);
     setCurrentTripList(trips.data.current);
     setTripList(trips.data.current);
-    console.log(trips.data);
     setLoading(false);
   };
 

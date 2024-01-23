@@ -14,6 +14,7 @@ interface SSOButtonProps {
   text?: string;
   type?: string;
   backgroundColor: string;
+  logic?: Function;
 }
 
 const SSOButton: React.FC<SSOButtonProps> = ({
@@ -21,6 +22,7 @@ const SSOButton: React.FC<SSOButtonProps> = ({
   backgroundColor,
   text,
   type = "logo",
+  logic,
 }) => {
   const imageSrc = `/sso/${image}.svg`;
   var button;
@@ -63,6 +65,7 @@ const SSOButton: React.FC<SSOButtonProps> = ({
       button = (
         <Button
           variant="contained"
+          onClick={logic}
           style={{
             ...buttonStyle,
             borderRadius: "25px",
@@ -97,6 +100,12 @@ const LoginPage = () => {
     setPasswordText(event.target.value);
     setLoginError(null);
   };
+
+  const handleGuestAccount = () => {
+    setEmailText("test@email.com");
+    setPasswordText("test-password");
+    handleLogin();
+  }
 
   const handleLogin = async () => {
     try {
@@ -267,7 +276,7 @@ const LoginPage = () => {
         >
           <SSOButton image="kakao" backgroundColor="#FDDC3F" />
           <SSOButton image="google" backgroundColor="white" />
-          <SSOButton text={t("guest_login")} backgroundColor="white" type="text" />
+          <SSOButton text={t("guest_login")} backgroundColor="white" type="text" logic={handleGuestAccount}/>
         </div>
 
         {/* Footer Links Row */}
