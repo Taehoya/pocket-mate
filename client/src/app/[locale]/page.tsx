@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import MultiPageForm from "./(page-components)/MultiPageForm";
-import SwipableCards from "./(components)/SwipableCards";
+import SwipableCards from "./(components)/(home)/SwipableCards";
+import GridCards from "./(components)/(home)/GridCards";
 import {
   Button,
   Dialog,
@@ -11,8 +12,9 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import TripObject from "./(object-types)/TripObject";
 import axios from "axios";
-import Skeleton from "@mui/material/Skeleton";
+import { useTranslations } from "next-intl";
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -25,10 +27,9 @@ import {
   DefaultButtonColor,
   HomeBackgroundColor,
 } from "./constants";
-import TripObject from "./(object-types)/TripObject";
-import GridCards from "./(components)/GridCards";
 
 export default function Home() {
+  const t = useTranslations("HomePage");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("current");
   const [swipeView, setSwipeView] = useState(true);
@@ -59,7 +60,6 @@ export default function Home() {
     setFutureTripList(trips.data.future);
     setCurrentTripList(trips.data.current);
     setTripList(trips.data.current);
-    console.log(trips.data);
     setLoading(false);
   };
 
@@ -101,7 +101,7 @@ export default function Home() {
         }}
       >
         {/* Title Text */}
-        <Typography style={{ fontSize: "1.1rem" }}>Travel note list</Typography>
+        <Typography style={{ fontSize: "1.1rem" }}>{t("header")}</Typography>
 
         {/* Button Row */}
         <div
@@ -131,9 +131,9 @@ export default function Home() {
               border: "none",
             }}
           >
-            <MenuItem value="current">Ongoing</MenuItem>
-            <MenuItem value="coming-soon">Coming Soon</MenuItem>
-            <MenuItem value="past">Past</MenuItem>
+            <MenuItem value="current">{t('current')}</MenuItem>
+            <MenuItem value="coming-soon">{t('future')}</MenuItem>
+            <MenuItem value="past">{t('present')}</MenuItem>
           </Select>
 
           {/* Change View */}
@@ -176,7 +176,7 @@ export default function Home() {
             padding: "10px 0px",
           }}
         >
-          Add a Travel Note
+          {t('add_note')}
         </Button>
       </div>
 

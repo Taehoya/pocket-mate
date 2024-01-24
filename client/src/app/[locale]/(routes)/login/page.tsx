@@ -10,41 +10,79 @@ import { Divider, Typography, Button, Link, TextField } from "@mui/material";
 import { DefaultButtonColor, LoginLinkColor } from "@/app/[locale]/constants";
 
 interface SSOButtonProps {
-  image: string;
+  image?: string;
+  text?: string;
+  type?: string;
   backgroundColor: string;
-  text: string;
+  logic?: Function;
 }
 
 const SSOButton: React.FC<SSOButtonProps> = ({
   image,
   backgroundColor,
   text,
+  type = "logo",
+  logic,
 }) => {
   const imageSrc = `/sso/${image}.svg`;
-
-  return (
-    <Button
-      variant="contained"
-      style={{
-        backgroundColor: backgroundColor,
-        color: "black",
-        borderRadius: "5px",
-        width: "280px",
-        height: "50px",
-        display: "flex",
-        alignItems: "center",
-        padding: "8px",
-        justifyContent: "flex-start",
-        paddingLeft: "20px",
-        marginBottom: "7%",
-      }}
-      startIcon={<Image src={imageSrc} alt="SSO Icon" width="45" height="45" />}
-    >
-      <Typography style={{ fontSize: "1rem", flex: 1, textTransform: "none" }}>
-        {text}
-      </Typography>
-    </Button>
-  );
+  var button;
+  const buttonStyle = {
+    backgroundColor: backgroundColor,
+    color: "black",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    alignText: "center",
+    margin: "0px 2%",
+  };
+  switch (type) {
+    case "logo":
+      button = (
+        <Button
+          variant="contained"
+          style={{
+            ...buttonStyle,
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src={imageSrc}
+            alt="SSO Icon"
+            style={{
+              width: "60%",
+              height: "60%",
+              borderRadius: "50%",
+            }}
+          />
+        </Button>
+      );
+      break;
+    case "text":
+      button = (
+        <Button
+          variant="contained"
+          onClick={logic}
+          style={{
+            ...buttonStyle,
+            borderRadius: "25px",
+            width: "150px",
+            height: "50px",
+          }}
+        >
+          <Typography
+            style={{ fontSize: "1rem", flex: 1, textTransform: "none" }}
+          >
+            {text}
+          </Typography>
+        </Button>
+      );
+      break;
+  }
+  return button;
 };
 
 const LoginPage = () => {
@@ -62,6 +100,12 @@ const LoginPage = () => {
     setPasswordText(event.target.value);
     setLoginError(null);
   };
+
+  const handleGuestAccount = () => {
+    setEmailText("test@email.com");
+    setPasswordText("test-password");
+    handleLogin();
+  }
 
   const handleLogin = async () => {
     try {
@@ -210,7 +254,7 @@ const LoginPage = () => {
             }}
           />
           <Typography color="#333333" fontSize="12px">
-            간편 로그인
+            {t("or_divider")}
           </Typography>
           <Divider
             sx={{
@@ -225,44 +269,40 @@ const LoginPage = () => {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
+            marginBottom: "10%",
+            width: "100%",
           }}
         >
-          <SSOButton
-            image="kakao"
-            text={t("kakao_login")}
-            backgroundColor="#FDDC3F"
-          />
-          <SSOButton
-            image="google"
-            text={t("google_login")}
-            backgroundColor="white"
-          />
+          <SSOButton image="kakao" backgroundColor="#FDDC3F" />
+          <SSOButton image="google" backgroundColor="white" />
+          <SSOButton text={t("guest_login")} backgroundColor="white" type="text" logic={handleGuestAccount}/>
         </div>
 
-        {/* Registration Row */}
+        {/* Footer Links Row */}
         <div
           style={{
             width: "220px",
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-evenly",
             textAlign: "center",
-            fontSize: "1rem",
+            fontSize: "0.9rem",
             color: LoginLinkColor,
             textDecoration: "none",
           }}
         >
-          <a
+          <div
             style={{ marginRight: "20px" }}
             onClick={() => {
               window.location.href = "/register";
             }}
           >
             Register
-          </a>
+          </div>
           <div>{"|"}</div>
-          <a style={{ marginLeft: "20px" }}>Guest</a>
+          <div>Forgot Password?</div>
+          <div>{"|"}</div>
+          <div>Find Email</div>
         </div>
       </div>
     </div>

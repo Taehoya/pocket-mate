@@ -6,11 +6,10 @@ import { styled } from "@mui/system";
 import Image from "next/image";
 
 // ICONS
-import CloseIcon from "@mui/icons-material/Close";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 // CONSTANTS
-import { DefaultButtonColor, HomeBackgroundColor } from "../constants";
+import { DefaultButtonColor, HomeBackgroundColor } from "../../constants";
 
 interface EditFieldProps {
   fieldType?: string;
@@ -214,64 +213,27 @@ const EditField: React.FC<EditFieldProps> = ({
   );
 };
 
-const EditTripPage = () => {
+const TripInfo = () => {
   return (
     <div
       style={{
-        position: "relative",
-        backgroundColor: HomeBackgroundColor,
-        height: "100vh",
-        width: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* Header */}
-      <Box
-        sx={{
-          width: "100%",
-          height: "5%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "2px solid #000",
-          position: "fixed",
-          zIndex: 1,
-          backgroundColor: HomeBackgroundColor,
-        }}
-      >
-        <Typography sx={{ flexGrow: 1, textAlign: "center" }}>
-          Edit Travel Note
-        </Typography>
-        <IconButton onClick={() => {}}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
-
-      {/* Body */}
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          paddingTop: "10%",
-          zIndex: -1,
-        }}
-      >
-        <EditField fieldTitle="Trip Name" />
-        <EditField fieldTitle="Travel To" />
-        <EditField fieldTitle="Start Date" />
-        <EditField fieldTitle="End Date" />
-        <EditField fieldTitle="Currency Unit" />
-        <EditField fieldTitle="Travel Note Type" fieldType="NoteField" />
-        <EditField fieldTitle="Travel Note Color" fieldType="ColorField" />
-      </Box>
+      <EditField fieldTitle="Trip Name" />
+      <EditField fieldTitle="Travel To" />
+      <EditField fieldTitle="Start Date" />
+      <EditField fieldTitle="End Date" />
+      <EditField fieldTitle="Currency Unit" />
+      <EditField fieldTitle="Travel Note Type" fieldType="NoteField" />
+      <EditField fieldTitle="Travel Note Color" fieldType="ColorField" />
 
       {/* Button */}
       <Button
         style={{
-          position: "fixed",
-          right: 0,
-          bottom: "10%",
-          transform: "translateX(-20%)",
+          marginTop: "5%",
+          marginBottom: "5%",
           borderRadius: 27,
           height: "5.5%",
           width: "70%",
@@ -283,11 +245,8 @@ const EditTripPage = () => {
       >
         Complete
       </Button>
-
-      {/* Extra spacing */}
-      <Box sx={{ height: "20%", backgroundColor: HomeBackgroundColor }} />
     </div>
   );
 };
 
-export default EditTripPage;
+export default TripInfo;

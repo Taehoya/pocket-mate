@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import TripObject from "../(object-types)/TripObject";
-import SpringNote from "./(notes)/SpringNote";
+import TripObject from "../../(object-types)/TripObject";
+import SpringNote from "../(notes)/SpringNote";
 
 interface GridCardProps {
   trips: TripObject[] | undefined;

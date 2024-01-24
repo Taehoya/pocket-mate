@@ -25,7 +25,7 @@ import Image from "next/image";
 
 // CONSTANTS
 import { DefaultButtonColor } from "../constants";
-import DatePicker from "../(components)/DatePicker";
+import DatePicker from "../(components)/(extra)/DatePicker";
 
 const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4", "step 5"];
 
@@ -181,7 +181,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
       await axios.post(
         "/api/v1/trips",
         {
-          budget: 5450,
+          budget: 10000,
           countryProperty: {
             id: destination?.id,
             code: destination?.code,
