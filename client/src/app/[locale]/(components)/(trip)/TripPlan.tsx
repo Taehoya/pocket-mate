@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import CountryMap from "../(extra)/CountryMap";
+import TripContent from "./TripContent";
 
 const TripPlan = () => {
   return (
@@ -27,7 +28,9 @@ const TripPlan = () => {
       </div>
 
       {/* Dynamic Main Body */}
-      <div style={{ flex: 5, backgroundColor: "brown" }}></div>
+      <div style={{ flex: 5 }}>
+        <TripContent />
+      </div>
     </div>
   );
 };

@@ -13,6 +13,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import TripFooter from "../../(components)/(trip)/TripFooter";
 import TripPlan from "../../(components)/(trip)/TripPlan";
 import TripInfo from "../../(components)/(trip)/TripInfo";
+import TransactionTemplate from "../../(components)/(transaction)/transaction-page/TransactionTemplate";
 
 const TripPage = ({ params }: { params: { trip: string } }) => {
   const [activeComponent, setActiveComponent] = useState<number>(2);
@@ -27,6 +28,8 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
         return <TripInfo />;
       case 2:
         return <TripPlan />;
+      case 3:
+        return <TransactionTemplate />;
       default:
         return <TripPlan />;
     }
