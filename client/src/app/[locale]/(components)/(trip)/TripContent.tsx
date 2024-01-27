@@ -16,7 +16,11 @@ const TripContent = () => {
         value={activeTab}
         onChange={handleTabChange}
         aria-label="Tabs with dropdowns"
-        indicatorColor="white"
+        sx={{
+          "& .MuiTabs-indicator": {
+            background: "white",
+          },
+        }}
       >
         <Tab
           label="Expense List"

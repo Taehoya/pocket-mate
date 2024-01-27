@@ -7,13 +7,13 @@ import { Typography, IconButton, Grid } from "@mui/material";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
-// Constants
-
 // Components
 import TripFooter from "../../(components)/(trip)/TripFooter";
 import TripPlan from "../../(components)/(trip)/TripPlan";
 import TripInfo from "../../(components)/(trip)/TripInfo";
 import TransactionTemplate from "../../(components)/(transaction)/transaction-page/TransactionTemplate";
+import TripGraph from "../../(components)/(trip)/TripGraph";
+import WebWrapper from "../../(wrapper)/WebWrapper";
 
 const TripPage = ({ params }: { params: { trip: string } }) => {
   const [activeComponent, setActiveComponent] = useState<number>(2);
@@ -30,57 +30,61 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
         return <TripPlan />;
       case 3:
         return <TransactionTemplate />;
+      case 4:
+        return <TripGraph />;
       default:
         return <TripPlan />;
     }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "white",
-      }}
-    >
-      {/* Top Header */}
+    <WebWrapper>
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: "column",
+          width: "100%",
+          height: "100vh",
+          backgroundColor: "white",
         }}
       >
-        <IconButton
-          onClick={() => {
-            window.location.href = "/";
+        {/* Top Header */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <ArrowBackIosNewRoundedIcon />
-        </IconButton>
-        <Typography sx={{ flexGrow: 1, textAlign: "center" }}>
-          Travel Note
-        </Typography>
-        <IconButton onClick={() => {}}>
-          <MenuRoundedIcon />
-        </IconButton>
-      </div>
+          <IconButton
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            <ArrowBackIosNewRoundedIcon />
+          </IconButton>
+          <Typography sx={{ flexGrow: 1, textAlign: "center" }}>
+            Travel Note
+          </Typography>
+          <IconButton onClick={() => {}}>
+            <MenuRoundedIcon />
+          </IconButton>
+        </div>
 
-      {/* Body Section */}
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-        }}
-      >
-        {renderActiveComponent()}
-      </div>
+        {/* Body Section */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+          }}
+        >
+          {renderActiveComponent()}
+        </div>
 
-      {/* Footer Buttons */}
-      <TripFooter onSelect={handleSelect} activeComponent={activeComponent} />
-    </div>
+        {/* Footer Buttons */}
+        <TripFooter onSelect={handleSelect} activeComponent={activeComponent} />
+      </div>
+    </WebWrapper>
   );
 };
 
