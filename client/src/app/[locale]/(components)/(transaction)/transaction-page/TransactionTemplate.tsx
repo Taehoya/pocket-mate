@@ -1,9 +1,8 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 
-// Constants
-import { DefaultButtonColor, UnactiveColor } from "@/app/[locale]/constants";
-import CategoryList from "../../(basic)/category-list/CategoryList";
 import DefaultButton from "../../(basic)/default-button/DefaultButton";
+import CategoryList from "../transaction-component/category-list/CategoryList";
+import DropdownSection from "../transaction-component/dropdown-bubble/DropdownSection";
 
 const TransactionTemplate = () => {
   return (
@@ -33,38 +32,9 @@ const TransactionTemplate = () => {
       </div>
 
       {/* Bubble Dropdown Section */}
-      <div
-        style={{
-          display: "flex",
-          minHeight: "10%",
-          padding: "0px 2%",
-          margin: "10% 0px",
-        }}
-      >
-        {/* Date Dropdown */}
-        <div
-          style={{
-            flex: 2,
-            height: "100%",
-            borderRadius: "10px",
-            border: `1px solid ${UnactiveColor}`,
-            margin: "0px 2%",
-          }}
-        ></div>
+      <DropdownSection />
 
-        {/* Payment Type Dropdown */}
-        <div
-          style={{
-            flex: 1,
-            height: "100%",
-            borderRadius: "10px",
-            border: `1px solid ${UnactiveColor}`,
-            margin: "0px 2%",
-          }}
-        ></div>
-      </div>
-
-      {/* Expense Name */}
+      {/* Expense Name Field */}
       <div
         style={{
           height: "95px",

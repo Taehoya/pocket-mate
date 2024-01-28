@@ -8,7 +8,7 @@ const TripPlan = () => {
       {/* Title Section */}
       <div
         style={{
-          flex: 1,
+          minHeight: "100px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -23,12 +23,17 @@ const TripPlan = () => {
       </div>
 
       {/* Map Preview */}
-      <div style={{ flex: 2 }}>
+      <div
+        style={{
+          minHeight: "200px",
+          width: "100%",
+        }}
+      >
         <CountryMap />
       </div>
 
       {/* Dynamic Main Body */}
-      <div style={{ flex: 5 }}>
+      <div style={{ flexGrow: 1 }}>
         <TripContent />
       </div>
     </div>

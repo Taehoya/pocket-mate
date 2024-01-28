@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Grid, Typography } from "@mui/material";
-import CategoryButton from "../category-button/CategoryButton";
+import CategoryButton from "../../../(basic)/category-button/CategoryButton";
 
 // Icons
 import HotelIcon from "@mui/icons-material/LocalHotelOutlined";
