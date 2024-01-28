@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Tab, Tabs, List } from "@mui/material";
-import AllTransactions from "../(transaction)/AllTransactions";
+import { Tab, Tabs, List, Paper } from "@mui/material";
+import AllTransactions from "../(transaction)/trip-transaction-list/AllTransactions";
 
 const TripContent = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -16,7 +16,11 @@ const TripContent = () => {
         value={activeTab}
         onChange={handleTabChange}
         aria-label="Tabs with dropdowns"
-        indicatorColor="white"
+        sx={{
+          "& .MuiTabs-indicator": {
+            background: "white",
+          },
+        }}
       >
         <Tab
           label="Expense List"
@@ -38,7 +42,7 @@ const TripContent = () => {
 
       {activeTab === 0 && <AllTransactions />}
 
-      {activeTab === 1 && <List>{/* Add content for Tab 2 here */}</List>}
+      {activeTab === 1 && <List></List>}
     </div>
   );
 };

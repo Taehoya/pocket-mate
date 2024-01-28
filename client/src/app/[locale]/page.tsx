@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import MultiPageForm from "./(page-components)/MultiPageForm";
+import MultiPageForm from "./(components)/(extra)/MultiPageForm";
 import SwipableCards from "./(components)/(home)/SwipableCards";
 import GridCards from "./(components)/(home)/GridCards";
 import {
@@ -10,11 +10,13 @@ import {
   IconButton,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import TripObject from "./(object-types)/TripObject";
+import TripObject from "./(components)/(object-types)/TripObject";
 import axios from "axios";
 import { useTranslations } from "next-intl";
+import WebWrapper from "./(wrapper)/WebWrapper";
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -75,7 +77,7 @@ export default function Home() {
     setSwipeView(!swipeView);
   };
 
-  const handleDropdown = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleDropdown = (event: SelectChangeEvent<string>) => {
     const time = event.target.value as string;
     setDropdownValue(time);
     if (time === "past") setTripList(pastTripList);
@@ -84,117 +86,119 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        backgroundColor: HomeBackgroundColor,
-      }}
-    >
-      {/* Header */}
+    <WebWrapper>
       <div
         style={{
-          marginTop: "3%",
-          textAlign: "center",
-          flex: 2,
-        }}
-      >
-        {/* Title Text */}
-        <Typography style={{ fontSize: "1.1rem" }}>{t("header")}</Typography>
-
-        {/* Button Row */}
-        <div
-          style={{
-            marginTop: "7%",
-            padding: "0px 2%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Settings */}
-          <IconButton>
-            <SettingsIcon />
-          </IconButton>
-
-          {/* Dropdown */}
-          <Select
-            value={dropdownValue}
-            onChange={handleDropdown}
-            style={{
-              width: "190px",
-              height: "40px",
-              borderRadius: "25px",
-              backgroundColor: "white",
-              color: "black",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-              border: "none",
-            }}
-          >
-            <MenuItem value="current">{t('current')}</MenuItem>
-            <MenuItem value="coming-soon">{t('future')}</MenuItem>
-            <MenuItem value="past">{t('present')}</MenuItem>
-          </Select>
-
-          {/* Change View */}
-          <IconButton onClick={controlChangeView}>
-            {swipeView ? <WindowIcon /> : <ListIcon />}
-          </IconButton>
-        </div>
-      </div>
-
-      {/* Body */}
-      {!loading && (
-        <div style={{ flex: 8 }}>
-          {swipeView ? (
-            <SwipableCards trips={tripList} />
-          ) : (
-            <GridCards trips={tripList} />
-          )}
-        </div>
-      )}
-
-      {/* Add Travel Button */}
-      <div
-        style={{
-          flex: 1,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          width: "100%",
-          paddingBottom: "15%",
+          height: "100vh",
+          backgroundColor: HomeBackgroundColor,
         }}
       >
-        <Button
-          onClick={addTravelNote}
+        {/* Header */}
+        <div
           style={{
-            backgroundColor: DefaultButtonColor,
-            color: "white",
-            borderRadius: "25px",
-            width: "90%",
-            padding: "10px 0px",
+            marginTop: "3%",
+            textAlign: "center",
+            flex: 2,
           }}
         >
-          {t('add_note')}
-        </Button>
-      </div>
+          {/* Title Text */}
+          <Typography style={{ fontSize: "1.1rem" }}>{t("header")}</Typography>
 
-      {/* New Note Modal */}
-      <Dialog
-        open={isFormOpen}
-        fullScreen
-        onClose={closeTravelNote}
-        PaperProps={{
-          style: {
-            overflowY: "hidden",
-            maxHeight: "100%",
-            backgroundColor: BackgroundColor,
-          },
-        }}
-      >
-        <MultiPageForm closeForm={closeTravelNote} />
-      </Dialog>
-    </div>
+          {/* Button Row */}
+          <div
+            style={{
+              marginTop: "7%",
+              padding: "0px 2%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            {/* Settings */}
+            <IconButton>
+              <SettingsIcon />
+            </IconButton>
+
+            {/* Dropdown */}
+            <Select
+              value={dropdownValue}
+              onChange={handleDropdown}
+              style={{
+                width: "190px",
+                height: "40px",
+                borderRadius: "25px",
+                backgroundColor: "white",
+                color: "black",
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+                border: "none",
+              }}
+            >
+              <MenuItem value="current">{t("current")}</MenuItem>
+              <MenuItem value="coming-soon">{t("future")}</MenuItem>
+              <MenuItem value="past">{t("present")}</MenuItem>
+            </Select>
+
+            {/* Change View */}
+            <IconButton onClick={controlChangeView}>
+              {swipeView ? <WindowIcon /> : <ListIcon />}
+            </IconButton>
+          </div>
+        </div>
+
+        {/* Body */}
+        {!loading && (
+          <div style={{ flex: 8 }}>
+            {swipeView ? (
+              <SwipableCards trips={tripList} />
+            ) : (
+              <GridCards trips={tripList} />
+            )}
+          </div>
+        )}
+
+        {/* Add Travel Button */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            width: "100%",
+            paddingBottom: "15%",
+          }}
+        >
+          <Button
+            onClick={addTravelNote}
+            style={{
+              backgroundColor: DefaultButtonColor,
+              color: "white",
+              borderRadius: "25px",
+              width: "90%",
+              padding: "10px 0px",
+            }}
+          >
+            {t("add_note")}
+          </Button>
+        </div>
+
+        {/* New Note Modal */}
+        <Dialog
+          open={isFormOpen}
+          fullScreen
+          onClose={closeTravelNote}
+          PaperProps={{
+            style: {
+              overflowY: "hidden",
+              maxHeight: "100%",
+              backgroundColor: BackgroundColor,
+            },
+          }}
+        >
+          <MultiPageForm closeForm={closeTravelNote} />
+        </Dialog>
+      </div>
+    </WebWrapper>
   );
 }

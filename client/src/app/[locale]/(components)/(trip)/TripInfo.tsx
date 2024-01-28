@@ -1,15 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Box, Button, Typography, IconButton, TextField } from "@mui/material";
+import { Box, Typography, IconButton, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import Image from "next/image";
+import DefaultButton from "../(basic)/default-button/DefaultButton";
 
 // ICONS
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-
-// CONSTANTS
-import { DefaultButtonColor, HomeBackgroundColor } from "../../constants";
 
 interface EditFieldProps {
   fieldType?: string;
@@ -46,7 +44,7 @@ const EditField: React.FC<EditFieldProps> = ({
 }) => {
   const [editMode, setEditMode] = useState(true);
   const textFieldRef = useRef<HTMLInputElement>(null);
-  const [noteImage, setNoteImage] = useState("");
+  const [noteImage, setNoteImage] = useState("BasicNote");
   let inputComponent;
 
   useEffect(() => {
@@ -230,21 +228,16 @@ const TripInfo = () => {
       <EditField fieldTitle="Travel Note Color" fieldType="ColorField" />
 
       {/* Button */}
-      <Button
+      <div
         style={{
-          marginTop: "5%",
-          marginBottom: "5%",
-          borderRadius: 27,
-          height: "5.5%",
-          width: "70%",
-          fontSize: "1rem",
-          fontWeight: "bold",
-          backgroundColor: DefaultButtonColor,
-          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          margin: "10% 0%",
         }}
       >
-        Complete
-      </Button>
+        <DefaultButton name="Complete" />
+      </div>
     </div>
   );
 };

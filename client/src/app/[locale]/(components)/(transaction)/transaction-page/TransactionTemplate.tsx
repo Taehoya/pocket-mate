@@ -1,11 +1,19 @@
-import { Button, Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 
-// Constants
-import { DefaultButtonColor, UnactiveColor } from "@/app/[locale]/constants";
+import DefaultButton from "../../(basic)/default-button/DefaultButton";
+import CategoryList from "../transaction-component/category-list/CategoryList";
+import DropdownSection from "../transaction-component/dropdown-bubble/DropdownSection";
 
 const TransactionTemplate = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
       {/* Amount Field  */}
       <div
         style={{
@@ -13,68 +21,60 @@ const TransactionTemplate = () => {
           display: "flex",
           flexDirection: "column",
           background: "#F9F9F9",
-          height: "15%",
+          height: "150px",
         }}
-      ></div>
+      >
+        {/* Curreny Toggle */}
+
+        {/* Amount Input Value */}
+
+        {/* Converted Currency Value */}
+      </div>
 
       {/* Bubble Dropdown Section */}
+      <DropdownSection />
+
+      {/* Expense Name Field */}
+      <div
+        style={{
+          height: "95px",
+          width: "100%",
+          margin: "5% 0px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ width: "90%" }}>
+          <TextField
+            fullWidth
+            id="standard-input-name"
+            label="Expense Name"
+            variant="standard"
+            InputLabelProps={{
+              shrink: true,
+              style: { fontSize: "20px" },
+            }}
+            InputProps={{
+              style: { height: "45px" },
+            }}
+            placeholder="Please enter name of expense"
+          />
+        </div>
+      </div>
+
+      {/* Category List*/}
+      <CategoryList />
+
+      {/* Add Button */}
       <div
         style={{
           display: "flex",
-          height: "66px",
-          padding: "0px 2%",
-          margin: "10% 0px",
+          justifyContent: "center",
+          width: "100%",
+          marginBottom: "10%",
         }}
       >
-        {/* Date Selection */}
-        <div
-          style={{
-            flex: 2,
-            height: "100%",
-            borderRadius: "10px",
-            border: `1px solid ${UnactiveColor}`,
-            margin: "0px 2%",
-          }}
-        ></div>
-
-        {/* Payment Type */}
-        <div
-          style={{
-            flex: 1,
-            height: "100%",
-            borderRadius: "10px",
-            border: `1px solid ${UnactiveColor}`,
-            margin: "0px 2%",
-          }}
-        ></div>
-      </div>
-
-      {/* Expense Name */}
-      <div style={{ height: "45px", margin: "5% 0px" }}></div>
-
-      {/* Category List*/}
-
-      {/* Add Button */}
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          style={{
-            height: "50px",
-            width: "350px",
-            flexShrink: 0,
-            borderRadius: "25px",
-            backgroundColor: DefaultButtonColor,
-            boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
-          }}
-        >
-          <Typography
-            color="white"
-            fontSize="20px"
-            fontWeight={800}
-            textAlign="center"
-          >
-            Add Expense
-          </Typography>
-        </Button>
+        <DefaultButton name="Add Expense" />
       </div>
     </div>
   );
