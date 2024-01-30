@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import SwipeableViews from "react-swipeable-views";
@@ -8,6 +8,7 @@ import TripObject from "../(object-types)/TripObject";
 // CONSTANTS
 import { HomeBackgroundColor, DefaultButtonColor } from "../../constants";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import EmailDialog from "../(basic)/dialog-email/EmailDialog";
 
 interface SwipeableCardsProps {
   trips: TripObject[] | undefined;
@@ -15,9 +16,18 @@ interface SwipeableCardsProps {
 
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [emailDialogOpen, setEamilDialogOpen] = useState(false);
 
   const handleIndexChange = (index: number) => {
     setActiveIndex(index);
+  };
+
+  const handleEmailDialogOpen = () => {
+    setEamilDialogOpen(true);
+  };
+
+  const handleEmailDialogClose = () => {
+    setEamilDialogOpen(false);
   };
 
   const cardStyle = {
@@ -163,8 +173,16 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                 <Avatar
                   sx={{ marginLeft: "3%", backgroundColor: DefaultButtonColor }}
                 >
-                  <GroupAddIcon />
+                  <IconButton onClick={handleEmailDialogOpen}>
+                    <GroupAddIcon />
+                  </IconButton>
                 </Avatar>
+
+                {/* Email Dialog */}
+                <EmailDialog
+                  open={emailDialogOpen}
+                  onClose={handleEmailDialogClose}
+                />
               </div>
             </div>
           );

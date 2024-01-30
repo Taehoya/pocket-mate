@@ -3,6 +3,7 @@ import { TextField } from "@mui/material";
 import DefaultButton from "../../(basic)/default-button/DefaultButton";
 import CategoryList from "../transaction-component/category-list/CategoryList";
 import DropdownSection from "../transaction-component/dropdown-bubble/DropdownSection";
+import InputAmount from "../transaction-component/input-amount/InputAmount";
 
 const TransactionTemplate = () => {
   return (
@@ -11,25 +12,11 @@ const TransactionTemplate = () => {
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        height: "100vh",
+        height: "100%",
       }}
     >
       {/* Amount Field  */}
-      <div
-        style={{
-          marginTop: "5%",
-          display: "flex",
-          flexDirection: "column",
-          background: "#F9F9F9",
-          height: "150px",
-        }}
-      >
-        {/* Curreny Toggle */}
-
-        {/* Amount Input Value */}
-
-        {/* Converted Currency Value */}
-      </div>
+      <InputAmount amount={500} />
 
       {/* Bubble Dropdown Section */}
       <DropdownSection />
@@ -70,8 +57,7 @@ const TransactionTemplate = () => {
         style={{
           display: "flex",
           justifyContent: "center",
-          width: "100%",
-          marginBottom: "10%",
+          marginBottom: "100px",
         }}
       >
         <DefaultButton name="Add Expense" />

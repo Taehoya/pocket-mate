@@ -13,9 +13,9 @@ const WebWrapper: React.FC<WebWrapperProps> = ({ children }) => {
   // const isSmallScreen = useMediaQuery("(max-width:600px)"); // Define your breakpoint
 
   return (
-    <Grid container>
+    <Grid container style={{backgroundColor: "grey"}}>
       <Grid item xs={0} md={4}></Grid>
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={4} style={{ maxWidth: 800, margin: '0 auto' }}>
         {children}
       </Grid>
       <Grid item xs={0} md={4}></Grid>

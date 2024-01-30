@@ -6,7 +6,7 @@ export const GridMain = styled(Grid)({
   flexDirection: "column",
   alignItems: "center",
   borderRadius: "10px",
-  border: "1.5px solid #FB3F04",
+  border: "2px solid #FB3F04",
   height: "100px",
   padding: "10px",
 });

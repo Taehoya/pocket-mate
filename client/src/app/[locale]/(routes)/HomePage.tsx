@@ -8,6 +8,7 @@ import {
   IconButton,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
 } from "@mui/material";
 import TripObject from "../(components)/(object-types)/TripObject";
@@ -73,7 +74,7 @@ export default function HomePage() {
     setSwipeView(!swipeView);
   };
 
-  const handleDropdown = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleDropdown = (event: SelectChangeEvent) => {
     const time = event.target.value as string;
     setDropdownValue(time);
     if (time === "past") setTripList(pastTripList);
