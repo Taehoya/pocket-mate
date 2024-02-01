@@ -15,6 +15,7 @@ interface SwipeableCardsProps {
 }
 
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
+  const screenWidth: number = window.innerWidth > 390 ? 390 : window.innerWidth;
   const [activeIndex, setActiveIndex] = useState(0);
   const [emailDialogOpen, setEamilDialogOpen] = useState(false);
 
@@ -45,7 +46,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   };
 
   return (
-    <Box style={{ height: "100%" }}>
+    <Box style={{ height: "100%", width: screenWidth,}}>
       <SwipeableViews
         index={activeIndex}
         onChangeIndex={handleIndexChange}

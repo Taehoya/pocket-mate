@@ -1,4 +1,5 @@
 import { TextField } from "@mui/material";
+import axios from "axios";
 
 import DefaultButton from "../../(basic)/default-button/DefaultButton";
 import CategoryList from "../transaction-component/category-list/CategoryList";
@@ -6,6 +7,30 @@ import DropdownSection from "../transaction-component/dropdown-bubble/DropdownSe
 import InputAmount from "../transaction-component/input-amount/InputAmount";
 
 const TransactionTemplate = () => {
+
+  const addTransaction = async () => {
+    const accessToken = sessionStorage.getItem("access_token");
+    if (accessToken) {
+      await axios.post(
+        "/api/v1/trips",
+        {
+         amount: 20000,
+         categoryId: 2,
+         description: null,
+         name: "Test Name",
+         transactionDateTime: "2023-11-25T15:04:05Z",
+         tripID: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  };
+
   return (
     <div
       style={{

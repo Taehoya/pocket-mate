@@ -240,7 +240,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         <LinearProgress
           variant="determinate"
           value={progress}
-          classes={{ bar: { bacgroundColor: "#0e85ff" } }}
+          classes={{ bar: { backgroundColor: "#0e85ff" } }}
           style={{
             backgroundColor: "#E6E0E9",
             height: "5px",
