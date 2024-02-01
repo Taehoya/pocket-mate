@@ -1,7 +1,5 @@
 import { UnactiveButtonColor } from "@/app/[locale]/constants";
 import React, { ReactNode } from "react";
-
-// Constants
 import style from "./CategoryButton.styled";
 
 interface CountryButtonProps {
