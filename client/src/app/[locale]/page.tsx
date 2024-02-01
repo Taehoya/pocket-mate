@@ -16,6 +16,7 @@ import {
 import TripObject from "./(components)/(object-types)/TripObject";
 import axios from "axios";
 import { useTranslations } from "next-intl";
+import DefaultButton from "./(components)/(basic)/default-button/DefaultButton";
 import WebWrapper from "./(wrapper)/WebWrapper";
 
 // ICONS
@@ -44,6 +45,7 @@ export default function Home() {
   >();
   const [tripList, setTripList] = useState<TripObject[]>();
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const accessToken = sessionStorage.getItem("access_token");
@@ -169,18 +171,7 @@ export default function Home() {
             paddingBottom: "15%",
           }}
         >
-          <Button
-            onClick={addTravelNote}
-            style={{
-              backgroundColor: DefaultButtonColor,
-              color: "white",
-              borderRadius: "25px",
-              width: "90%",
-              padding: "10px 0px",
-            }}
-          >
-            {t("add_note")}
-          </Button>
+          <DefaultButton name={t("add_note")} onClick={addTravelNote}/>
         </div>
 
         {/* New Note Modal */}

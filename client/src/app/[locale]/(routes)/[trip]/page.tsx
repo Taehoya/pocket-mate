@@ -5,7 +5,6 @@ import { Typography, IconButton, Grid } from "@mui/material";
 
 // Icons
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 // Components
 import TripFooter from "../../(components)/(trip)/TripFooter";
@@ -14,6 +13,7 @@ import TripInfo from "../../(components)/(trip)/TripInfo";
 import TransactionTemplate from "../../(components)/(transaction)/transaction-page/TransactionTemplate";
 import TripGraph from "../../(components)/(trip)/TripGraph";
 import WebWrapper from "../../(wrapper)/WebWrapper";
+import TripDrawer from "../../(components)/(trip)/TripDrawer";
 
 const TripPage = ({ params }: { params: { trip: string } }) => {
   const [activeComponent, setActiveComponent] = useState<number>(2);
@@ -66,9 +66,9 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
           <Typography sx={{ flexGrow: 1, textAlign: "center" }}>
             Travel Note
           </Typography>
-          <IconButton onClick={() => {}}>
-            <MenuRoundedIcon />
-          </IconButton>
+
+          {/* Drawer */}
+          <TripDrawer />
         </div>
 
         {/* Body Section */}

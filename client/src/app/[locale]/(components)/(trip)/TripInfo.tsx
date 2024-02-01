@@ -1,201 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Box, Typography, IconButton, TextField } from "@mui/material";
-import { styled } from "@mui/system";
-import Image from "next/image";
+import React, { useState } from "react";
+import { Box, Typography } from "@mui/material";
 import DefaultButton from "../(basic)/default-button/DefaultButton";
+import TripColorField from "./tripinfo-component/TripColorField";
+import TripNoteField from "./tripinfo-component/TripNoteField";
+import TripTextField from "./tripinfo-component/TripTextField";
 
-// ICONS
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
+// Icons
+import EditNoteIcon from "@mui/icons-material/EditNote";
+
+// Constants
+import { DefaultButtonColor } from "../../constants";
 
 interface EditFieldProps {
-  fieldType?: string;
   fieldTitle: string;
+  children: React.ReactNode;
 }
 
-const NoBorderTextField = styled(TextField)({
-  "& .MuiOutlinedInput-input": {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    margin: "1% 0",
-    padding: 0,
-    width: "auto",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      border: "none",
-      outline: "none",
-    },
-    "&:hover fieldset": {
-      border: "none",
-      outline: "none",
-    },
-    "&.Mui-focused fieldset": {
-      border: "none",
-      outline: "none",
-    },
-  },
-});
-
-const EditField: React.FC<EditFieldProps> = ({
-  fieldType = "TextField",
-  fieldTitle,
-}) => {
-  const [editMode, setEditMode] = useState(true);
-  const textFieldRef = useRef<HTMLInputElement>(null);
-  const [noteImage, setNoteImage] = useState("BasicNote");
-  let inputComponent;
-
-  useEffect(() => {
-    if (textFieldRef.current) {
-      textFieldRef.current.focus();
-      // Set the selection range to the end of the input value
-      const length = textFieldRef.current.value.length;
-      textFieldRef.current.setSelectionRange(length, length);
-    }
-  }, [editMode]);
-
-  const handleEdit = () => {
-    setEditMode(false);
-  };
-
-  const handleBlur = () => {
-    setEditMode(true);
-  };
-
-  const handleNoteImage = (noteImage: string) => {
-    setNoteImage(noteImage);
-  };
-
-  switch (fieldType) {
-    case "TextField":
-      inputComponent = (
-        <Box sx={{ display: "flex" }}>
-          <NoBorderTextField
-            onBlur={handleBlur}
-            InputProps={{
-              readOnly: editMode,
-            }}
-            inputRef={textFieldRef}
-            defaultValue="Hello world"
-          />
-          <IconButton onClick={handleEdit}>
-            <ModeEditIcon />
-          </IconButton>
-        </Box>
-      );
-      break;
-    case "NoteField":
-      inputComponent = (
-        <Box sx={{ display: "flex" }}>
-          {/* Basic Note */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "5%",
-              marginBottom: "2%",
-            }}
-          >
-            <Image
-              src={`/create-trip/${
-                noteImage == "BasicNote" ? "BasicNoteFilled" : "BasicNoteBlank"
-              }.svg`}
-              alt="My Image"
-              width={180}
-              height={180}
-              onClick={() => handleNoteImage("BasicNote")}
-            />
-            <Typography sx={{ fontSize: "1rem", marginTop: "5px" }}>
-              Basic Note
-            </Typography>
-          </Box>
-
-          {/* Spring Note */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "5%",
-            }}
-          >
-            <Image
-              src={`/create-trip/${
-                noteImage == "SpringNote"
-                  ? "SpringNoteFilled"
-                  : "SpringNoteBlank"
-              }.svg`}
-              alt="My Image"
-              width={180}
-              height={180}
-              onClick={() => handleNoteImage("SpringNote")}
-            />
-            <Typography sx={{ fontSize: "1rem", marginTop: "5px" }}>
-              Spring Note
-            </Typography>
-          </Box>
-        </Box>
-      );
-      break;
-    case "ColorField":
-      inputComponent = (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {/* Color 1 */}
-          <Box
-            sx={{
-              display: "flex",
-              margin: "2% 0",
-            }}
-          >
-            <Typography fontSize="1.5rem" fontWeight="bold" sx={{ flex: 1 }}>
-              Binder
-            </Typography>
-            <Box
-              sx={{
-                flex: 1,
-                backgroundColor: "blue",
-                width: "30%",
-                borderRadius: "5px",
-              }}
-            />
-            <Box sx={{ flex: 1, marginLeft: "5%" }}>
-              <IconButton>
-                <ModeEditIcon />
-              </IconButton>
-            </Box>
-          </Box>
-          {/* Color 2 */}
-          <Box sx={{ display: "flex" }}>
-            <Typography fontSize="1.5rem" fontWeight="bold" sx={{ flex: 1 }}>
-              Body
-            </Typography>
-            <Box
-              sx={{
-                flex: 1,
-                backgroundColor: "blue",
-                width: "30%",
-                borderRadius: "5px",
-              }}
-            />
-            <Box sx={{ flex: 1, marginLeft: "5%" }}>
-              <IconButton>
-                <ModeEditIcon />
-              </IconButton>
-            </Box>
-          </Box>
-        </Box>
-      );
-      break;
-  }
-
+const EditField: React.FC<EditFieldProps> = ({ fieldTitle, children }) => {
   return (
     <Box
       sx={{
@@ -206,26 +29,68 @@ const EditField: React.FC<EditFieldProps> = ({
       }}
     >
       <Typography fontSize="0.9rem">{fieldTitle}</Typography>
-      {inputComponent}
+      {children}
     </Box>
   );
 };
 
 const TripInfo = () => {
+  const [toggleEdit, setToggleEdit] = useState(false);
+
+  const handleToggleEdit = () => {
+    setToggleEdit((prev) => !prev);
+  };
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
+        position: "relative",
       }}
     >
-      <EditField fieldTitle="Trip Name" />
-      <EditField fieldTitle="Travel To" />
-      <EditField fieldTitle="Start Date" />
-      <EditField fieldTitle="End Date" />
-      <EditField fieldTitle="Currency Unit" />
-      <EditField fieldTitle="Travel Note Type" fieldType="NoteField" />
-      <EditField fieldTitle="Travel Note Color" fieldType="ColorField" />
+      {/* Toggle Edit Button */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "20%",
+          height: "3%",
+          position: "absolute",
+          top: "0.5%",
+          right: "2%",
+          borderRadius: "15px",
+          border: toggleEdit ? "none" : "1px solid #999",
+          color: toggleEdit ? "white" : "black",
+          backgroundColor: toggleEdit ? DefaultButtonColor : "white",
+        }}
+        onClick={handleToggleEdit}
+      >
+        {toggleEdit ? (
+          <EditNoteIcon />
+        ) : (
+          <Typography fontWeight={600} fontSize="18px">
+            Edit
+          </Typography>
+        )}
+      </div>
+
+      <EditField fieldTitle="Trip Name">
+        <TripTextField active={toggleEdit} text="My own healing trip test test test 22221" />
+      </EditField>
+      <EditField fieldTitle="Travel To">
+        <TripTextField active={toggleEdit} text="My own healing trip" />
+      </EditField>
+      <EditField fieldTitle="Currency Unit">
+        <TripTextField active={toggleEdit}  text="My own healing trip" />
+      </EditField>
+      <EditField fieldTitle="Travel Note Type">
+        <TripNoteField />
+      </EditField>
+      <EditField fieldTitle="Travel Note Color">
+        <TripColorField />
+      </EditField>
 
       {/* Button */}
       <div
@@ -236,7 +101,7 @@ const TripInfo = () => {
           margin: "10% 0%",
         }}
       >
-        <DefaultButton name="Complete" />
+        <DefaultButton name="Complete" active={toggleEdit} />
       </div>
     </div>
   );
