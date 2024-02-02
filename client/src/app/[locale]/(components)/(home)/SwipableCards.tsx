@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useNavigation from "../../(utils)/router";
 import { Box, IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -15,6 +16,7 @@ interface SwipeableCardsProps {
 }
 
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
+  const { navigateTo } = useNavigation();
   const screenWidth: number = window.innerWidth > 390 ? 390 : window.innerWidth;
   const [activeIndex, setActiveIndex] = useState(0);
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
@@ -81,7 +83,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                   backgroundImage: `url('/trip/SpringNote.svg')`,
                 }}
                 onClick={() => {
-                  window.location.href = "/tripen-trop";
+                  navigateTo("/trip-en-top");
                 }}
               >
                 {/* Section withou Binder */}

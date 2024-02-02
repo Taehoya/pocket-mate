@@ -6,6 +6,7 @@ import axios from "axios";
 import { useTranslations } from "next-intl";
 import { Divider, Typography, Button, Link, TextField } from "@mui/material";
 import WebWrapper from "../../(wrapper)/WebWrapper";
+import useNavigation from "../../(utils)/router";
 
 // Constants
 import { DefaultButtonColor, LoginLinkColor } from "@/app/[locale]/constants";
@@ -87,6 +88,7 @@ const SSOButton: React.FC<SSOButtonProps> = ({
 };
 
 const LoginPage = () => {
+  const { navigateTo } = useNavigation();
   const t = useTranslations("LoginPage");
   const [emailText, setEmailText] = useState("");
   const [passwordText, setPasswordText] = useState("");
@@ -117,7 +119,7 @@ const LoginPage = () => {
           if (result.status === 200) {
             const accessToken = result.data.access_token;
             sessionStorage.setItem("access_token", accessToken);
-            window.location.href = "/";
+            navigateTo("/");
           }
         });
     } catch (error: any) {
@@ -303,7 +305,7 @@ const LoginPage = () => {
             <div
               style={{ marginRight: "20px" }}
               onClick={() => {
-                window.location.href = "/register";
+                navigateTo("/register");
               }}
             >
               Register

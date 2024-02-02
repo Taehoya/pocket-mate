@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Typography, IconButton, Grid } from "@mui/material";
+import useNavigation from "../../(utils)/router";
 
 // Icons
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
@@ -16,6 +17,7 @@ import WebWrapper from "../../(wrapper)/WebWrapper";
 import TripDrawer from "../../(components)/(trip)/TripDrawer";
 
 const TripPage = ({ params }: { params: { trip: string } }) => {
+  const { navigateTo } = useNavigation();
   const [activeComponent, setActiveComponent] = useState<number>(2);
 
   const handleSelect = (componentNumber: number) => {
@@ -58,7 +60,7 @@ const TripPage = ({ params }: { params: { trip: string } }) => {
         >
           <IconButton
             onClick={() => {
-              window.location.href = "/";
+              navigateTo("/");
             }}
           >
             <ArrowBackIosNewRoundedIcon />

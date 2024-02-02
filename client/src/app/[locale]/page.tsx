@@ -18,6 +18,7 @@ import axios from "axios";
 import { useTranslations } from "next-intl";
 import DefaultButton from "./(components)/(basic)/default-button/DefaultButton";
 import WebWrapper from "./(wrapper)/WebWrapper";
+import useNavigation from "./(utils)/router";
 
 // ICONS
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -25,14 +26,11 @@ import WindowIcon from "@mui/icons-material/Window";
 import ListIcon from "@mui/icons-material/FormatListBulleted";
 
 // CONSTANTS
-import {
-  BackgroundColor,
-  DefaultButtonColor,
-  HomeBackgroundColor,
-} from "./constants";
+import { BackgroundColor, HomeBackgroundColor } from "./constants";
 
 export default function Home() {
   const t = useTranslations("HomePage");
+  const { navigateTo } = useNavigation();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("current");
   const [swipeView, setSwipeView] = useState(true);
@@ -46,10 +44,9 @@ export default function Home() {
   const [tripList, setTripList] = useState<TripObject[]>();
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const accessToken = sessionStorage.getItem("access_token");
-    if (!accessToken) window.location.href = "/login";
+    if (!accessToken) navigateTo("login");
     else {
       fetchTrips(accessToken);
     }
@@ -171,7 +168,7 @@ export default function Home() {
             paddingBottom: "15%",
           }}
         >
-          <DefaultButton name={t("add_note")} onClick={addTravelNote}/>
+          <DefaultButton name={t("add_note")} onClick={addTravelNote} />
         </div>
 
         {/* New Note Modal */}

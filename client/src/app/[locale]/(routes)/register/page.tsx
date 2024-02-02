@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import WebWrapper from "../../(wrapper)/WebWrapper";
+import useNavigation from "../../(utils)/router";
 
 // Icons
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
@@ -109,6 +110,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
 };
 
 const RegisterPage = () => {
+  const { navigateTo } = useNavigation();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -132,7 +134,7 @@ const RegisterPage = () => {
       Email: email,
       Password: password,
     });
-    window.location.href = "/login";
+    navigateTo("/login");
   };
 
   return (
