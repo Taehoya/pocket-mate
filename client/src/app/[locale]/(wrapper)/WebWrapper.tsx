@@ -22,6 +22,7 @@ const WebWrapper: React.FC<WebWrapperProps> = ({ children }) => {
         style={{
           maxWidth: 390,
           margin: "0 auto",
+          backgroundColor: "#F5F5F5"
         }}
       >
         {children}

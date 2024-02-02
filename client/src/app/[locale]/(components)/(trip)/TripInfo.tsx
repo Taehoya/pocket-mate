@@ -77,19 +77,22 @@ const TripInfo = () => {
       </div>
 
       <EditField fieldTitle="Trip Name">
-        <TripTextField active={toggleEdit} text="My own healing trip test test test 22221" />
+        <TripTextField
+          active={toggleEdit}
+          text="My own healing trip test test test 22221"
+        />
       </EditField>
       <EditField fieldTitle="Travel To">
         <TripTextField active={toggleEdit} text="My own healing trip" />
       </EditField>
       <EditField fieldTitle="Currency Unit">
-        <TripTextField active={toggleEdit}  text="My own healing trip" />
+        <TripTextField active={toggleEdit} text="My own healing trip" />
       </EditField>
       <EditField fieldTitle="Travel Note Type">
         <TripNoteField />
       </EditField>
       <EditField fieldTitle="Travel Note Color">
-        <TripColorField />
+        <TripColorField active={toggleEdit} />
       </EditField>
 
       {/* Button */}

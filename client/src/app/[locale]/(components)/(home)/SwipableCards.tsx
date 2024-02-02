@@ -17,18 +17,18 @@ interface SwipeableCardsProps {
 const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   const screenWidth: number = window.innerWidth > 390 ? 390 : window.innerWidth;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [emailDialogOpen, setEamilDialogOpen] = useState(false);
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
 
   const handleIndexChange = (index: number) => {
     setActiveIndex(index);
   };
 
   const handleEmailDialogOpen = () => {
-    setEamilDialogOpen(true);
+    setEmailDialogOpen(true);
   };
 
   const handleEmailDialogClose = () => {
-    setEamilDialogOpen(false);
+    setEmailDialogOpen(false);
   };
 
   const cardStyle = {

@@ -1,10 +1,25 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { IconButton, Typography } from "@mui/material";
 
 // ICONS
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import ColorPickerDialog from "../../(basic)/dialog-color-picker/ColorPickerDialog";
 
-const TripColorField = () => {
+interface TripColorFieldProps {
+  active?: boolean;
+}
+
+const TripColorField: React.FC<TripColorFieldProps> = ({ active = false }) => {
+  const [toggleDialog, setToggleDialog] = useState(false);
+
+  const handleDialogOpen = () => {
+    setToggleDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setToggleDialog(false);
+  };
+
   return (
     <div
       style={{
@@ -12,7 +27,7 @@ const TripColorField = () => {
         flexDirection: "column",
       }}
     >
-      {/* Color 1 */}
+      {/* Binder Color */}
       <div
         style={{
           display: "flex",
@@ -31,12 +46,15 @@ const TripColorField = () => {
           }}
         />
         <div style={{ flex: 1, marginLeft: "5%" }}>
-          <IconButton>
-            <ModeEditIcon />
-          </IconButton>
+          {active && (
+            <IconButton onClick={handleDialogOpen}>
+              <ModeEditIcon />
+            </IconButton>
+          )}
         </div>
       </div>
-      {/* Color 2 */}
+
+      {/* Body Color */}
       <div style={{ display: "flex" }}>
         <Typography fontSize="1.5rem" fontWeight="bold" style={{ flex: 1 }}>
           Body
@@ -50,11 +68,16 @@ const TripColorField = () => {
           }}
         />
         <div style={{ flex: 1, marginLeft: "5%" }}>
-          <IconButton>
-            <ModeEditIcon />
-          </IconButton>
+          {active && (
+            <IconButton onClick={handleDialogOpen}>
+              <ModeEditIcon />
+            </IconButton>
+          )}
         </div>
       </div>
+
+      {/* Color Picker Dialog */}
+      <ColorPickerDialog open={toggleDialog} onClose={handleDialogClose} />
     </div>
   );
 };
