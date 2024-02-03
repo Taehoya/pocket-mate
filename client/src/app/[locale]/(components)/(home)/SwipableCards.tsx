@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import useNavigation from "../../(utils)/router";
 import { Box, IconButton, Typography } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
 import SwipeableViews from "react-swipeable-views";
 import TripObject from "../(object-types)/TripObject";
+import MemberAvatars from "./MemberAvatars";
 
 // CONSTANTS
-import { HomeBackgroundColor, DefaultButtonColor } from "../../constants";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import EmailDialog from "../(basic)/dialog-email/EmailDialog";
+import { HomeBackgroundColor } from "../../constants";
 
 interface SwipeableCardsProps {
   trips: TripObject[] | undefined;
@@ -151,42 +148,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
               </div>
 
               {/* Group */}
-              <div
-                style={{
-                  width: "80%",
-                  height: "30px",
-                  marginTop: "10%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <AvatarGroup total={8}>
-                  <Avatar alt="Remy Sharp" src="/" sx={{ bgcolor: "green" }} />
-                  <Avatar
-                    alt="Agnes Walker"
-                    src="/"
-                    sx={{ bgcolor: "lightblue" }}
-                  />
-                  <Avatar
-                    alt="Trevor Henderson"
-                    src="/"
-                    sx={{ bgcolor: "red" }}
-                  />
-                </AvatarGroup>
-                <Avatar
-                  sx={{ marginLeft: "3%", backgroundColor: DefaultButtonColor }}
-                >
-                  <IconButton onClick={handleEmailDialogOpen}>
-                    <GroupAddIcon />
-                  </IconButton>
-                </Avatar>
-
-                {/* Email Dialog */}
-                <EmailDialog
-                  open={emailDialogOpen}
-                  onClose={handleEmailDialogClose}
-                />
-              </div>
+              <MemberAvatars/>
             </div>
           );
         })}
