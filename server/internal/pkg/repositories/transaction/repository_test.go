@@ -129,3 +129,24 @@ func TestGetTransactionOption(t *testing.T) {
 		assert.NotNil(t, transactionOption)
 	})
 }
+
+func TestGetTransactionByTripId(t *testing.T) {
+	db, err := mysqltest.InitDB()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	repository := NewTransactionRepository(db)
+
+	t.Run("Successfully get transaction by trip id", func(t *testing.T) {
+		defer mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./teardown_test.sql")
+		mysqltest.SetUp(db, "./setup_test.sql")
+
+		ctx := context.TODO()
+		tripId := 1
+
+		transactions, err := repository.GetTransactionByTripId(ctx, tripId)
+		assert.NoError(t, err)
+		assert.NotNil(t, transactions)
+	})
+}
