@@ -20,6 +20,7 @@ type Trip struct {
 	description   string
 	note          Note
 	status        Status
+	transactions  []*Transaction
 	startDateTime time.Time
 	endDateTime   time.Time
 	createdAt     time.Time
@@ -34,6 +35,7 @@ func NewTrip(id int, name string, budget float64, countryId int, description str
 		countryId:     countryId,
 		description:   description,
 		note:          note,
+		transactions:  make([]*Transaction, 0),
 		startDateTime: startDateTime,
 		endDateTime:   endDateTime,
 		createdAt:     createdAt,
@@ -69,6 +71,10 @@ func (t *Trip) Status() Status {
 	return t.status
 }
 
+func (t *Trip) Transactions() []*Transaction {
+	return t.transactions
+}
+
 func (t *Trip) StartDateTime() time.Time {
 	return t.startDateTime
 }
@@ -79,4 +85,8 @@ func (t *Trip) EndDateTime() time.Time {
 
 func (t *Trip) SetStatus(status Status) {
 	t.status = status
+}
+
+func (t *Trip) SetTransactions(transactions []*Transaction) {
+	t.transactions = transactions
 }

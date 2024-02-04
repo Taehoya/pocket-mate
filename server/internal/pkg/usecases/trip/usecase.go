@@ -9,14 +9,16 @@ import (
 )
 
 type TripUseCase struct {
-	tripRepository    TripRepository
-	CountryRepository CountryRepository
+	tripRepository        TripRepository
+	countryRepository     CountryRepository
+	transactionRepository TransactionRepository
 }
 
-func NewTripUseCase(tripRepository TripRepository, countryRepository CountryRepository) *TripUseCase {
+func NewTripUseCase(tripRepository TripRepository, countryRepository CountryRepository, transactionRepository TransactionRepository) *TripUseCase {
 	return &TripUseCase{
-		tripRepository:    tripRepository,
-		CountryRepository: countryRepository,
+		tripRepository:        tripRepository,
+		countryRepository:     countryRepository,
+		transactionRepository: transactionRepository,
 	}
 }
 
@@ -56,12 +58,18 @@ func (u *TripUseCase) GetTripsByStatus(ctx context.Context, userId int) (*dto.Tr
 	for _, trip := range trips {
 		countryId := trip.CountryID()
 		if _, ok := countries[countryId]; !ok {
-			country, err := u.CountryRepository.GetCountryById(ctx, countryId)
+			country, err := u.countryRepository.GetCountryById(ctx, countryId)
 			if err != nil {
 				return nil, err
 			}
 			countries[countryId] = country
 		}
+
+		transactions, err := u.transactionRepository.GetTransactionByTripId(ctx, trip.ID())
+		if err != nil {
+			return nil, err
+		}
+		trip.SetTransactions(transactions)
 
 		switch trip.Status() {
 		case entities.TripStatusPast:

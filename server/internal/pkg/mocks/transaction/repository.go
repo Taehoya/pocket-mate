@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
+	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -54,6 +55,21 @@ func (m *TransactionRepositoryMock) GetTransactionOptions() ([]*dto.TransactionO
 	var r0 []*dto.TransactionOption
 	if ret.Get(0) != nil {
 		r0 = ret.Get(0).([]*dto.TransactionOption)
+	}
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
+}
+
+func (m *TransactionRepositoryMock) GetTransactionByTripId(ctx context.Context, tripId int) ([]*entities.Transaction, error) {
+	ret := m.Called(ctx, tripId)
+	var r0 []*entities.Transaction
+	if ret.Get(0) != nil {
+		r0 = ret.Get(0).([]*entities.Transaction)
 	}
 
 	var r1 error

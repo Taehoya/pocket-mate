@@ -139,10 +139,65 @@ func (r *TransactionRepository) GetTransactionById(ctx context.Context, transact
 			return nil, fmt.Errorf("internal server error")
 		}
 
-		transaction = entities.NewTransaction(id, tripId, userId, name, amount, date, categoryId, description, createdAt)
+		option, err := r.GetTransactionOptionById(categoryId)
+		if err != nil {
+			log.Printf("failed to get transaction option: %v\n", err)
+			return nil, fmt.Errorf("internal server error")
+		}
+
+		category := entities.NewCategory(option.Id, option.Name)
+
+		transaction = entities.NewTransaction(id, tripId, userId, name, amount, date, category, description, createdAt)
 	}
 
 	return transaction, nil
+}
+
+func (r *TransactionRepository) GetTransactionByTripId(ctx context.Context, tripId int) ([]*entities.Transaction, error) {
+	query := `
+		SELECT
+			id, trip_id, user_id, name, amount, date, category_id, description, created_at
+		FROM
+			transactions WHERE trip_id = ?;
+	`
+
+	rows, err := r.db.QueryContext(ctx, query, tripId)
+	if err != nil {
+		log.Printf("failed to execute query: %v\n", err)
+		return nil, fmt.Errorf("internal server error")
+	}
+
+	var transactions []*entities.Transaction
+	for rows.Next() {
+		var id int
+		var tripId int
+		var userId int
+		var name string
+		var amount float64
+		var date time.Time
+		var categoryId int
+		var description string
+		var createdAt time.Time
+
+		err := rows.Scan(&id, &tripId, &userId, &name, &amount, &date, &categoryId, &description, &createdAt)
+		if err != nil {
+			log.Printf("failed to scan row: %v\n", err)
+			return nil, fmt.Errorf("internal server error")
+		}
+
+		option, err := r.GetTransactionOptionById(categoryId)
+		if err != nil {
+			log.Printf("failed to get transaction option: %v\n", err)
+			return nil, fmt.Errorf("internal server error")
+		}
+
+		category := entities.NewCategory(option.Id, option.Name)
+
+		transaction := entities.NewTransaction(id, tripId, userId, name, amount, date, category, description, createdAt)
+		transactions = append(transactions, transaction)
+	}
+
+	return transactions, nil
 }
 
 func (t *TransactionRepository) GetTransactionOptions() ([]*dto.TransactionOption, error) {
@@ -170,4 +225,19 @@ func (t *TransactionRepository) GetTransactionOptions() ([]*dto.TransactionOptio
 	}
 
 	return transactionOptions, nil
+}
+
+func (r *TransactionRepository) GetTransactionOptionById(id int) (*dto.TransactionOption, error) {
+	transactionOptions, err := r.GetTransactionOptions()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, option := range transactionOptions {
+		if option.Id == id {
+			return option, nil
+		}
+	}
+
+	return nil, fmt.Errorf("transaction option not found")
 }

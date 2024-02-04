@@ -9,12 +9,12 @@ type Transaction struct {
 	name        string
 	amount      float64
 	date        time.Time
-	categoryId  int
+	category    *Category
 	description string
 	createdAt   time.Time
 }
 
-func NewTransaction(id int, tripId int, userId int, name string, amount float64, date time.Time, categoryId int, description string, createdAt time.Time) *Transaction {
+func NewTransaction(id int, tripId int, userId int, name string, amount float64, date time.Time, category *Category, description string, createdAt time.Time) *Transaction {
 	return &Transaction{
 		id:          id,
 		tripId:      tripId,
@@ -22,7 +22,7 @@ func NewTransaction(id int, tripId int, userId int, name string, amount float64,
 		name:        name,
 		amount:      amount,
 		date:        date,
-		categoryId:  categoryId,
+		category:    category,
 		description: description,
 		createdAt:   createdAt,
 	}
@@ -52,8 +52,8 @@ func (t *Transaction) Date() time.Time {
 	return t.date
 }
 
-func (t *Transaction) CategoryID() int {
-	return t.categoryId
+func (t *Transaction) Category() *Category {
+	return t.category
 }
 
 func (t *Transaction) Description() string {

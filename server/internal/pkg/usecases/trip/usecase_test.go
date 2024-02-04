@@ -9,6 +9,7 @@ import (
 	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
 	"github.com/Taehoya/pocket-mate/internal/pkg/entities"
 	countryMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/country"
+	transactionMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/transaction"
 	tripMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/trip"
 	"github.com/stretchr/testify/assert"
 )
@@ -17,7 +18,8 @@ func TestRegisterTrip(t *testing.T) {
 	t.Run("successfully save trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -53,7 +55,8 @@ func TestRegisterTrip(t *testing.T) {
 	t.Run("failed to save trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -90,7 +93,8 @@ func TestGetTrips(t *testing.T) {
 	t.Run("successfully get trips", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, TransactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -104,7 +108,8 @@ func TestGetTrips(t *testing.T) {
 	t.Run("failed to get trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -120,7 +125,8 @@ func TestDeleteTrip(t *testing.T) {
 	t.Run("successfully delete trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -134,7 +140,8 @@ func TestDeleteTrip(t *testing.T) {
 	t.Run("failed to delete trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -150,7 +157,8 @@ func TestUpdateTrip(t *testing.T) {
 	t.Run("successfully update trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -185,7 +193,8 @@ func TestUpdateTrip(t *testing.T) {
 	t.Run("failed to update trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository)
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
 		ctx := context.TODO()
 		tripId := 1
 		name := "test-name"

@@ -64,3 +64,15 @@ func (m *TripRepositoryMock) UpdateTrip(ctx context.Context, tripId int, name st
 
 	return r0
 }
+
+func (m *TripRepositoryMock) GetTripById(ctx context.Context, tripId int) (*entities.Trip, error) {
+	ret := m.Called(ctx, tripId)
+
+	r0 := ret.Get(0).(*entities.Trip)
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+	return r0, r1
+}

@@ -166,9 +166,8 @@ func TestGetTransactionOption(t *testing.T) {
 
 		transactionOptions := []*dto.TransactionOption{
 			{
-				Id:     1,
-				NameKo: "테스트",
-				NameEn: "test-name",
+				Id:   1,
+				Name: "test-name",
 			},
 		}
 
