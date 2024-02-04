@@ -8,7 +8,8 @@ ARG APP_URL \
     DB_NAME \
     DB_USER \
     DB_PASSWORD \
-    DB_PORT
+    DB_PORT \
+    DB_ADDR
 
 ENV APP_URL=${APP_URL} \
     PORT=${PORT} \
@@ -18,7 +19,8 @@ ENV APP_URL=${APP_URL} \
     DB_NAME=${DB_NAME} \
     DB_USER=${DB_USER} \
     DB_PASSWORD=${DB_PASSWORD} \
-    DB_PORT=${DB_PORT}
+    DB_PORT=${DB_PORT} \
+    DB_ADDR=${DB_ADDR}
 
 WORKDIR /app
 
