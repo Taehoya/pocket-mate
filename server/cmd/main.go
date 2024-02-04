@@ -48,9 +48,9 @@ func main() {
 	countryUseCase := countryUseCase.NewCountryUseCase(countryRepository)
 	userRepository := userRepository.NewUserRepository(db)
 	tripRepository := tripRepository.NewTripRepository(db)
-	tripUseCase := tripUsecase.NewTripUseCase(tripRepository, countryRepository)
-	userUsecase := userUsecase.NewUserUseCase(userRepository)
 	transactionRepository := transactionRepository.NewTransactionRepository(db)
+	tripUseCase := tripUsecase.NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+	userUsecase := userUsecase.NewUserUseCase(userRepository)
 	transactionUseCase := transactionUseCase.NewTransactionUseCase(transactionRepository)
 
 	handler := handler.New(tripUseCase, countryUseCase, userUsecase, transactionUseCase)

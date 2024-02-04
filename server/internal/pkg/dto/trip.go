@@ -7,14 +7,15 @@ import (
 )
 
 type TripResponseDTO struct {
-	ID              int                `json:"id" example:"1"`
-	Name            string             `json:"name" example:"sample-name"`
-	Budget          float64            `json:"budget" example:"100.12"`
-	CountryProperty CountryResponseDTO `json:"countryProperty" binding:"required"`
-	NoteProperty    TripNoteProperty   `json:"noteProperty"`
-	Description     string             `json:"description" example:"sample-description"`
-	StartDateTime   time.Time          `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
-	EndDateTime     time.Time          `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
+	ID              int                       `json:"id" example:"1"`
+	Name            string                    `json:"name" example:"sample-name"`
+	Budget          float64                   `json:"budget" example:"100.12"`
+	CountryProperty CountryResponseDTO        `json:"countryProperty" binding:"required"`
+	NoteProperty    TripNoteProperty          `json:"noteProperty"`
+	Transaction     []*TransactionResponseDTO `json:"transactions"`
+	Description     string                    `json:"description" example:"sample-description"`
+	StartDateTime   time.Time                 `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
+	EndDateTime     time.Time                 `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
 }
 
 type TripNoteProperty struct {
@@ -52,6 +53,7 @@ func NewTripResponse(trip *entities.Trip, country *entities.Country) *TripRespon
 		CountryProperty: *NewCountryResponse(country),
 		Description:     trip.Description(),
 		NoteProperty:    TripNoteProperty{NoteType: trip.Note().NoteType, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
+		Transaction:     NewTransactionResponseList(trip.Transactions()),
 		StartDateTime:   trip.StartDateTime(),
 		EndDateTime:     trip.EndDateTime(),
 	}
