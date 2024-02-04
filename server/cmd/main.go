@@ -27,11 +27,7 @@ import (
 //
 // @BasePath    	/api
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("failed to load .env file")
-	}
-
+	_ = godotenv.Load()
 	config := config.New()
 	db, err := mysql.InitDB()
 
