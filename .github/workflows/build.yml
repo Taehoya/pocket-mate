@@ -35,3 +35,12 @@ jobs:
             ${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:${{ github.REF_NAME }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/pocket-mate-server:latest
           cache-to: type=inline
+          build-args: |
+            APP_URL=${{ secrets.APP_URL }}
+            ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
+            ACCESS_TOKEN_EXPIRED_AT=${{ secrets.ACCESS_TOKEN_EXPIRED_AT }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_PORT=${{ secrets.DB_PORT }}
