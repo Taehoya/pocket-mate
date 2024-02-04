@@ -37,6 +37,7 @@ jobs:
           cache-to: type=inline
           build-args: |
             APP_URL=${{ secrets.APP_URL }}
+            PORT=${{ secrets.PORT }}
             ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
             ACCESS_TOKEN_EXPIRED_AT=${{ secrets.ACCESS_TOKEN_EXPIRED_AT }}
             DB_HOST=${{ secrets.DB_HOST }}
