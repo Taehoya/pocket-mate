@@ -698,13 +698,9 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
-                "name_en": {
+                "name": {
                     "type": "string",
                     "example": "Food"
-                },
-                "name_ko": {
-                    "type": "string",
-                    "example": "음식"
                 }
             }
         },
@@ -713,7 +709,7 @@ const docTemplate = `{
             "properties": {
                 "amount": {
                     "type": "number",
-                    "example": 2000.12
+                    "example": 100.12
                 },
                 "categoryId": {
                     "type": "integer",
@@ -734,6 +730,30 @@ const docTemplate = `{
                 "tripId": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "dto.TransactionResponseDTO": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 100.12
+                },
+                "category": {
+                    "$ref": "#/definitions/dto.TransactionOption"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "sample-description"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "sample-name"
+                },
+                "transactionDateTime": {
+                    "type": "string",
+                    "example": "2023-11-25T15:04:05Z"
                 }
             }
         },
@@ -835,6 +855,12 @@ const docTemplate = `{
                 "startDateTime": {
                     "type": "string",
                     "example": "2024-01-02T15:04:05Z"
+                },
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TransactionResponseDTO"
+                    }
                 }
             }
         },
