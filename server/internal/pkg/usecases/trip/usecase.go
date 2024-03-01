@@ -10,13 +10,15 @@ import (
 
 type TripUseCase struct {
 	tripRepository        TripRepository
+	userTripRepository    UserTripRepository
 	countryRepository     CountryRepository
 	transactionRepository TransactionRepository
 }
 
-func NewTripUseCase(tripRepository TripRepository, countryRepository CountryRepository, transactionRepository TransactionRepository) *TripUseCase {
+func NewTripUseCase(tripRepository TripRepository, userTripRepository UserTripRepository, countryRepository CountryRepository, transactionRepository TransactionRepository) *TripUseCase {
 	return &TripUseCase{
 		tripRepository:        tripRepository,
+		userTripRepository:    userTripRepository,
 		countryRepository:     countryRepository,
 		transactionRepository: transactionRepository,
 	}
@@ -87,7 +89,17 @@ func (u *TripUseCase) GetTripsByStatus(ctx context.Context, userId int) (*dto.Tr
 
 func (u *TripUseCase) RegisterTrip(ctx context.Context, userId int, dto dto.TripRequestDTO) error {
 	note := entities.NewNote(dto.NoteProperty.NoteType, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
-	return u.tripRepository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
+
+	tripId, err := u.tripRepository.SaveTrip(ctx, dto.Name, userId, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
+	if err != nil {
+		return err
+	}
+
+	err = u.userTripRepository.SaveUserTrip(ctx, userId, tripId, true)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u *TripUseCase) DeleteTrip(ctx context.Context, tripId int) error {

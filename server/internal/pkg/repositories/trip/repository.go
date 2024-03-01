@@ -21,12 +21,12 @@ func NewTripRepository(db *sql.DB) *TripRepository {
 	}
 }
 
-func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error {
+func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) (int, error) {
 	noteJson, err := json.Marshal(note)
 
 	if err != nil {
 		log.Printf("failed to marshal note: %v\n", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 	noteString := string(noteJson)
 
@@ -40,21 +40,26 @@ func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, 
 	result, err := r.db.ExecContext(ctx, query, name, userId, budget, countryId, description, noteString, startDateTime, endDateTime)
 	if err != nil {
 		log.Printf("failed to execute query: %v\n", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
 		log.Printf("failed to get affected rows: %\nv", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
 	if rows != 1 {
 		log.Printf("expected 1 affected row, got %d\n", rows)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
-	return nil
+	id, err := result.LastInsertId()
+	if err != nil {
+		log.Printf("failed to get last inserted id: %v\n", err)
+		return -1, fmt.Errorf("internal Server Error")
+	}
+	return int(id), nil
 }
 
 func (r *TripRepository) GetTrip(ctx context.Context, userId int) ([]*entities.Trip, error) {

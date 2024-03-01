@@ -36,8 +36,9 @@ func TestSaveTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err = repository.SaveTrip(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
+		id, err := repository.SaveTrip(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
+		assert.NotEqual(t, id, -1)
 	})
 }
 
