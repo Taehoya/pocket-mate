@@ -11,19 +11,21 @@ import (
 	countryMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/country"
 	transactionMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/transaction"
 	tripMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/trip"
+	userTripMock "github.com/Taehoya/pocket-mate/internal/pkg/mocks/usertrip"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRegisterTrip(t *testing.T) {
 	t.Run("successfully save trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
-
+		tripId := 1
 		name := "test-name"
 		budget := 1000.0
 		countryId := 1
@@ -46,7 +48,9 @@ func TestRegisterTrip(t *testing.T) {
 			EndDateTime:   endDateTime,
 		}
 
-		tripRepository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(nil)
+		tripRepository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(tripId, nil)
+		userTripRepository.Mock.On("SaveUserTrip", ctx, userId, tripId, true).Return(nil)
+
 		err := usecase.RegisterTrip(ctx, userId, dto)
 		assert.NoError(t, err)
 		tripRepository.AssertExpectations(t)
@@ -54,9 +58,10 @@ func TestRegisterTrip(t *testing.T) {
 
 	t.Run("failed to save trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -82,7 +87,45 @@ func TestRegisterTrip(t *testing.T) {
 			EndDateTime:   endDateTime,
 		}
 
-		tripRepository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(fmt.Errorf("error"))
+		tripRepository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(-1, fmt.Errorf("error"))
+
+		err := usecase.RegisterTrip(ctx, userId, dto)
+		assert.Error(t, err)
+		tripRepository.AssertExpectations(t)
+	})
+
+	t.Run("failed to save trip", func(t *testing.T) {
+		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
+		countryRepository := countryMock.NewCountryRepositoryMock()
+		transactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
+
+		ctx := context.TODO()
+		userId := 1
+		name := "test-name"
+		budget := 1000.0
+		countryId := 1
+		description := "test-description"
+		startDateTime := time.Now()
+		endDateTime := time.Now()
+		note := entities.Note{
+			NoteType:   "test-type",
+			NoteColor:  "#000000",
+			BoundColor: "#111111",
+		}
+
+		dto := dto.TripRequestDTO{
+			Name:          name,
+			Budget:        budget,
+			CountryId:     countryId,
+			Description:   description,
+			NoteProperty:  dto.TripNoteProperty{NoteType: "test-type", NoteColor: "#000000", BoundColor: "#111111"},
+			StartDateTime: startDateTime,
+			EndDateTime:   endDateTime,
+		}
+
+		tripRepository.Mock.On("SaveTrip", ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime).Return(-1, fmt.Errorf("error"))
 		err := usecase.RegisterTrip(ctx, userId, dto)
 		assert.Error(t, err)
 		tripRepository.AssertExpectations(t)
@@ -92,9 +135,10 @@ func TestRegisterTrip(t *testing.T) {
 func TestGetTrips(t *testing.T) {
 	t.Run("successfully get trips", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, TransactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, TransactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -107,9 +151,10 @@ func TestGetTrips(t *testing.T) {
 
 	t.Run("failed to get trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		userId := 1
@@ -124,9 +169,10 @@ func TestGetTrips(t *testing.T) {
 func TestDeleteTrip(t *testing.T) {
 	t.Run("successfully delete trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -139,9 +185,10 @@ func TestDeleteTrip(t *testing.T) {
 
 	t.Run("failed to delete trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -156,9 +203,10 @@ func TestDeleteTrip(t *testing.T) {
 func TestUpdateTrip(t *testing.T) {
 	t.Run("successfully update trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 
 		ctx := context.TODO()
 		tripId := 1
@@ -192,9 +240,10 @@ func TestUpdateTrip(t *testing.T) {
 
 	t.Run("failed to update trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
 		countryRepository := countryMock.NewCountryRepositoryMock()
 		transactionRepository := transactionMock.NewTransactionRepositoryMock()
-		usecase := NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 		ctx := context.TODO()
 		tripId := 1
 		name := "test-name"

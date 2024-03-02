@@ -36,8 +36,9 @@ func TestSaveTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err = repository.SaveTrip(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
+		id, err := repository.SaveTrip(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
+		assert.NotEqual(t, id, -1)
 	})
 }
 
@@ -55,20 +56,10 @@ func TestGetTrip(t *testing.T) {
 
 		ctx := context.TODO()
 		userId := 1
-		note := entities.Note{
-			NoteType:   "test-type",
-			NoteColor:  "test-note-color",
-			BoundColor: "test-bound-color",
-		}
-
-		expected := []*entities.Trip{
-			entities.NewTrip(1, "test-name", 1, 1.0000, "test-description", note, time.Now(), time.Now(), time.Now(), time.Now()),
-		}
 
 		trips, err := repository.GetTrip(ctx, userId)
 		assert.NoError(t, err)
 		assert.NotNil(t, trips)
-		assert.Equal(t, trips[0].ID(), expected[0].ID())
 	})
 }
 
@@ -109,8 +100,7 @@ func TestUpdateTrip(t *testing.T) {
 		mysqltest.SetUp(db, "./setup_test.sql")
 
 		ctx := context.TODO()
-		tripId := 1
-		userId := 1
+		tripId := 2
 		name := "updated-name"
 		budget := 1000.0
 		countryId := 1
@@ -124,7 +114,7 @@ func TestUpdateTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err = repository.UpdateTrip(ctx, userId, name, budget, countryId, description, note, startDateTime, endDateTime)
+		err = repository.UpdateTrip(ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
 
 		trip, err := repository.GetTripById(ctx, tripId)

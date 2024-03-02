@@ -12,6 +12,7 @@ import (
 	transactionRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/transaction"
 	tripRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/trip"
 	userRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/user"
+	userTripRepository "github.com/Taehoya/pocket-mate/internal/pkg/repositories/usertrip"
 	countryUseCase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/country"
 	transactionUseCase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/transaction"
 	tripUsecase "github.com/Taehoya/pocket-mate/internal/pkg/usecases/trip"
@@ -44,8 +45,9 @@ func main() {
 	countryUseCase := countryUseCase.NewCountryUseCase(countryRepository)
 	userRepository := userRepository.NewUserRepository(db)
 	tripRepository := tripRepository.NewTripRepository(db)
+	userTripRepository := userTripRepository.NewUserTripRepository(db)
 	transactionRepository := transactionRepository.NewTransactionRepository(db)
-	tripUseCase := tripUsecase.NewTripUseCase(tripRepository, countryRepository, transactionRepository)
+	tripUseCase := tripUsecase.NewTripUseCase(tripRepository, userTripRepository, countryRepository, transactionRepository)
 	userUsecase := userUsecase.NewUserUseCase(userRepository)
 	transactionUseCase := transactionUseCase.NewTransactionUseCase(transactionRepository)
 

@@ -10,6 +10,6 @@ VALUES
     (2, 'test-name', 1, 1.0000, 1, 'test-description', '{"Bound": 0, "NoteColor": "#000000", "BoundColor": "#111111"}', '2023-11-13 15:04:05', '2023-11-13 15:04:05', '2023-11-13 14:05:27', '2023-11-13 14:05:27', NULL);
 
 INSERT INTO user_trips
-    (user_id, trip_id, leader)
+    (user_id, trip_id)
 VALUES
-    (1, 2, 1);
+    (1, 2);

@@ -21,12 +21,12 @@ func NewTripRepository(db *sql.DB) *TripRepository {
 	}
 }
 
-func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error {
+func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) (int, error) {
 	noteJson, err := json.Marshal(note)
 
 	if err != nil {
 		log.Printf("failed to marshal note: %v\n", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 	noteString := string(noteJson)
 
@@ -40,31 +40,51 @@ func (r *TripRepository) SaveTrip(ctx context.Context, name string, userId int, 
 	result, err := r.db.ExecContext(ctx, query, name, userId, budget, countryId, description, noteString, startDateTime, endDateTime)
 	if err != nil {
 		log.Printf("failed to execute query: %v\n", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
 		log.Printf("failed to get affected rows: %\nv", err)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
 	if rows != 1 {
 		log.Printf("expected 1 affected row, got %d\n", rows)
-		return fmt.Errorf("internal Server Error")
+		return -1, fmt.Errorf("internal Server Error")
 	}
 
-	return nil
+	id, err := result.LastInsertId()
+	if err != nil {
+		log.Printf("failed to get last inserted id: %v\n", err)
+		return -1, fmt.Errorf("internal Server Error")
+	}
+	return int(id), nil
 }
 
 func (r *TripRepository) GetTrip(ctx context.Context, userId int) ([]*entities.Trip, error) {
 	var trips []*entities.Trip
 	query := `
 		SELECT
-			id, name, budget, country_id, description, note, start_date_time, end_date_time, created_at, updated_at
+			id, 
+			name,
+			budget,
+			leader,
+			country_id,
+			description,
+			note,
+			start_date_time,
+			end_date_time,
+			created_at,
+			updated_at
 		FROM 
-			trips 
-		WHERE user_id = ?`
+			user_trips ut
+		LEFT JOIN
+			trips t
+		ON
+			ut.trip_id = t.id 
+		WHERE
+			t.user_id = ?`
 
 	rows, err := r.db.QueryContext(ctx, query, userId)
 	if err != nil {
@@ -77,6 +97,7 @@ func (r *TripRepository) GetTrip(ctx context.Context, userId int) ([]*entities.T
 		var id int
 		var name string
 		var budget float64
+		var leader bool
 		var countryId int
 		var description string
 		var noteJson string
@@ -86,7 +107,7 @@ func (r *TripRepository) GetTrip(ctx context.Context, userId int) ([]*entities.T
 		var createdAt time.Time
 		var updatedAt time.Time
 
-		if err := rows.Scan(&id, &name, &budget, &countryId, &description, &noteJson, &startDateTime, &endDateTime, &createdAt, &updatedAt); err != nil {
+		if err := rows.Scan(&id, &name, &budget, &leader, &countryId, &description, &noteJson, &startDateTime, &endDateTime, &createdAt, &updatedAt); err != nil {
 			log.Printf("failed to scan trip: %v\n", err)
 			return nil, fmt.Errorf("internal server error")
 		}
@@ -96,7 +117,7 @@ func (r *TripRepository) GetTrip(ctx context.Context, userId int) ([]*entities.T
 			return nil, fmt.Errorf("internal server error")
 		}
 
-		trip := entities.NewTrip(id, name, budget, countryId, description, note, startDateTime, endDateTime, createdAt, updatedAt)
+		trip := entities.NewTrip(id, name, budget, leader, countryId, description, note, startDateTime, endDateTime, createdAt, updatedAt)
 		trips = append(trips, trip)
 	}
 
@@ -158,7 +179,27 @@ func (r *TripRepository) UpdateTrip(ctx context.Context, tripId int, name string
 
 func (r *TripRepository) GetTripById(ctx context.Context, tripId int) (*entities.Trip, error) {
 	var trip *entities.Trip
-	query := `SELECT id, name, budget, country_id, description, note, start_date_time, end_date_time, created_at, updated_at FROM trips WHERE id = ?;`
+	query := `
+		SELECT 
+			id,
+			name,
+			budget,
+			leader,
+			country_id,
+			description,
+			note,
+			start_date_time,
+			end_date_time,
+			created_at,
+			updated_at 
+		FROM 
+			user_trips ut
+		LEFT JOIN
+			trips t
+		ON
+			ut.trip_id = t.id 
+		WHERE 
+			t.id = ?;`
 	rows, err := r.db.QueryContext(ctx, query, tripId)
 
 	if err != nil {
@@ -171,6 +212,7 @@ func (r *TripRepository) GetTripById(ctx context.Context, tripId int) (*entities
 		var id int
 		var name string
 		var budget float64
+		var leader bool
 		var countryId int
 		var description string
 		var noteJson string
@@ -180,7 +222,7 @@ func (r *TripRepository) GetTripById(ctx context.Context, tripId int) (*entities
 		var createdAt time.Time
 		var updatedAt time.Time
 
-		if err := rows.Scan(&id, &name, &budget, &countryId, &description, &noteJson, &startDateTime, &endDateTime, &createdAt, &updatedAt); err != nil {
+		if err := rows.Scan(&id, &name, &budget, &leader, &countryId, &description, &noteJson, &startDateTime, &endDateTime, &createdAt, &updatedAt); err != nil {
 			log.Printf("failed to scan trip: %v\n", err)
 			return nil, fmt.Errorf("internal server error")
 		}
@@ -190,7 +232,7 @@ func (r *TripRepository) GetTripById(ctx context.Context, tripId int) (*entities
 			return nil, fmt.Errorf("internal server error")
 		}
 
-		trip = entities.NewTrip(id, name, budget, countryId, description, note, startDateTime, endDateTime, createdAt, updatedAt)
+		trip = entities.NewTrip(id, name, budget, leader, countryId, description, note, startDateTime, endDateTime, createdAt, updatedAt)
 	}
 
 	if err := rows.Err(); err != nil {

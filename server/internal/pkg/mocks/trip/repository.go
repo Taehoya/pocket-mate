@@ -16,15 +16,20 @@ func NewTripRepositoryMock() *TripRepositoryMock {
 	return new(TripRepositoryMock)
 }
 
-func (m *TripRepositoryMock) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) error {
+func (m *TripRepositoryMock) SaveTrip(ctx context.Context, name string, userId int, budget float64, countryId int, description string, note entities.Note, startDateTime time.Time, endDateTime time.Time) (int, error) {
 	ret := m.Called(ctx, name, userId, budget, countryId, description, note, startDateTime, endDateTime)
 
-	var r0 error
+	var r0 int
 	if ret.Get(0) != nil {
-		r0 = ret.Get(0).(error)
+		r0 = ret.Get(0).(int)
 	}
 
-	return r0
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
 }
 
 func (m *TripRepositoryMock) GetTrip(ctx context.Context, userId int) ([]*entities.Trip, error) {
