@@ -33,7 +33,7 @@ const steps = ["Step 0", "Step 1", "Step 2", "Step 3", "Step 4", "step 5"];
 interface StepPageProps {
   children: ReactNode;
   buttonClick: () => void;
-  isDisable?: Boolean;
+  isDisable?: boolean;
   step?: number;
 }
 
@@ -153,8 +153,8 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
   };
 
   const handleDateChange = (ranges: DateRange) => {
-    setStartDate(ranges.from);
-    setEndDate(ranges.to);
+    setStartDate(ranges.from ?? startDate);
+    setEndDate(ranges.to ?? endDate);
   };
 
   const handleDestination = (
@@ -240,7 +240,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         <LinearProgress
           variant="determinate"
           value={progress}
-          classes={{ bar: { backgroundColor: "#0e85ff" } }}
+          classes={{ bar: "#0e85ff" }}
           style={{
             backgroundColor: "#E6E0E9",
             height: "5px",
