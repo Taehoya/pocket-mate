@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
+    "@types/leaflet": "^1.9.8",
     "@types/react-swipeable-views": "^0.13.5"
   }
 }

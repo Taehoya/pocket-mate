@@ -7,7 +7,7 @@ import "react-day-picker/dist/style.css";
 
 interface DatePickerProps {
   handleDateChange: Function;
-  range: DateRange | undefined;
+  range?: DateRange | undefined;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ handleDateChange, range }) => {
