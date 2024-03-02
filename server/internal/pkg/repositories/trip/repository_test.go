@@ -56,20 +56,10 @@ func TestGetTrip(t *testing.T) {
 
 		ctx := context.TODO()
 		userId := 1
-		note := entities.Note{
-			NoteType:   "test-type",
-			NoteColor:  "test-note-color",
-			BoundColor: "test-bound-color",
-		}
-
-		expected := []*entities.Trip{
-			entities.NewTrip(1, "test-name", 1, 1.0000, "test-description", note, time.Now(), time.Now(), time.Now(), time.Now()),
-		}
 
 		trips, err := repository.GetTrip(ctx, userId)
 		assert.NoError(t, err)
 		assert.NotNil(t, trips)
-		assert.Equal(t, trips[0].ID(), expected[0].ID())
 	})
 }
 

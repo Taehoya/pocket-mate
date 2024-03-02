@@ -16,6 +16,7 @@ type Trip struct {
 	id            int
 	name          string
 	budget        float64
+	leader        bool
 	countryId     int
 	description   string
 	note          Note
@@ -27,11 +28,12 @@ type Trip struct {
 	updatedAt     time.Time
 }
 
-func NewTrip(id int, name string, budget float64, countryId int, description string, note Note, startDateTime time.Time, endDateTime time.Time, createdAt time.Time, updatedAt time.Time) *Trip {
+func NewTrip(id int, name string, budget float64, leader bool, countryId int, description string, note Note, startDateTime time.Time, endDateTime time.Time, createdAt time.Time, updatedAt time.Time) *Trip {
 	return &Trip{
 		id:            id,
 		name:          name,
 		budget:        budget,
+		leader:        leader,
 		countryId:     countryId,
 		description:   description,
 		note:          note,
@@ -53,6 +55,10 @@ func (t *Trip) Name() string {
 
 func (t *Trip) Budget() float64 {
 	return t.budget
+}
+
+func (t *Trip) Leader() bool {
+	return t.leader
 }
 
 func (t *Trip) CountryID() int {
