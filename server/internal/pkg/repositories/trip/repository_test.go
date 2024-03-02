@@ -100,8 +100,7 @@ func TestUpdateTrip(t *testing.T) {
 		mysqltest.SetUp(db, "./setup_test.sql")
 
 		ctx := context.TODO()
-		tripId := 1
-		userId := 1
+		tripId := 2
 		name := "updated-name"
 		budget := 1000.0
 		countryId := 1
@@ -115,7 +114,7 @@ func TestUpdateTrip(t *testing.T) {
 		startDateTime := time.Now()
 		endDateTime := time.Now()
 
-		err = repository.UpdateTrip(ctx, userId, name, budget, countryId, description, note, startDateTime, endDateTime)
+		err = repository.UpdateTrip(ctx, tripId, name, budget, countryId, description, note, startDateTime, endDateTime)
 		assert.NoError(t, err)
 
 		trip, err := repository.GetTripById(ctx, tripId)
