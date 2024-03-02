@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import { Box, IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -46,7 +47,7 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
   };
 
   return (
-    <Box style={{ height: "100%", width: screenWidth,}}>
+    <Box style={{ height: "100%", width: screenWidth }}>
       <SwipeableViews
         index={activeIndex}
         onChangeIndex={handleIndexChange}
@@ -104,8 +105,11 @@ const SwipeableCards: React.FC<SwipeableCardsProps> = ({ trips }) => {
                       marginTop: "20%",
                     }}
                   >
-                    <img
+                    <Image
                       src={`https://flagsapi.com/${trip?.countryProperty?.code}/flat/64.png`}
+                      alt={`Flag of ${trip?.countryProperty?.code}`}
+                      width={50}
+                      height={50}
                     />
                     <Typography>{duration} days</Typography>
                   </div>

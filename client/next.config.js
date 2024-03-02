@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: "standalone",
   async rewrites() {
     return [
       {
@@ -8,6 +8,9 @@ const nextConfig = {
         destination: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/:path*`,
       },
     ];
+  },
+  images: {
+    domains: ["flagsapi.com"],
   },
 };
 

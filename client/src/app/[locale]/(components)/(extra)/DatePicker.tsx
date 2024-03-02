@@ -7,12 +7,12 @@ import "react-day-picker/dist/style.css";
 
 interface DatePickerProps {
   handleDateChange: Function;
-  range: DateRange | undefined;
+  range?: DateRange | undefined;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ handleDateChange, range }) => {
   const t = useTranslations("DatePicker");
-  const pastMonth = range.from;
+  const pastMonth = range ? range.from : undefined;
   const [language, setLanguage] = useState(enUS);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ handleDateChange, range }) => {
         setLanguage(enUS);
         break;
     }
-  }, []);
+  }, [t]);
 
   return (
     <div
@@ -43,10 +43,18 @@ const DatePicker: React.FC<DatePickerProps> = ({ handleDateChange, range }) => {
         locale={language}
         defaultMonth={pastMonth}
         selected={range}
-        onSelect={(event: DateRange) => {
-          let result = event;
-          if (!event) result = { from: range.from, to: range.from };
-          else if (!event.to) result = { from: event.from, to: event.from };
+        onSelect={(event: DateRange | undefined) => {
+          let result: DateRange;
+          if (!event) {
+            result = {
+              from: range?.from || new Date(),
+              to: range?.from || new Date(),
+            };
+          } else if (!event.to) {
+            result = { from: event.from, to: event.from };
+          } else {
+            result = event;
+          }
           handleDateChange(result);
         }}
         modifiersStyles={{
