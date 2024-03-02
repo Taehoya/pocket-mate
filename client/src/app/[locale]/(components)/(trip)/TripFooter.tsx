@@ -8,6 +8,7 @@ import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 
 // Constants
 import { UnactiveColor, DefaultButtonColor } from "../../constants";
+import { CSSProperties } from "styled-components";
 
 interface TripFooterProps {
   onSelect: (componentNumber: number) => void;
@@ -18,12 +19,12 @@ const TripFooter: React.FC<TripFooterProps> = ({
   onSelect,
   activeComponent,
 }) => {
-  const buttonStyle = {
+  const buttonStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
   };
 
-  const activeButtonStyle = {
+  const activeButtonStyle: CSSProperties = {
     ...buttonStyle,
     color: DefaultButtonColor,
   };

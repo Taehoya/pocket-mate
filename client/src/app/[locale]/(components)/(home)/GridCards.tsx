@@ -2,17 +2,17 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import TripObject from "../(object-types)/TripObject";
 import SpringNote from "../(notes)/SpringNote";
+import { CSSProperties } from "styled-components";
 
 interface GridCardProps {
   trips: TripObject[] | undefined;
 }
 
 const GridCards: React.FC<GridCardProps> = ({ trips }) => {
-  const cardStyle = {
+  const cardStyle: CSSProperties = {
     width: "30%",
     height: "170px",
     borderRadius: "20px",
-    // backgroundColor: "lightblue",
     margin: "5px 5px",
     position: "relative",
   };
