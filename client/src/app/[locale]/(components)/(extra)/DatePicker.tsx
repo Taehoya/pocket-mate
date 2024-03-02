@@ -27,7 +27,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ handleDateChange, range }) => {
         setLanguage(enUS);
         break;
     }
-  }, []);
+  }, [t]);
 
   return (
     <div

@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 import { Box, Typography } from "@mui/material";
 import TripObject from "../(object-types)/TripObject";
 import SpringNote from "../(notes)/SpringNote";
@@ -45,10 +46,11 @@ const GridCards: React.FC<GridCardProps> = ({ trips }) => {
               height: "100%",
             }}
           >
-            <img
+            <Image
               src={`https://flagsapi.com/${trip?.countryProperty?.code}/flat/64.png`}
-              width="48"
-              height="48"
+              alt={`Flag of ${trip?.countryProperty?.code}`}
+              width={32}
+              height={32}
             />
             <div
               style={{

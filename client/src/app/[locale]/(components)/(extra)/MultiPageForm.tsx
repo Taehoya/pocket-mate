@@ -24,7 +24,7 @@ import axios from "axios";
 import Image from "next/image";
 
 // CONSTANTS
-import { DefaultButtonColor } from "../../constants";
+import { DefaultButtonColor, HomeBackgroundColor } from "../../constants";
 import DatePicker from "./DatePicker";
 import WebWrapper from "../../(wrapper)/WebWrapper";
 
@@ -217,6 +217,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
           display: "flex",
           flexDirection: "column",
           height: "100vh",
+          backgroundColor: HomeBackgroundColor
         }}
       >
         <Stepper
