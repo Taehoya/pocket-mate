@@ -1,3 +1,4 @@
+import React from "react";
 import { List, Divider } from "@mui/material";
 
 // ICONS
@@ -6,11 +7,13 @@ import DayTransactions from "./DayTransactions";
 const AllTransactions = () => {
   return (
     <List>
-      {daysList.map((value) => (
-        <>
+      {daysList.map((value, index) => (
+        <React.Fragment key={index}>
           <DayTransactions title={value} />
-          <Divider variant="fullWidth" component="li" />
-        </>
+          {index < daysList.length - 1 && (
+            <Divider variant="fullWidth" component="li" key={`divider-${index}`} />
+          )}
+        </React.Fragment>
       ))}
     </List>
   );
