@@ -5,7 +5,6 @@ import MultiPageForm from "./(components)/(extra)/MultiPageForm";
 import SwipableCards from "./(components)/(home)/SwipableCards";
 import GridCards from "./(components)/(home)/GridCards";
 import {
-  Button,
   Dialog,
   IconButton,
   MenuItem,
@@ -27,7 +26,6 @@ import ListIcon from "@mui/icons-material/FormatListBulleted";
 // CONSTANTS
 import {
   BackgroundColor,
-  DefaultButtonColor,
   HomeBackgroundColor,
 } from "./constants";
 

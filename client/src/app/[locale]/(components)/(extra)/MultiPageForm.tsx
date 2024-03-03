@@ -183,17 +183,12 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
         "/api/v1/trips",
         {
           budget: 10000,
-          countryProperty: {
-            id: destination?.id,
-            code: destination?.code,
-            name: destination?.name,
-            currency: destination?.currency,
-          },
+          countryId: destination?.id,
           description: "A trip for the ages!",
           endDateTime: endDate,
           name: title,
           noteProperty: {
-            bound: "SpringNote",
+            noteType: noteImage,
             boundColor: "#111111",
             noteColor: "#000000",
           },
@@ -217,7 +212,7 @@ const MultiPageForm: React.FC<MultiPageFormProps> = ({ closeForm }) => {
           display: "flex",
           flexDirection: "column",
           height: "100vh",
-          backgroundColor: HomeBackgroundColor
+          backgroundColor: HomeBackgroundColor,
         }}
       >
         <Stepper
