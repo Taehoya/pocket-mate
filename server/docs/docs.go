@@ -416,6 +416,66 @@ const docTemplate = `{
             }
         },
         "/v1/trips/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "description": "get trip by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trip"
+                ],
+                "summary": "get trip by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DetailedTripResponseDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ErrorResponseDTO"
+                        }
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
@@ -669,6 +729,60 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.DetailedTripResponseDTO": {
+            "type": "object",
+            "required": [
+                "countryProperty"
+            ],
+            "properties": {
+                "budget": {
+                    "type": "number",
+                    "example": 12345.12
+                },
+                "countryProperty": {
+                    "$ref": "#/definitions/dto.CountryResponseDTO"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "sample-description"
+                },
+                "endDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "sample-name"
+                },
+                "noteProperty": {
+                    "$ref": "#/definitions/dto.TripNoteProperty"
+                },
+                "startDateTime": {
+                    "type": "string",
+                    "example": "2024-01-02T15:04:05Z"
+                },
+                "top5Transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TransactionResponseDTO"
+                    }
+                },
+                "totalExpense": {
+                    "type": "number",
+                    "example": 100.12
+                },
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TransactionResponseDTO"
+                    }
+                }
+            }
+        },
         "dto.ErrorResponseDTO": {
             "type": "object",
             "properties": {
@@ -793,7 +907,7 @@ const docTemplate = `{
             "properties": {
                 "budget": {
                     "type": "number",
-                    "example": 2000.12
+                    "example": 2000.02
                 },
                 "countryId": {
                     "type": "integer",
@@ -828,14 +942,10 @@ const docTemplate = `{
             "properties": {
                 "budget": {
                     "type": "number",
-                    "example": 100.12
+                    "example": 12345.12
                 },
                 "countryProperty": {
                     "$ref": "#/definitions/dto.CountryResponseDTO"
-                },
-                "description": {
-                    "type": "string",
-                    "example": "sample-description"
                 },
                 "endDateTime": {
                     "type": "string",

@@ -74,3 +74,19 @@ func (m *TripUseCaseMock) GetTripsByStatus(ctx context.Context, userId int) (*dt
 
 	return r0, r1
 }
+
+func (m *TripUseCaseMock) GetTripById(ctx context.Context, tripId int) (*dto.DetailedTripResponseDTO, error) {
+	ret := m.Called(ctx, tripId)
+
+	var r0 *dto.DetailedTripResponseDTO
+	if ret.Get(0) != nil {
+		r0 = ret.Get(0).(*dto.DetailedTripResponseDTO)
+	}
+
+	var r1 error
+	if ret.Get(1) != nil {
+		r1 = ret.Get(1).(error)
+	}
+
+	return r0, r1
+}

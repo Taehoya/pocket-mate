@@ -16,6 +16,7 @@ type TripUseCase interface {
 	GetTripsByStatus(ctx context.Context, userId int) (*dto.TripStatusResponseDTO, error)
 	DeleteTrip(ctx context.Context, tripId int) error
 	UpdateTrip(ctx context.Context, tripId int, dto dto.TripRequestDTO) error
+	GetTripById(ctx context.Context, tripId int) (*dto.DetailedTripResponseDTO, error)
 }
 
 // register trip
@@ -96,6 +97,51 @@ func (h *Handler) GetTrip(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, trips)
+}
+
+// get trip by id
+//
+// @Summary			get trip by id
+// @Description		get trip by id
+// @Tags			trip
+// @Accept			json
+// @Produce			json
+// @Security 		bearer
+// @param 			Authorization header string true "Authorization"
+// @Param id 		path int true "id"
+// @Success			200	{object}	dto.DetailedTripResponseDTO
+// @Failure			400 {object}	dto.ErrorResponseDTO
+// @Failure 		401	{object}	dto.ErrorResponseDTO
+// @Failure			500	{object}	dto.ErrorResponseDTO
+// @Router			/v1/trips/{id} [get]
+func (h *Handler) GetTripById(ctx *gin.Context) {
+	tripId := ctx.Param("id")
+
+	if tripId == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error_message": "bad request",
+		})
+		return
+	}
+
+	tripIdInt, err := strconv.Atoi(tripId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error_message": "bad request",
+		})
+		return
+	}
+
+	trip, err := h.TripUseCase.GetTripById(ctx, tripIdInt)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error_message": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, trip)
 }
 
 // delete trip

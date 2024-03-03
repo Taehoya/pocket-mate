@@ -37,6 +37,7 @@ func (h *Handler) InitRoutes() http.Handler {
 	apiGroup.POST("/users", h.Register)
 	apiGroup.POST("/users/login", h.Login)
 	apiGroup.GET("/trips", middlewares.JwtAuthMiddleware(), h.GetTrip)
+	apiGroup.GET("/trips/:id", middlewares.JwtAuthMiddleware(), h.GetTripById)
 	apiGroup.POST("/trips", middlewares.JwtAuthMiddleware(), h.RegisterTrip)
 	apiGroup.DELETE("/trips/:id", middlewares.JwtAuthMiddleware(), h.DeleteTrip)
 	apiGroup.PUT("/trips/:id", middlewares.JwtAuthMiddleware(), h.UpdateTrip)

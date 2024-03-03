@@ -100,6 +100,36 @@ func TestGetTrips(t *testing.T) {
 	})
 }
 
+func TestGetTripById(t *testing.T) {
+	t.Run("successfully get the list of user's trip", func(t *testing.T) {
+		projectRootDir, _ := pathutil.GetProjectRootDir()
+		err := godotenv.Load(fmt.Sprintf("%s/.env", projectRootDir))
+		assert.NoError(t, err)
+
+		rr := httptest.NewRecorder()
+		tripUseCase := tripMocks.NewTripUseCase()
+		countryUseCase := countryMocks.NewCountryUseCase()
+		userUseCase := userMocks.NewUserUeseCase()
+		transactionUseCase := transactionMocks.NewTransactionUseCase()
+		handler := New(tripUseCase, countryUseCase, userUseCase, transactionUseCase)
+		router := handler.InitRoutes()
+
+		userId := 1
+		tripId := 1
+
+		token, err := token.MakeToken(userId)
+		assert.NoError(t, err)
+
+		tripResponseDTO := dto.DetailedTripResponseDTO{}
+		tripUseCase.On("GetTripById", mock.Anything, tripId).Return(&tripResponseDTO, nil)
+		request, err := http.NewRequest(http.MethodGet, fmt.Sprintf("/api/v1/trips/%d", tripId), nil)
+		request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+		router.ServeHTTP(rr, request)
+		assert.Equal(t, 200, rr.Code)
+		assert.NoError(t, err)
+	})
+}
+
 func TestUpdateTrip(t *testing.T) {
 	t.Run("successfully update user's trip", func(t *testing.T) {
 		projectRootDir, _ := pathutil.GetProjectRootDir()

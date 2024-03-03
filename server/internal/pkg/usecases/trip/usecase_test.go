@@ -166,6 +166,84 @@ func TestGetTrips(t *testing.T) {
 	})
 }
 
+func TestGetTripById(t *testing.T) {
+	t.Run("successfully get trip by id", func(t *testing.T) {
+		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
+		countryRepository := countryMock.NewCountryRepositoryMock()
+		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, TransactionRepository)
+
+		ctx := context.TODO()
+		tripId := 1
+
+		trip := entities.NewTrip(tripId, "test-name", 1000, true, 1, "test-description", entities.Note{}, time.Now(), time.Now(), time.Now(), time.Now())
+		tripRepository.Mock.On("GetTripById", ctx, tripId).Return(trip, nil)
+		countryRepository.Mock.On("GetCountryById", ctx, trip.CountryID()).Return(&entities.Country{}, nil)
+		TransactionRepository.Mock.On("GetTransactionByTripId", ctx, tripId).Return([]*entities.Transaction{}, nil)
+
+		_, err := usecase.GetTripById(ctx, tripId)
+		assert.NoError(t, err)
+		tripRepository.AssertExpectations(t)
+	})
+
+	t.Run("failed to get trip", func(t *testing.T) {
+		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
+		countryRepository := countryMock.NewCountryRepositoryMock()
+		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, TransactionRepository)
+
+		ctx := context.TODO()
+		tripId := 1
+
+		trip := entities.NewTrip(tripId, "test-name", 1000, true, 1, "test-description", entities.Note{}, time.Now(), time.Now(), time.Now(), time.Now())
+		tripRepository.Mock.On("GetTripById", ctx, tripId).Return(trip, fmt.Errorf("error"))
+		_, err := usecase.GetTripById(ctx, tripId)
+		assert.Error(t, err)
+		tripRepository.AssertExpectations(t)
+	})
+
+	t.Run("failed to get trip", func(t *testing.T) {
+		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
+		countryRepository := countryMock.NewCountryRepositoryMock()
+		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, TransactionRepository)
+
+		ctx := context.TODO()
+		tripId := 1
+
+		trip := entities.NewTrip(tripId, "test-name", 1000, true, 1, "test-description", entities.Note{}, time.Now(), time.Now(), time.Now(), time.Now())
+		tripRepository.Mock.On("GetTripById", ctx, tripId).Return(trip, nil)
+		countryRepository.Mock.On("GetCountryById", ctx, trip.CountryID()).Return(nil, fmt.Errorf("error"))
+
+		_, err := usecase.GetTripById(ctx, tripId)
+		assert.Error(t, err)
+		tripRepository.AssertExpectations(t)
+	})
+
+	t.Run("failed to get trip", func(t *testing.T) {
+		tripRepository := tripMock.NewTripRepositoryMock()
+		userTripRepository := userTripMock.NewUserTripRepositoryMock()
+		countryRepository := countryMock.NewCountryRepositoryMock()
+		TransactionRepository := transactionMock.NewTransactionRepositoryMock()
+		usecase := NewTripUseCase(tripRepository, userTripRepository, countryRepository, TransactionRepository)
+
+		ctx := context.TODO()
+		tripId := 1
+
+		trip := entities.NewTrip(tripId, "test-name", 1000, true, 1, "test-description", entities.Note{}, time.Now(), time.Now(), time.Now(), time.Now())
+		tripRepository.Mock.On("GetTripById", ctx, tripId).Return(trip, nil)
+		countryRepository.Mock.On("GetCountryById", ctx, trip.CountryID()).Return(&entities.Country{}, nil)
+		TransactionRepository.Mock.On("GetTransactionByTripId", ctx, tripId).Return(nil, fmt.Errorf("error"))
+
+		_, err := usecase.GetTripById(ctx, tripId)
+		assert.Error(t, err)
+		tripRepository.AssertExpectations(t)
+	})
+}
+
 func TestDeleteTrip(t *testing.T) {
 	t.Run("successfully delete trip", func(t *testing.T) {
 		tripRepository := tripMock.NewTripRepositoryMock()
