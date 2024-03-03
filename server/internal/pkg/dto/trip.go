@@ -9,10 +9,24 @@ import (
 type TripResponseDTO struct {
 	ID              int                       `json:"id" example:"1"`
 	Name            string                    `json:"name" example:"sample-name"`
-	Budget          float64                   `json:"budget" example:"100.12"`
+	Budget          float64                   `json:"budget" example:"12345.12"`
 	CountryProperty CountryResponseDTO        `json:"countryProperty" binding:"required"`
 	NoteProperty    TripNoteProperty          `json:"noteProperty"`
 	Transaction     []*TransactionResponseDTO `json:"transactions"`
+	StartDateTime   time.Time                 `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
+	EndDateTime     time.Time                 `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
+}
+
+// Need to add top5 transactions
+type DetailedTripResponseDTO struct {
+	ID              int                       `json:"id" example:"1"`
+	Name            string                    `json:"name" example:"sample-name"`
+	Budget          float64                   `json:"budget" example:"12345.12"`
+	CountryProperty CountryResponseDTO        `json:"countryProperty" binding:"required"`
+	NoteProperty    TripNoteProperty          `json:"noteProperty"`
+	Transaction     []*TransactionResponseDTO `json:"transactions"`
+	TotalExpense    float64                   `json:"totalExpense" example:"100.12"`
+	T5Transactions  []*TransactionResponseDTO `json:"top5Transactions"`
 	Description     string                    `json:"description" example:"sample-description"`
 	StartDateTime   time.Time                 `json:"startDateTime" example:"2024-01-02T15:04:05Z"`
 	EndDateTime     time.Time                 `json:"endDateTime" example:"2024-01-02T15:04:05Z"`
@@ -37,7 +51,7 @@ type TripNoteOptions struct {
 
 type TripRequestDTO struct {
 	Name          string           `json:"name" binding:"required" example:"sample-name"`
-	Budget        float64          `json:"budget" binding:"required" example:"2000.12"`
+	Budget        float64          `json:"budget" binding:"required" example:"2000.02"`
 	CountryId     int              `json:"countryId" binding:"required" example:"1"`
 	Description   string           `json:"description" binding:"required" example:"sample-description"`
 	NoteProperty  TripNoteProperty `json:"noteProperty" binding:"required"`
@@ -51,8 +65,23 @@ func NewTripResponse(trip *entities.Trip, country *entities.Country) *TripRespon
 		Name:            trip.Name(),
 		Budget:          trip.Budget(),
 		CountryProperty: *NewCountryResponse(country),
+		NoteProperty:    TripNoteProperty{NoteType: trip.Note().NoteType, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
+		Transaction:     NewTransactionResponseList(trip.Transactions()),
+		StartDateTime:   trip.StartDateTime(),
+		EndDateTime:     trip.EndDateTime(),
+	}
+}
+
+func NewDetailedTripResponse(trip *entities.Trip, country *entities.Country, totalExpense float64, top5Transactions []*entities.Transaction) *DetailedTripResponseDTO {
+	return &DetailedTripResponseDTO{
+		ID:              trip.ID(),
+		Name:            trip.Name(),
+		Budget:          trip.Budget(),
+		TotalExpense:    totalExpense,
+		CountryProperty: *NewCountryResponse(country),
 		Description:     trip.Description(),
 		NoteProperty:    TripNoteProperty{NoteType: trip.Note().NoteType, NoteColor: trip.Note().NoteColor, BoundColor: trip.Note().BoundColor},
+		T5Transactions:  NewTransactionResponseList(top5Transactions),
 		Transaction:     NewTransactionResponseList(trip.Transactions()),
 		StartDateTime:   trip.StartDateTime(),
 		EndDateTime:     trip.EndDateTime(),

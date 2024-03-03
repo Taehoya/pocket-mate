@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"sort"
 	"time"
 
 	"github.com/Taehoya/pocket-mate/internal/pkg/dto"
@@ -110,4 +111,47 @@ func (u *TripUseCase) UpdateTrip(ctx context.Context, tripId int, dto dto.TripRe
 	note := entities.NewNote(dto.NoteProperty.NoteType, dto.NoteProperty.NoteColor, dto.NoteProperty.BoundColor)
 
 	return u.tripRepository.UpdateTrip(ctx, tripId, dto.Name, dto.Budget, dto.CountryId, dto.Description, *note, dto.StartDateTime, dto.EndDateTime)
+}
+
+func (u *TripUseCase) GetTripById(ctx context.Context, tripId int) (*dto.DetailedTripResponseDTO, error) {
+	trip, err := u.tripRepository.GetTripById(ctx, tripId)
+	if err != nil {
+		return nil, err
+	}
+
+	country, err := u.countryRepository.GetCountryById(ctx, trip.CountryID())
+	if err != nil {
+		return nil, err
+	}
+
+	transactions, err := u.transactionRepository.GetTransactionByTripId(ctx, trip.ID())
+	if err != nil {
+		return nil, err
+	}
+	trip.SetTransactions(transactions)
+	totalExpense := getTripsAndTotalExpense(transactions)
+	top5Transactions := getTopTransactions(transactions, 5)
+	tripResponse := dto.NewDetailedTripResponse(trip, country, totalExpense, top5Transactions)
+	return tripResponse, nil
+}
+
+func getTripsAndTotalExpense(transactions []*entities.Transaction) float64 {
+	totalExpense := 0.0
+	for _, transaction := range transactions {
+		totalExpense += transaction.Amount()
+	}
+	return totalExpense
+}
+
+func getTopTransactions(transactionsParam []*entities.Transaction, top int) []*entities.Transaction {
+	transactions := transactionsParam
+	sort.Slice(transactions, func(i, j int) bool {
+		return transactions[i].Amount() > transactions[j].Amount()
+	})
+
+	if len(transactions) < top {
+		return transactions
+	}
+
+	return transactions[:top]
 }
