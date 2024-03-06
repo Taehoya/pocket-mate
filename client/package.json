@@ -17,6 +17,9 @@
     "@mui/material": "^5.14.13",
     "@mui/styles": "^5.14.10",
     "@mui/x-date-pickers": "^6.16.2",
+    "@tanstack/query-sync-storage-persister": "4.33.0",
+    "@tanstack/react-query": "4.32.6",
+    "@tanstack/react-query-persist-client": "4.33.0",
     "@types/node": "20.4.10",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
@@ -45,6 +48,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
+    "@tanstack/react-query-devtools": "4.32.6",
     "@types/leaflet": "^1.9.8",
     "@types/react-swipeable-views": "^0.13.5",
     "@typescript-eslint/eslint-plugin": "^6.2.0",

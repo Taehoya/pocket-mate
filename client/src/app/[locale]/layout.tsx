@@ -1,5 +1,7 @@
-import { notFound } from 'next/navigation';
-import { NextIntlClientProvider } from 'next-intl';
+import ReactQueryProvider from "@/lib/react-query/ReactQueryProvider";
+import { NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
+
 
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'kr' }];
@@ -20,7 +22,9 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body style={{ margin: 0 }}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <ReactQueryProvider>
+            {children}
+          </ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
