@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next dev",
-    "lint": "next lint"
+    "prepare": "cd .. && husky install client/.husky",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -27,6 +28,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.13",
+    "eslint-plugin-import": "^2.29.1",
     "i18next": "^23.6.0",
     "leaflet": "^1.9.4",
     "next": "13.4.13",
@@ -48,6 +50,21 @@
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query-devtools": "4.32.6",
     "@types/leaflet": "^1.9.8",
-    "@types/react-swipeable-views": "^0.13.5"
+    "@types/react-swipeable-views": "^0.13.5",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-react": "^7.33.1",
+    "husky": "^8.0.3",
+    "lint-staged": "13.2.2",
+    "prettier": "2.8.8"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
