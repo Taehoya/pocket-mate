@@ -138,7 +138,6 @@ export default function Home() {
               <MenuItem value="coming-soon">{t("future")}</MenuItem>
               <MenuItem value="past">{t("present")}</MenuItem>
             </Select>
-
             {/* Change View */}
             <IconButton onClick={controlChangeView}>
               {swipeView ? <WindowIcon /> : <ListIcon />}
@@ -185,6 +184,7 @@ export default function Home() {
             },
           }}
         >
+
           <MultiPageForm closeForm={closeTravelNote} />
         </Dialog>
       </div>
