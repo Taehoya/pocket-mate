@@ -16,7 +16,6 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  
   return (
     <html lang={locale}>
       <body style={{ margin: 0 }}>
