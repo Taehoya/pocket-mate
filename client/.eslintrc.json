@@ -20,13 +20,13 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
     "next",
     "next/core-web-vitals",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react"],
   "rules": {
+    "@typescript-eslint/no-explicit-any": ["off"],
     "@typescript-eslint/no-var-requires": "warn",
     "@typescript-eslint/naming-convention": [
       "error",
@@ -49,5 +49,6 @@
         "newlines-between": "never"
       }
     ]
-  }
+  },
+  "ignorePatterns": ["node_modules/", "out/", "build/", ".next/", "public/"]
 }

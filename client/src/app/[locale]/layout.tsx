@@ -1,8 +1,8 @@
-import { NextIntlClientProvider } from "next-intl";
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
 
 export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "kr" }];
+  return [{ locale: 'en' }, { locale: 'kr' }];
 }
 
 export default async function LocaleLayout({
@@ -18,7 +18,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body style={{ margin: 0}}>
+      <body style={{ margin: 0 }}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
