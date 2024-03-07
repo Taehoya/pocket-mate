@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Typography, IconButton, Grid } from "@mui/material";
+import axios from "axios";
 
 // Icons
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
@@ -14,9 +15,26 @@ import TransactionTemplate from "../../(components)/(transaction)/transaction-pa
 import TripGraph from "../../(components)/(trip)/TripGraph";
 import WebWrapper from "../../(wrapper)/WebWrapper";
 import TripDrawer from "../../(components)/(trip)/TripDrawer";
+import TripByID from "../../(components)/(object-types)/TripByID";
 
-const TripPage = ({ params }: { params: { trip: string } }) => {
+const TripPage = () => {
   const [activeComponent, setActiveComponent] = useState<number>(2);
+  // const [tripData, setTripData] = useState<TripByID | null>(null);
+
+  // useEffect(() => {
+  //   const accessToken = sessionStorage.getItem("access_token");
+  //   if (!accessToken) window.location.href = "/login";
+  //   else {
+  //     fetchTripData(1, accessToken);
+  //   }
+  // }, []);
+
+  // const fetchTripData = async (id:number, token: String) => {
+  //   const trip = await axios.get(`/api/v1/trips/${id}`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   setTripData(trip.data);
+  // };
 
   const handleSelect = (componentNumber: number) => {
     setActiveComponent(componentNumber);
